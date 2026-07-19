@@ -1,0 +1,232 @@
+@import "tailwindcss";
+
+:root {
+  --void: #c9d9f5;
+  --panel: #e8f0fc;
+  --panel-2: #dae6f9;
+  --line: rgba(30, 70, 180, 0.25);
+  --blue: #3d6bff;
+  --blue-bright: #1d4fd8;
+  --blue-deep: #0f1e52;
+  --ink: #0f1626;
+  --ink-muted: #5b6478;
+  --ink-faint: #8891a8;
+  --accent-green: #16a34a;
+  --accent-green-bg: #dcfce7;
+  --accent-amber: #d97706;
+  --accent-amber-bg: #fef3c7;
+  --accent-purple: #7c3aed;
+  --accent-purple-bg: #ede9fe;
+  --accent-purple-deep: #4c1d95;
+  --whatsapp-green: #25d366;
+  --whatsapp-green-deep: #128c4a;
+  --radius: 14px;
+}
+
+@theme inline {
+  --color-void: var(--void);
+  --color-panel: var(--panel);
+  --color-panel-2: var(--panel-2);
+  --color-line: var(--line);
+  --color-blue: var(--blue);
+  --color-blue-bright: var(--blue-bright);
+  --color-blue-deep: var(--blue-deep);
+  --color-ink: var(--ink);
+  --color-ink-muted: var(--ink-muted);
+  --color-ink-faint: var(--ink-faint);
+  --color-accent-green: var(--accent-green);
+  --color-accent-green-bg: var(--accent-green-bg);
+  --color-accent-amber: var(--accent-amber);
+  --color-accent-amber-bg: var(--accent-amber-bg);
+  --color-accent-purple: var(--accent-purple);
+  --color-accent-purple-bg: var(--accent-purple-bg);
+  --color-accent-purple-deep: var(--accent-purple-deep);
+  --color-whatsapp-green: var(--whatsapp-green);
+  --color-whatsapp-green-deep: var(--whatsapp-green-deep);
+  --font-display: var(--font-space-grotesk);
+  --font-sans: var(--font-inter);
+  --radius-brand: var(--radius);
+  --breakpoint-xs: 480px;
+}
+
+html {
+  scroll-behavior: smooth;
+  /* iOS Safari can briefly reveal the raw <html> background during the
+     URL-bar show/hide transition, before our fixed-position elements
+     (background)/(field)) repaint. Matching it to the theme instead of
+     leaving it at the browser default (white) turns that flash blue. */
+  background: var(--void);
+}
+
+.field {
+  position: fixed;
+  inset: 0;
+  z-index: 0;
+  pointer-events: none;
+  background:
+    radial-gradient(
+      ellipse 900px 500px at 15% -10%,
+      rgba(61, 107, 255, 0.16),
+      transparent 60%
+    ),
+    radial-gradient(
+      ellipse 700px 500px at 100% 20%,
+      rgba(61, 107, 255, 0.1),
+      transparent 55%
+    );
+}
+
+body {
+  background: var(--void);
+  color: var(--ink);
+  font-family: var(--font-sans);
+  -webkit-font-smoothing: antialiased;
+  overflow-x: hidden;
+}
+
+h1,
+h2,
+h3,
+.display {
+  font-family: var(--font-display);
+  letter-spacing: -0.02em;
+}
+
+:focus-visible {
+  outline: 2px solid var(--blue-bright);
+  outline-offset: 3px;
+}
+
+/* ---- hero headline ---- */
+.hero-gradient-text {
+  background-image: linear-gradient(
+    180deg,
+    var(--blue-deep) 0%,
+    var(--blue-bright) 35%,
+    var(--blue) 65%,
+    #6e93ff 100%
+  );
+  background-size: 100% 100%;
+  background-clip: text;
+  -webkit-background-clip: text;
+  color: transparent;
+}
+
+/* Same treatment as .hero-gradient-text, dark-to-light green instead of
+   blue — test variant. */
+.hero-gradient-text-green {
+  background-image: linear-gradient(
+    180deg,
+    #14532d 0%,
+    #15803d 35%,
+    #22c55e 65%,
+    #86efac 100%
+  );
+  background-size: 100% 100%;
+  background-clip: text;
+  -webkit-background-clip: text;
+  color: transparent;
+}
+
+@media (prefers-reduced-motion: reduce) {
+  html {
+    scroll-behavior: auto;
+  }
+}
+
+/* ---- 3D tilt cards ---- */
+.tilt {
+  transform-style: preserve-3d;
+  will-change: transform;
+  transition:
+    transform 0.12s ease-out,
+    border-color 0.25s;
+}
+.tilt-shine {
+  position: absolute;
+  inset: 0;
+  border-radius: inherit;
+  pointer-events: none;
+  background: radial-gradient(
+    280px circle at var(--mx, 50%) var(--my, 50%),
+    rgba(110, 147, 255, 0.16),
+    transparent 70%
+  );
+  opacity: 0;
+  transition: opacity 0.3s;
+}
+.tilt:hover .tilt-shine {
+  opacity: 1;
+}
+
+/* ---- spine progress ---- */
+.spine circle {
+  transition:
+    opacity 0.4s,
+    r 0.4s,
+    fill 0.4s;
+}
+.spine circle.active {
+  opacity: 1 !important;
+  fill: #1d4fd8 !important;
+}
+
+/* ---- whatsapp chat demo ---- */
+/* Entrance (opacity/transform) is driven by GSAP in ChatDemo; this only
+   sets the resting visual style. */
+.bubble {
+  padding: 10px 14px;
+  border-radius: 14px;
+  font-size: 13px;
+  line-height: 1.4;
+  box-shadow: 0 6px 14px -6px rgba(15, 22, 38, 0.35);
+}
+.bubble.in {
+  /* Sits on the dark accent panel (see .visual-box), not the page background,
+     so its text stays a hardcoded light color regardless of the site theme. */
+  align-self: flex-start;
+  background: #1a2138;
+  color: #f4f6fc;
+  border-bottom-left-radius: 4px;
+}
+.bubble.out {
+  /* Green like a real WhatsApp reply bubble, since that's what this mockup represents. */
+  align-self: flex-end;
+  background: linear-gradient(135deg, var(--whatsapp-green), var(--whatsapp-green-deep));
+  color: #04170d;
+  border-bottom-right-radius: 4px;
+  font-weight: 500;
+}
+.typing-dots {
+  align-self: flex-start;
+  display: flex;
+  gap: 4px;
+  padding: 10px 14px;
+  background: #1a2138;
+  border-radius: 14px;
+  border-bottom-left-radius: 4px;
+  box-shadow: 0 6px 14px -6px rgba(15, 22, 38, 0.35);
+}
+.typing-dots span {
+  width: 6px;
+  height: 6px;
+  border-radius: 50%;
+  background: #8b93ad;
+  animation: blink 1.2s infinite ease-in-out;
+}
+.typing-dots span:nth-child(2) {
+  animation-delay: 0.15s;
+}
+.typing-dots span:nth-child(3) {
+  animation-delay: 0.3s;
+}
+@keyframes blink {
+  0%,
+  80%,
+  100% {
+    opacity: 0.3;
+  }
+  40% {
+    opacity: 1;
+  }
+}
