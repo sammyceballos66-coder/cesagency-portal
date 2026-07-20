@@ -17,7 +17,7 @@ const inter = Inter({
 export const metadata: Metadata = {
   title: "CES Agencia — Páginas web profesionales para tu negocio",
   description:
-    "Diseñamos páginas web profesionales para pequeños negocios de Pereira y Dosquebradas. Un solo precio, sin letras pequeñas, lista en minutos.",
+    "Diseñamos páginas web profesionales para pequeños negocios de Pereira y Dosquebradas. Precio claro, sin letras pequeñas, lista en minutos.",
 };
 
 export default function RootLayout({
