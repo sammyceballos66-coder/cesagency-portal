@@ -35,8 +35,8 @@ export function Contact() {
             <Image
               src="/logo.png"
               alt="CES"
-              width={200}
-              height={64}
+              width={642}
+              height={205}
               unoptimized
               className="h-6 w-auto opacity-70"
             />
