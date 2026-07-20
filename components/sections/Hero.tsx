@@ -41,7 +41,7 @@ export function Hero() {
         </h1>
         <p className="hero-copy text-lg text-ink-muted max-w-[640px] leading-[1.6] mb-8">
           Diseñamos páginas web profesionales para pequeños negocios de
-          Pereira y Dosquebradas. Un solo precio, lista en minutos.
+          Pereira y Dosquebradas. Precio claro, lista en minutos.
         </p>
         <div className="hero-actions flex gap-3.5 flex-wrap">
           <a
