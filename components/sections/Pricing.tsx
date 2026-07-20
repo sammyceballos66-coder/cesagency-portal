@@ -3,6 +3,7 @@
 import { useRef } from "react";
 import { gsap, useGSAP, prefersReducedMotion } from "@/lib/gsap";
 import { useTilt } from "@/hooks/useTilt";
+import { whatsAppLink } from "@/lib/business";
 
 const CHECK_SM = (
   <svg width="15" height="15" viewBox="0 0 24 24" fill="none" stroke="#16A34A" strokeWidth="2.4">
@@ -94,7 +95,9 @@ function PriceCard() {
         ))}
       </ul>
       <a
-        href="#contacto"
+        href={whatsAppLink("Hola, quiero mi página web")}
+        target="_blank"
+        rel="noopener noreferrer"
         className="btn justify-center w-full inline-flex items-center gap-2 rounded-full px-5 py-[11px] text-sm font-semibold transition-all duration-300 ease-out bg-gradient-to-br from-blue-bright to-blue text-white hover:brightness-110 hover:-translate-y-1.5 hover:shadow-[0_10px_24px_-6px_rgba(29,79,216,0.5)]"
       >
         Quiero mi página web

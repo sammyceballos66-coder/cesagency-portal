@@ -2,6 +2,7 @@
 
 import { useRef } from "react";
 import { gsap, useGSAP, prefersReducedMotion } from "@/lib/gsap";
+import { whatsAppLink } from "@/lib/business";
 
 export function Proof() {
   const ref = useRef<HTMLDivElement>(null);
@@ -41,7 +42,9 @@ export function Proof() {
         <strong className="font-bold">$150.000/mes</strong> de mantenimiento.
       </p>
       <a
-        href="#contacto"
+        href={whatsAppLink("Hola, quiero una página web así")}
+        target="_blank"
+        rel="noopener noreferrer"
         className="inline-flex items-center gap-2 rounded-full px-6 py-3 text-sm font-semibold bg-white text-accent-green transition-all duration-300 ease-out hover:brightness-95 hover:-translate-y-1.5 hover:shadow-[0_10px_24px_-6px_rgba(0,0,0,0.25)]"
       >
         Quiero una página así →

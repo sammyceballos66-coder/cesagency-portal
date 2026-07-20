@@ -2,6 +2,7 @@
 
 import { Fragment, useRef } from "react";
 import { gsap, useGSAP, prefersReducedMotion } from "@/lib/gsap";
+import { whatsAppLink } from "@/lib/business";
 
 const CHECK = (
   <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="#16A34A" strokeWidth="2.2">
@@ -175,7 +176,9 @@ export function Services() {
             ))}
           </ul>
           <a
-            href="#contacto"
+            href={whatsAppLink("Hola, quiero cotizar mi página web")}
+            target="_blank"
+            rel="noopener noreferrer"
             className="inline-flex items-center gap-2 rounded-full px-5 py-[11px] text-sm font-semibold border border-line text-ink transition-all duration-300 ease-out hover:border-blue hover:bg-blue/8 hover:-translate-y-1.5 hover:shadow-md"
           >
             Cotiza tu página web →
@@ -199,7 +202,9 @@ export function Services() {
           </p>
         </div>
         <a
-          href="#contacto"
+          href={whatsAppLink("Hola, quiero saber más sobre el servicio de contenido con IA")}
+          target="_blank"
+          rel="noopener noreferrer"
           className="shrink-0 inline-flex items-center gap-2 rounded-full px-5 py-[11px] text-sm font-semibold border border-accent-purple bg-gradient-to-b from-accent-purple/10 to-accent-purple-bg text-ink transition-all duration-300 ease-out hover:bg-accent-purple/15 hover:-translate-y-1.5 hover:shadow-md whitespace-nowrap"
         >
           Pregúntanos →

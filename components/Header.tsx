@@ -1,5 +1,6 @@
 import Image from "next/image";
 import Link from "next/link";
+import { whatsAppLink } from "@/lib/business";
 
 const NAV_LINKS = [
   { href: "#servicios", label: "Qué incluye" },
@@ -39,7 +40,9 @@ export function Header() {
           ))}
         </div>
         <a
-          href="#contacto"
+          href={whatsAppLink("Hola, quiero cotizar mi página web")}
+          target="_blank"
+          rel="noopener noreferrer"
           className="inline-flex items-center gap-2 rounded-full px-5 py-[11px] text-sm font-semibold whitespace-nowrap transition-all duration-300 ease-out bg-gradient-to-br from-blue-bright to-blue text-white hover:brightness-110 hover:-translate-y-1.5 hover:shadow-[0_10px_24px_-6px_rgba(29,79,216,0.5)]"
         >
           Cotiza tu página

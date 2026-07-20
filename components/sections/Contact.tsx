@@ -1,4 +1,5 @@
 import Image from "next/image";
+import { whatsAppLink } from "@/lib/business";
 
 export function Contact() {
   return (
@@ -12,20 +13,16 @@ export function Contact() {
         </h2>
         <p className="text-ink text-base mb-8">
           Cuéntanos sobre tu negocio y te cotizamos tu página web sin
-          compromiso — por WhatsApp o por correo.
+          compromiso, directo por WhatsApp.
         </p>
         <div className="flex gap-3.5 justify-center flex-wrap">
           <a
-            href="#"
+            href={whatsAppLink("Hola, quiero hablar sobre mi negocio")}
+            target="_blank"
+            rel="noopener noreferrer"
             className="inline-flex items-center gap-2 rounded-full px-5 py-[11px] text-sm font-semibold transition-all duration-300 ease-out bg-gradient-to-br from-blue-bright to-blue text-white hover:brightness-110 hover:-translate-y-1.5 hover:shadow-[0_10px_24px_-6px_rgba(29,79,216,0.5)]"
           >
             Escríbenos por WhatsApp
-          </a>
-          <a
-            href="#"
-            className="inline-flex items-center gap-2 rounded-full px-5 py-[11px] text-sm font-semibold border border-line text-ink transition-all duration-300 ease-out hover:border-blue hover:bg-blue/8 hover:-translate-y-1.5 hover:shadow-md"
-          >
-            Enviar mensaje
           </a>
         </div>
       </div>
@@ -40,7 +37,7 @@ export function Contact() {
               unoptimized
               className="h-6 w-auto opacity-70"
             />
-            agenciaces.com
+            cesagencia.co
           </span>
         </footer>
       </div>
