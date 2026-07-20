@@ -127,7 +127,7 @@ const WEB_CHAT: ChatMessage[] = [
   { type: "in", text: "Necesito una página web para mi negocio, ¿cuánto cuesta?" },
   {
     type: "out",
-    text: "$400.000 pago único — diseño profesional, lista en minutos 🙌",
+    text: "$400.000 por el diseño + $150.000/mes de mantenimiento (dominio y hosting incluidos) 🙌",
   },
   { type: "in", text: "¡Perfecto! ¿Cómo arrancamos?" },
 ];

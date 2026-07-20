@@ -18,8 +18,8 @@ const CARDS = [
     ),
   },
   {
-    title: "$400.000, pago único",
-    desc: "Sin mensualidades ni letras pequeñas. Pagas una vez y la página es tuya.",
+    title: "$400.000 + $150.000/mes",
+    desc: "Pago único por el diseño de tu página, más una mensualidad de mantenimiento que incluye dominio y hosting.",
     chipClass: "bg-accent-green-bg",
     cardClass: "bg-gradient-to-b from-[#bbf7d0] to-[#e9fdf1]",
     icon: (

@@ -74,7 +74,16 @@ function PriceCard() {
         </strong>{" "}
         COP
       </div>
-      <div className="text-sm text-ink mb-[22px]">pago único</div>
+      <div className="text-sm text-ink mb-3">diseño de tu página, pago único</div>
+      <div className="text-[15px] text-ink mb-0.5">
+        <strong className="text-[24px] text-blue-bright font-bold font-display">
+          + $150.000
+        </strong>{" "}
+        COP/mes
+      </div>
+      <div className="text-sm text-ink mb-[22px]">
+        mantenimiento — dominio y hosting incluidos
+      </div>
       <hr className="border-none border-t border-line mb-5" />
       <ul className="flex flex-col gap-3 mb-[26px] flex-1 list-none">
         {FEATURES.map((f) => (
@@ -91,8 +100,8 @@ function PriceCard() {
         Quiero mi página web
       </a>
       <p className="text-center text-xs text-ink-muted mt-4">
-        Dominio y hosting incluidos — los administramos nosotros por
-        $150.000/mes.
+        Cancela el mantenimiento cuando quieras — nosotros seguimos
+        renovando tu dominio mientras estés activo.
       </p>
     </div>
   );
@@ -129,10 +138,11 @@ export function Pricing() {
             Precio
           </span>
           <h2 className="text-[clamp(26px,3.6vw,38px)] font-bold leading-[1.15] mb-3.5 text-white">
-            Un solo precio, sin letras pequeñas
+            Precio claro, sin letras pequeñas
           </h2>
           <p className="text-white/85 text-base leading-[1.6]">
-            Página web profesional para tu negocio, lista en minutos.
+            Página web profesional para tu negocio, lista en minutos. Un
+            pago único por el diseño, más una mensualidad de mantenimiento.
           </p>
         </div>
         <PriceCard />
