@@ -1,27 +1,34 @@
 import { BUSINESS } from "@/lib/business";
 import { getTodaysQualifiedLeads, type Lead } from "@/lib/conversations";
 
+// Mismo mecanismo de envío que /api/whatsapp — ver ese archivo para el
+// porqué de usar Twilio en vez de Meta Cloud API por ahora.
 async function sendWhatsAppMessage(to: string, message: string) {
-  const phoneNumberId = process.env.META_PHONE_NUMBER_ID;
-  const accessToken = process.env.META_WHATSAPP_TOKEN;
-  if (!phoneNumberId || !accessToken) {
-    return { sent: false, reason: "Credenciales de Meta no configuradas" };
+  const sid = process.env.TWILIO_ACCOUNT_SID;
+  const token = process.env.TWILIO_AUTH_TOKEN;
+  const from = process.env.TWILIO_WHATSAPP_FROM;
+  if (!sid || !token || !from) {
+    return { sent: false, reason: "Credenciales de Twilio no configuradas" };
   }
 
-  const res = await fetch(`https://graph.facebook.com/v21.0/${phoneNumberId}/messages`, {
-    method: "POST",
-    headers: {
-      Authorization: `Bearer ${accessToken}`,
-      "Content-Type": "application/json",
+  const auth = Buffer.from(`${sid}:${token}`).toString("base64");
+  const res = await fetch(
+    `https://api.twilio.com/2010-04-01/Accounts/${sid}/Messages.json`,
+    {
+      method: "POST",
+      headers: {
+        Authorization: `Basic ${auth}`,
+        "Content-Type": "application/x-www-form-urlencoded",
+      },
+      body: new URLSearchParams({
+        To: to.startsWith("whatsapp:") ? to : `whatsapp:${to}`,
+        From: from.startsWith("whatsapp:") ? from : `whatsapp:${from}`,
+        Body: message,
+      }),
     },
-    body: JSON.stringify({
-      messaging_product: "whatsapp",
-      to,
-      text: { body: message },
-    }),
-  });
+  );
 
-  if (!res.ok) return { sent: false, reason: `Meta respondió ${res.status}` };
+  if (!res.ok) return { sent: false, reason: `Twilio respondió ${res.status}` };
   return { sent: true };
 }
 
