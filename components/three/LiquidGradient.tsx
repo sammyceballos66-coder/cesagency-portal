@@ -338,6 +338,12 @@ function setup(container: HTMLDivElement) {
     });
     const mesh = new THREE.Mesh(geometry, material);
     scene.add(mesh);
+    diag.renderer = renderer;
+    diag.scene = scene;
+    diag.camera = camera;
+    diag.mesh = mesh;
+    diag.material = material;
+    diag.container = container;
 
     function resize() {
       const w = container.clientWidth;
