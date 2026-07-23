@@ -269,6 +269,17 @@ export function LiquidGradient() {
 }
 
 function setup(container: HTMLDivElement) {
+  // Guard against a second concurrent setup() on the same container. Seen in
+  // production (not just React Strict Mode dev double-invoke) — when it
+  // happens, two THREE.WebGLRenderers each try to obtain a context, and the
+  // second call throws "Canvas has an existing context of a different type",
+  // leaving the background unrendered. If we're already active, bail out
+  // with a no-op cleanup instead of racing a second renderer into existence.
+  if (container.dataset.liquidGradientActive === "true") {
+    return () => {};
+  }
+  container.dataset.liquidGradientActive = "true";
+
   const reducedMotion = window.matchMedia("(prefers-reduced-motion: reduce)").matches;
 
     const touchTexture = new TouchTexture();
@@ -360,11 +371,20 @@ function setup(container: HTMLDivElement) {
 
     const resizeObserver = new ResizeObserver(resize);
     resizeObserver.observe(container);
+    // Belt-and-suspenders: on some browsers/embedders the ResizeObserver
+    // callback doesn't fire for a fixed/absolute-positioned container whose
+    // size only changes because the viewport itself changed (window resize,
+    // mobile orientation change, URL-bar show/hide) rather than a layout
+    // change of an ancestor. A plain window resize listener catches that
+    // case directly.
+    window.addEventListener("resize", resize);
 
     return () => {
+      delete container.dataset.liquidGradientActive;
       cancelAnimationFrame(frameId);
       container.removeEventListener("mousemove", onMouseMove);
       resizeObserver.disconnect();
+      window.removeEventListener("resize", resize);
       geometry.dispose();
       material.dispose();
       touchTexture.texture.dispose();
