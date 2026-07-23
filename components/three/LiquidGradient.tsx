@@ -269,6 +269,17 @@ export function LiquidGradient() {
 }
 
 function setup(container: HTMLDivElement) {
+  const diag = ((window as any).__lgDiag = (window as any).__lgDiag || {
+    setupCalls: 0,
+    guardedOut: 0,
+    tickCalls: 0,
+    watchdogFires: 0,
+    watchdogRestarts: 0,
+    errors: [] as string[],
+    disposedInstances: 0,
+  });
+  diag.setupCalls++;
+
   // Guard against a second concurrent setup() on the same container. Seen in
   // production (not just React Strict Mode dev double-invoke) — when it
   // happens, two THREE.WebGLRenderers each try to obtain a context, and the
@@ -276,6 +287,7 @@ function setup(container: HTMLDivElement) {
   // leaving the background unrendered. If we're already active, bail out
   // with a no-op cleanup instead of racing a second renderer into existence.
   if (container.dataset.liquidGradientActive === "true") {
+    diag.guardedOut++;
     return () => {};
   }
   container.dataset.liquidGradientActive = "true";
@@ -345,10 +357,15 @@ function setup(container: HTMLDivElement) {
     const clock = new THREE.Clock();
     let frameId = 0;
     function tick() {
-      const delta = Math.min(clock.getDelta(), 0.1);
-      uniforms.uTime.value += delta;
-      touchTexture.update();
-      renderer.render(scene, camera);
+      diag.tickCalls++;
+      try {
+        const delta = Math.min(clock.getDelta(), 0.1);
+        uniforms.uTime.value += delta;
+        touchTexture.update();
+        renderer.render(scene, camera);
+      } catch (e) {
+        diag.errors.push(String((e as Error)?.stack || e));
+      }
       frameId = requestAnimationFrame(tick);
     }
 
@@ -368,7 +385,9 @@ function setup(container: HTMLDivElement) {
     let lastWatchdogTime = uniforms.uTime.value;
     const watchdog = !reducedMotion
       ? setInterval(() => {
+          diag.watchdogFires++;
           if (uniforms.uTime.value === lastWatchdogTime) {
+            diag.watchdogRestarts++;
             frameId = requestAnimationFrame(tick);
           }
           lastWatchdogTime = uniforms.uTime.value;
@@ -397,6 +416,7 @@ function setup(container: HTMLDivElement) {
     window.addEventListener("resize", resize);
 
     return () => {
+      diag.disposedInstances++;
       delete container.dataset.liquidGradientActive;
       cancelAnimationFrame(frameId);
       clearInterval(watchdog);
