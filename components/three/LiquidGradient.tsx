@@ -358,6 +358,23 @@ function setup(container: HTMLDivElement) {
       renderer.render(scene, camera);
     }
 
+    // Watchdog: in production this loop has been observed to silently stall
+    // after painting a single frame (uTime stops advancing, no console
+    // error) — root cause not fully isolated, but likely some framework-level
+    // re-render cancels the original requestAnimationFrame chain without the
+    // component actually unmounting/cleaning up. Rather than leave the
+    // background frozen forever, check once a second whether uTime actually
+    // moved since the last check and, if not, kick the loop again.
+    let lastWatchdogTime = uniforms.uTime.value;
+    const watchdog = !reducedMotion
+      ? setInterval(() => {
+          if (uniforms.uTime.value === lastWatchdogTime) {
+            frameId = requestAnimationFrame(tick);
+          }
+          lastWatchdogTime = uniforms.uTime.value;
+        }, 1000)
+      : 0;
+
     function onMouseMove(ev: MouseEvent) {
       const rect = container.getBoundingClientRect();
       touchTexture.addTouch({
@@ -382,6 +399,7 @@ function setup(container: HTMLDivElement) {
     return () => {
       delete container.dataset.liquidGradientActive;
       cancelAnimationFrame(frameId);
+      clearInterval(watchdog);
       container.removeEventListener("mousemove", onMouseMove);
       resizeObserver.disconnect();
       window.removeEventListener("resize", resize);
