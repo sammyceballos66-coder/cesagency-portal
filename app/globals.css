@@ -124,7 +124,14 @@ body {
   color: var(--ink);
   font-family: var(--font-sans);
   -webkit-font-smoothing: antialiased;
-  overflow-x: hidden;
+  /* `hidden` (not just this value, any non-`visible` overflow) turns body
+     into a scroll container, which on mobile WebKit breaks `position: fixed`
+     descendants into acting like `position: absolute` — the background layer
+     then scrolls away with the page instead of staying pinned, only flashing
+     into view during the overscroll rubber-band. `clip` blocks horizontal
+     overflow the same way without creating a scroll container, so it doesn't
+     trigger that mobile quirk. */
+  overflow-x: clip;
 }
 
 h1,
