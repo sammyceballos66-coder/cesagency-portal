@@ -38,7 +38,7 @@ export function Proof() {
       </h2>
       <p className="text-white/85 text-base md:text-lg leading-[1.6] max-w-[560px] mx-auto mb-8">
         Así de profesional te armamos también la tuya. Por{" "}
-        <strong className="font-bold">$400.000</strong> (diseño, pago único) más{" "}
+        <strong className="font-bold">$300.000</strong> (diseño, pago único) más{" "}
         <strong className="font-bold">$150.000/mes</strong> de mantenimiento.
       </p>
       <a

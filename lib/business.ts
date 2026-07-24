@@ -9,7 +9,7 @@ export const BUSINESS = {
   serviceArea: "Pereira y Dosquebradas",
   website: "https://cesagencia.co",
   service: {
-    designPrice: "$400.000 COP (pago único)",
+    designPrice: "$300.000 COP (pago único)",
     maintenancePrice: "$150.000 COP/mes",
     maintenanceIncludes: "dominio y hosting",
     delivery: "lista en minutos una vez el cliente da la información de su negocio",

@@ -71,7 +71,7 @@ function PriceCard() {
       </div>
       <div className="text-[15px] text-ink mb-0.5">
         <strong className="text-[40px] text-ink font-bold font-display">
-          $400.000
+          $300.000
         </strong>{" "}
         COP
       </div>
