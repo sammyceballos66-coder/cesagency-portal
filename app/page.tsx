@@ -13,7 +13,7 @@ export default function Home() {
   return (
     <>
       <SmoothScroll />
-      <div className="fixed inset-0 -z-10">
+      <div className="fixed inset-0">
         <BackgroundGradientAnimation
           gradientBackgroundStart="rgb(201, 217, 245)"
           gradientBackgroundEnd="rgb(255, 255, 255)"
@@ -28,17 +28,25 @@ export default function Home() {
           containerClassName="!h-full !w-full"
         />
       </div>
-      <div className="field" />
-      <Header />
-      <main className="wrap max-w-[1180px] mx-auto px-7">
-        <Hero />
-        <Trio />
-        <Proof />
-        <Services />
-        <Pricing />
-        <About />
-        <Contact />
-      </main>
+      {/* Explicit positive z-index on the content wrapper, rather than a
+          negative one on the background above — negative z-index stacking
+          has been unreliable on mobile WebKit in this project (background
+          only painted during the overscroll bounce instead of staying
+          visible underneath). Stacking everything else forward instead of
+          pushing the background back sidesteps that. */}
+      <div className="relative z-10">
+        <div className="field" />
+        <Header />
+        <main className="wrap max-w-[1180px] mx-auto px-7">
+          <Hero />
+          <Trio />
+          <Proof />
+          <Services />
+          <Pricing />
+          <About />
+          <Contact />
+        </main>
+      </div>
     </>
   );
 }
