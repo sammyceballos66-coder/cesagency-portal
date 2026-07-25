@@ -46,18 +46,18 @@ export function Hero() {
         </p>
         <div className="hero-actions flex gap-3.5 flex-wrap">
           <a
+            href="#planes"
+            className="inline-flex items-center gap-2 rounded-full px-5 py-[11px] text-sm font-semibold transition-all duration-300 ease-out bg-gradient-to-br from-blue-bright to-blue text-white hover:brightness-110 hover:-translate-y-1.5 hover:shadow-[0_10px_24px_-6px_rgba(29,79,216,0.5)]"
+          >
+            Ver los planes
+          </a>
+          <a
             href={whatsAppLink("Hola, quiero cotizar mi página web")}
             target="_blank"
             rel="noopener noreferrer"
-            className="inline-flex items-center gap-2 rounded-full px-5 py-[11px] text-sm font-semibold transition-all duration-300 ease-out bg-gradient-to-br from-blue-bright to-blue text-white hover:brightness-110 hover:-translate-y-1.5 hover:shadow-[0_10px_24px_-6px_rgba(29,79,216,0.5)]"
-          >
-            Cotiza tu página web
-          </a>
-          <a
-            href="#planes"
             className="inline-flex items-center gap-2 rounded-full px-5 py-[11px] text-sm font-semibold border border-line text-ink transition-all duration-300 ease-out hover:border-blue hover:bg-blue/8 hover:-translate-y-1.5 hover:shadow-md"
           >
-            Ver el precio
+            Escríbenos por WhatsApp
           </a>
         </div>
       </div>

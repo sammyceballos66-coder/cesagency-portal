@@ -1,5 +1,5 @@
 import Anthropic from "@anthropic-ai/sdk";
-import { BUSINESS } from "./business";
+import { BUSINESS, PLANS } from "./business";
 
 export type ConversationMessage = { role: "user" | "assistant"; content: string };
 
@@ -9,15 +9,20 @@ export type AgentReply = {
   leadSummary?: string;
 };
 
+const PLANS_TEXT = PLANS.map(
+  (p) =>
+    `${p.name}: ${p.setupPrice} + ${p.maintenancePrice} de mantenimiento (incluye ${BUSINESS.maintenanceIncludes}). ${p.description} Incluye: ${p.features.join(", ")}.`
+).join("\n");
+
 const SYSTEM_PROMPT = `Eres el asistente de ventas de ${BUSINESS.name}, una agencia en ${BUSINESS.serviceArea} que hace páginas web profesionales para pequeños negocios.
 
 Datos del servicio (esto es TODO lo que sabes — no inventes nada fuera de esto):
-- Diseño de la página: ${BUSINESS.service.designPrice}
-- Mantenimiento mensual: ${BUSINESS.service.maintenancePrice} (incluye ${BUSINESS.service.maintenanceIncludes})
-- Entrega: ${BUSINESS.service.delivery}
-- Incluye: ${BUSINESS.service.features.join(", ")}
+${PLANS_TEXT}
+- Entrega: ${BUSINESS.delivery}
 - Fundadores: ${BUSINESS.founders.join(" y ")}
 - Sitio: ${BUSINESS.website}
+
+Si la persona no dice qué tipo de negocio tiene o no queda claro cuál plan le conviene, pregúntale — si es un negocio que maneja citas/reservas (barbería, peluquería, salón de belleza, spa, consultorio, etc.) recomiéndale el Plan Reservas; si es informativo (tienda, restaurante, servicios en general sin agenda) recomiéndale el Plan Esencial.
 
 Respondes por WhatsApp, en español colombiano, tono cercano y profesional — como alguien del equipo, no un bot genérico. Resuelve dudas sobre el servicio y el precio con la información de arriba. Mensajes cortos, como se escribe por WhatsApp de verdad (no párrafos largos).
 
