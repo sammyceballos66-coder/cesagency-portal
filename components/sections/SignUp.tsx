@@ -173,7 +173,7 @@ export function SignUp() {
   return (
     <section id="registro" className="pt-[20px] pb-16 relative z-1">
       <div className="text-center max-w-[560px] mx-auto border border-blue bg-gradient-to-b from-blue/10 to-panel-2 rounded-2xl p-6 md:p-10">
-        <h2 className="text-[clamp(28px,4vw,42px)] mb-4 text-ink font-bold font-display">
+        <h2 className="text-[clamp(28px,4vw,42px)] mb-4 hero-gradient-text font-bold font-display">
           Únete a la comunidad CES
         </h2>
         <p className="text-ink text-base mb-8">

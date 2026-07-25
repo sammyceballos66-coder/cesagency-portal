@@ -11,6 +11,14 @@ const CHECK_SM = (
   </svg>
 );
 
+// Dorado en vez de verde para el plan destacado — contrasta mejor sobre el
+// fondo azul y da un toque "premium" en vez del combo azul+blanco plano.
+const CHECK_SM_GOLD = (
+  <svg width="15" height="15" viewBox="0 0 24 24" fill="none" stroke="#FBBF24" strokeWidth="2.6">
+    <path d="M5 12l5 5L20 6" />
+  </svg>
+);
+
 function PlanCard({ plan, featured }: { plan: Plan; featured?: boolean }) {
   const tiltRef = useTilt<HTMLDivElement>();
   const cardRef = useRef<HTMLDivElement>(null);
@@ -39,15 +47,26 @@ function PlanCard({ plan, featured }: { plan: Plan; featured?: boolean }) {
         cardRef.current = node;
         tiltRef.current = node;
       }}
-      className={`plan tilt relative flex flex-col rounded-[14px] backdrop-blur-sm shadow-sm p-[36px_30px] ${
+      className={`plan tilt relative flex flex-col overflow-hidden rounded-[14px] backdrop-blur-sm shadow-sm p-[36px_30px] ${
         featured
-          ? "bg-gradient-to-br from-blue-bright to-blue text-white border border-blue-bright shadow-lg md:scale-[1.03]"
+          ? "bg-gradient-to-br from-blue-deep via-blue-bright to-blue text-white border border-blue-bright shadow-[0_20px_50px_-15px_rgba(15,30,82,0.55)] md:scale-[1.03]"
           : "bg-white/95 border border-line"
       }`}
     >
+      {featured && (
+        // Franja diagonal de brillo — efecto "metálico"/premium sobre el
+        // degradado azul, en vez de un azul plano.
+        <div
+          className="pointer-events-none absolute inset-0"
+          style={{
+            background:
+              "linear-gradient(115deg, transparent 35%, rgba(255,255,255,0.22) 48%, transparent 62%)",
+          }}
+        />
+      )}
       <div className="tilt-shine" />
       {featured && (
-        <div className="self-start inline-flex items-center text-[12px] font-bold uppercase tracking-[0.06em] text-blue-bright bg-white px-3.5 py-1.5 rounded-full mb-3">
+        <div className="self-start inline-flex items-center text-[12px] font-bold uppercase tracking-[0.06em] text-blue-deep bg-gradient-to-r from-amber-300 to-yellow-200 px-3.5 py-1.5 rounded-full mb-3">
           Recomendado para citas y reservas
         </div>
       )}
@@ -71,7 +90,7 @@ function PlanCard({ plan, featured }: { plan: Plan; featured?: boolean }) {
             key={f}
             className={`plan-feature flex gap-2.5 text-sm items-start ${featured ? "text-white/95" : "text-ink"}`}
           >
-            <span className="shrink-0 mt-[3px]">{CHECK_SM}</span>
+            <span className="shrink-0 mt-[3px]">{featured ? CHECK_SM_GOLD : CHECK_SM}</span>
             {f}
           </li>
         ))}
@@ -109,7 +128,10 @@ export function Plans() {
 
   return (
     <section id="planes" className="pricing py-[40px] pb-[60px] relative z-1">
-      <div ref={ref} className="text-center max-w-[640px] mx-auto mb-[44px]">
+      <div
+        ref={ref}
+        className="text-center max-w-[640px] mx-auto mb-[44px] bg-white/35 backdrop-blur-sm border border-line rounded-2xl px-6 py-8 md:px-10 md:py-9"
+      >
         <span className="block text-[12.5px] font-semibold text-blue-bright uppercase tracking-[0.08em] mb-3">
           Planes
         </span>
