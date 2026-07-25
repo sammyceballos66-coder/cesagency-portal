@@ -36,23 +36,25 @@ function RegisterModal({ onClose }: { onClose: () => void }) {
 
   return (
     <div
-      className="fixed inset-0 z-50 flex items-start justify-center bg-ink/40 backdrop-blur-sm p-5 py-10 overflow-y-auto"
+      className="fixed inset-0 z-50 flex items-center justify-center bg-ink/40 backdrop-blur-sm p-5 overflow-y-auto"
       onClick={onClose}
     >
-      {/* items-start + py-10 on the backdrop (not items-center) — when this
-          panel is taller than the viewport, centering it clips the top
-          (logo, close button) above the scrollable area with no way to
-          reach it. Starting from the top and letting it scroll down keeps
-          everything reachable regardless of viewport height. */}
+      {/* items-start + py-8 on the backdrop (not items-center) — if this
+          panel is ever taller than the viewport, centering it would clip
+          the top (logo, close button) above the scrollable area with no
+          way to reach it. Starting from the top keeps everything reachable
+          regardless of viewport height. The panel itself is wide + compact
+          (2-column fields, tight gaps) specifically so it fits on a normal
+          screen without needing that scroll in the first place. */}
       <div
-        className="w-full max-w-[440px] bg-white rounded-2xl shadow-xl p-6 md:p-8 relative"
+        className="w-full max-w-[600px] max-h-full overflow-y-auto bg-white rounded-2xl shadow-xl p-4 md:p-6 relative"
         onClick={(e) => e.stopPropagation()}
       >
         <button
           type="button"
           onClick={onClose}
           aria-label="Cerrar"
-          className="absolute top-4 right-4 text-ink-faint hover:text-ink transition-colors"
+          className="absolute top-3.5 right-3.5 text-ink-faint hover:text-ink transition-colors"
         >
           <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2">
             <path d="M6 6l12 12M18 6L6 18" />
@@ -67,78 +69,75 @@ function RegisterModal({ onClose }: { onClose: () => void }) {
             </p>
           </div>
         ) : (
-          <form onSubmit={handleSubmit} className="flex flex-col gap-4">
-            <Image
-              src="/logo.png"
-              alt="CES"
-              width={642}
-              height={205}
-              unoptimized
-              className="h-7 w-auto self-start mb-1"
-            />
-            <h3 className="text-xl font-bold font-display text-ink -mt-2">Regístrate</h3>
+          <form onSubmit={handleSubmit} className="flex flex-col gap-2.5">
+            <div className="flex items-center gap-2.5 mb-1">
+              <Image src="/logo.png" alt="CES" width={642} height={205} unoptimized className="h-6 w-auto" />
+              <h3 className="text-lg font-bold font-display text-ink">Regístrate</h3>
+            </div>
 
-            <label className="flex flex-col gap-1.5 text-sm text-ink">
-              Nombre completo
-              <input
-                required
-                value={contactName}
-                onChange={(e) => setContactName(e.target.value)}
-                className={inputClass}
-                placeholder="Ej. David Montes"
-              />
-            </label>
+            <div className="grid grid-cols-1 sm:grid-cols-2 gap-3">
+              <label className="flex flex-col gap-1.5 text-sm text-ink">
+                Nombre completo
+                <input
+                  required
+                  value={contactName}
+                  onChange={(e) => setContactName(e.target.value)}
+                  className={inputClass}
+                  placeholder="Ej. David Montes"
+                />
+              </label>
 
-            <label className="flex flex-col gap-1.5 text-sm text-ink">
-              Nombre de la empresa <span className="text-ink-faint">(opcional)</span>
-              <input
-                value={businessName}
-                onChange={(e) => setBusinessName(e.target.value)}
-                className={inputClass}
-                placeholder="Ej. Quality Barber Shop"
-              />
-            </label>
+              <label className="flex flex-col gap-1.5 text-sm text-ink">
+                Nombre de la empresa <span className="text-ink-faint">(opcional)</span>
+                <input
+                  value={businessName}
+                  onChange={(e) => setBusinessName(e.target.value)}
+                  className={inputClass}
+                  placeholder="Ej. Quality Barber Shop"
+                />
+              </label>
 
-            <label className="flex flex-col gap-1.5 text-sm text-ink">
-              Número de teléfono
-              <input
-                required
-                type="tel"
-                value={phone}
-                onChange={(e) => setPhone(e.target.value)}
-                className={inputClass}
-                placeholder="300 123 4567"
-              />
-            </label>
+              <label className="flex flex-col gap-1.5 text-sm text-ink">
+                Número de teléfono
+                <input
+                  required
+                  type="tel"
+                  value={phone}
+                  onChange={(e) => setPhone(e.target.value)}
+                  className={inputClass}
+                  placeholder="300 123 4567"
+                />
+              </label>
 
-            <label className="flex flex-col gap-1.5 text-sm text-ink">
-              Correo electrónico
-              <input
-                required
-                type="email"
-                value={email}
-                onChange={(e) => setEmail(e.target.value)}
-                className={inputClass}
-                placeholder="tu@correo.com"
-              />
-            </label>
+              <label className="flex flex-col gap-1.5 text-sm text-ink">
+                Correo electrónico
+                <input
+                  required
+                  type="email"
+                  value={email}
+                  onChange={(e) => setEmail(e.target.value)}
+                  className={inputClass}
+                  placeholder="tu@correo.com"
+                />
+              </label>
+            </div>
 
             <label className="flex flex-col gap-1.5 text-sm text-ink">
               Descripción <span className="text-ink-faint">(opcional)</span>
               <textarea
                 value={description}
                 onChange={(e) => setDescription(e.target.value)}
-                rows={3}
+                rows={1}
                 className={`${inputClass} resize-none`}
                 placeholder="Cuéntanos brevemente de tu negocio"
               />
             </label>
 
-            <div className="flex flex-col gap-2.5">
+            <div className="grid grid-cols-1 sm:grid-cols-2 gap-2.5">
               {PLANS.map((p) => (
                 <label
                   key={p.id}
-                  className={`flex items-start gap-3 text-sm text-ink border rounded-lg px-3.5 py-3 cursor-pointer transition-colors ${
+                  className={`flex items-start gap-2.5 text-sm text-ink border rounded-lg px-3 py-2.5 cursor-pointer transition-colors ${
                     planId === p.id ? "border-blue-bright bg-blue/5" : "border-line"
                   }`}
                 >
