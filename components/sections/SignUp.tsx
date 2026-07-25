@@ -36,11 +36,16 @@ function RegisterModal({ onClose }: { onClose: () => void }) {
 
   return (
     <div
-      className="fixed inset-0 z-50 flex items-center justify-center bg-ink/40 backdrop-blur-sm p-5 overflow-y-auto"
+      className="fixed inset-0 z-50 flex items-start justify-center bg-ink/40 backdrop-blur-sm p-5 py-10 overflow-y-auto"
       onClick={onClose}
     >
+      {/* items-start + py-10 on the backdrop (not items-center) — when this
+          panel is taller than the viewport, centering it clips the top
+          (logo, close button) above the scrollable area with no way to
+          reach it. Starting from the top and letting it scroll down keeps
+          everything reachable regardless of viewport height. */}
       <div
-        className="w-full max-w-[440px] bg-white rounded-2xl shadow-xl p-6 md:p-8 relative my-8"
+        className="w-full max-w-[440px] bg-white rounded-2xl shadow-xl p-6 md:p-8 relative"
         onClick={(e) => e.stopPropagation()}
       >
         <button
@@ -173,7 +178,7 @@ export function SignUp() {
   return (
     <section id="registro" className="pt-[20px] pb-16 relative z-1">
       <div className="text-center max-w-[560px] mx-auto border border-blue bg-gradient-to-b from-blue/10 to-panel-2 rounded-2xl p-6 md:p-10">
-        <h2 className="text-[clamp(28px,4vw,42px)] mb-4 hero-gradient-text font-bold font-display">
+        <h2 className="text-[clamp(32px,4.6vw,48px)] leading-[1.08] tracking-[-0.01em] mb-4 hero-gradient-text font-bold font-display">
           Únete a la comunidad CES
         </h2>
         <p className="text-ink text-base mb-8">
