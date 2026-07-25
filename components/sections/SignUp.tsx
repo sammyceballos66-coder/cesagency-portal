@@ -68,7 +68,14 @@ function RegisterModal({ onClose }: { onClose: () => void }) {
           </div>
         ) : (
           <form onSubmit={handleSubmit} className="flex flex-col gap-4">
-            <Image src="/logo.png" alt="CES" width={642} height={205} unoptimized className="h-7 w-auto mb-1" />
+            <Image
+              src="/logo.png"
+              alt="CES"
+              width={642}
+              height={205}
+              unoptimized
+              className="h-7 w-auto self-start mb-1"
+            />
             <h3 className="text-xl font-bold font-display text-ink -mt-2">Regístrate</h3>
 
             <label className="flex flex-col gap-1.5 text-sm text-ink">
