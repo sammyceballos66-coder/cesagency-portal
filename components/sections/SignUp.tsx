@@ -1,6 +1,6 @@
 "use client";
 
-import { useState } from "react";
+import { useEffect, useState } from "react";
 import Image from "next/image";
 import { PLANS } from "@/lib/business";
 
@@ -10,6 +10,19 @@ const inputClass =
   "rounded-lg border border-line px-3.5 py-2.5 text-sm outline-none focus:border-blue-bright";
 
 function RegisterModal({ onClose }: { onClose: () => void }) {
+  // Sin esto, el fondo sigue siendo scrolleable detrás del modal — en iOS
+  // Safari eso hace que un `fixed inset-0` no se quede anclado al viewport
+  // real, dejando el header sticky pegado arriba y la parte de arriba del
+  // modal (logo, título, botón de cerrar) fuera de la vista sin forma de
+  // llegar a ella.
+  useEffect(() => {
+    const previousOverflow = document.body.style.overflow;
+    document.body.style.overflow = "hidden";
+    return () => {
+      document.body.style.overflow = previousOverflow;
+    };
+  }, []);
+
   const [contactName, setContactName] = useState("");
   const [businessName, setBusinessName] = useState("");
   const [phone, setPhone] = useState("");
@@ -184,8 +197,16 @@ export function SignUp() {
   return (
     <section id="registro" className="pt-[20px] pb-16 relative z-1">
       <div className="text-center max-w-[560px] mx-auto border border-blue bg-gradient-to-b from-blue/10 to-panel-2 rounded-2xl p-6 md:p-10">
-        <h2 className="text-[clamp(32px,4.6vw,48px)] leading-[1.08] tracking-[-0.01em] mb-4 hero-gradient-text font-bold font-display">
-          Únete a la comunidad CES
+        <h2 className="flex flex-wrap items-center justify-center gap-x-3 text-[clamp(32px,4.6vw,48px)] leading-[1.08] tracking-[-0.01em] mb-4 font-bold font-display">
+          <span className="hero-gradient-text">Únete a la comunidad</span>
+          <Image
+            src="/logo.png"
+            alt="CES"
+            width={642}
+            height={205}
+            unoptimized
+            className="h-[0.8em] w-auto"
+          />
         </h2>
         <p className="text-ink text-base mb-8">
           Regístrate, cuéntanos de tu negocio, y te contactamos personalmente para arrancar con tu página.
