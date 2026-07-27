@@ -10,16 +10,27 @@ const inputClass =
   "rounded-lg border border-line px-3.5 py-2.5 text-sm outline-none focus:border-blue-bright";
 
 function RegisterModal({ onClose }: { onClose: () => void }) {
-  // Sin esto, el fondo sigue siendo scrolleable detrás del modal — en iOS
-  // Safari eso hace que un `fixed inset-0` no se quede anclado al viewport
-  // real, dejando el header sticky pegado arriba y la parte de arriba del
-  // modal (logo, título, botón de cerrar) fuera de la vista sin forma de
-  // llegar a ella.
+  // `overflow: hidden` on body alone does NOT block touch-scrolling in iOS
+  // Safari (a well-known Safari-specific gap — it works fine on desktop and
+  // Android Chrome, which is why this looked fixed when tested there). With
+  // the page still scrollable underneath on an iPhone, this `fixed inset-0`
+  // modal was rendering mispositioned relative to the real viewport,
+  // leaving its top (logo, title, close button) unreachable behind the
+  // sticky header. The reliable cross-browser fix is to actually pin body
+  // to its current scroll position via position:fixed, not just hide
+  // overflow, and restore the real scroll position on close.
   useEffect(() => {
-    const previousOverflow = document.body.style.overflow;
-    document.body.style.overflow = "hidden";
+    const scrollY = window.scrollY;
+    const body = document.body;
+    const prev = { position: body.style.position, top: body.style.top, width: body.style.width };
+    body.style.position = "fixed";
+    body.style.top = `-${scrollY}px`;
+    body.style.width = "100%";
     return () => {
-      document.body.style.overflow = previousOverflow;
+      body.style.position = prev.position;
+      body.style.top = prev.top;
+      body.style.width = prev.width;
+      window.scrollTo(0, scrollY);
     };
   }, []);
 
