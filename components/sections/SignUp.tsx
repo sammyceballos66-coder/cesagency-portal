@@ -10,27 +10,22 @@ const inputClass =
   "rounded-lg border border-line px-3.5 py-2.5 text-sm outline-none focus:border-blue-bright";
 
 function RegisterModal({ onClose }: { onClose: () => void }) {
-  // `overflow: hidden` on body alone does NOT block touch-scrolling in iOS
-  // Safari (a well-known Safari-specific gap — it works fine on desktop and
-  // Android Chrome, which is why this looked fixed when tested there). With
-  // the page still scrollable underneath on an iPhone, this `fixed inset-0`
-  // modal was rendering mispositioned relative to the real viewport,
-  // leaving its top (logo, title, close button) unreachable behind the
-  // sticky header. The reliable cross-browser fix is to actually pin body
-  // to its current scroll position via position:fixed, not just hide
-  // overflow, and restore the real scroll position on close.
+  // Pinning body via position:fixed (the classic scroll-lock hack) turned
+  // out worse on iOS: a position:fixed modal nested inside a position:fixed
+  // body hits a real WebKit bug where the modal's centering math uses the
+  // wrong reference box, leaving a huge blank gap above the panel. Plain
+  // overflow:hidden + overscroll-behavior is the modern, purpose-built fix —
+  // it stops the background from scrolling AND stops touch-drags at the
+  // modal's own top/bottom edge from chaining into the page (which is what
+  // was triggering the native pull-to-refresh gesture instead of just doing
+  // nothing at the scroll boundary). See the `overscroll-behavior: contain`
+  // on the backdrop below — the "contain" part is the piece that fixes the
+  // pull-to-refresh issue specifically.
   useEffect(() => {
-    const scrollY = window.scrollY;
-    const body = document.body;
-    const prev = { position: body.style.position, top: body.style.top, width: body.style.width };
-    body.style.position = "fixed";
-    body.style.top = `-${scrollY}px`;
-    body.style.width = "100%";
+    const previousOverflow = document.body.style.overflow;
+    document.body.style.overflow = "hidden";
     return () => {
-      body.style.position = prev.position;
-      body.style.top = prev.top;
-      body.style.width = prev.width;
-      window.scrollTo(0, scrollY);
+      document.body.style.overflow = previousOverflow;
     };
   }, []);
 
@@ -60,7 +55,7 @@ function RegisterModal({ onClose }: { onClose: () => void }) {
 
   return (
     <div
-      className="fixed inset-0 z-50 flex items-center justify-center bg-ink/40 backdrop-blur-sm p-5 overflow-y-auto"
+      className="fixed inset-0 z-50 flex items-center justify-center bg-ink/40 backdrop-blur-sm p-5 overflow-y-auto overscroll-contain"
       onClick={onClose}
     >
       {/* items-start + py-8 on the backdrop (not items-center) — if this
@@ -71,7 +66,7 @@ function RegisterModal({ onClose }: { onClose: () => void }) {
           (2-column fields, tight gaps) specifically so it fits on a normal
           screen without needing that scroll in the first place. */}
       <div
-        className="w-full max-w-[600px] max-h-full overflow-y-auto bg-white rounded-2xl shadow-xl p-4 md:p-6 relative"
+        className="w-full max-w-[600px] max-h-full overflow-y-auto overscroll-contain bg-white rounded-2xl shadow-xl p-4 md:p-6 relative"
         onClick={(e) => e.stopPropagation()}
       >
         <button

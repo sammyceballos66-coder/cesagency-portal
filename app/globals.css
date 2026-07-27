@@ -99,6 +99,11 @@ html {
      (background)/(field)) repaint. Matching it to the theme instead of
      leaving it at the browser default (white) turns that flash blue. */
   background: var(--void);
+  /* Stops the elastic overscroll bounce at the top/bottom of the page from
+     chaining into a native pull-to-refresh or revealing blank space beyond
+     the document — mobile WebKit (Safari/Chrome on iOS) treats the page and
+     any open modal as one scroll chain without this. */
+  overscroll-behavior-y: contain;
 }
 
 .field {
