@@ -1,6 +1,6 @@
 "use client";
 
-import { useEffect, useState } from "react";
+import { useEffect, useRef, useState } from "react";
 import Image from "next/image";
 import { PLANS } from "@/lib/business";
 
@@ -10,24 +10,42 @@ const inputClass =
   "rounded-lg border border-line px-3.5 py-2.5 text-sm outline-none focus:border-blue-bright";
 
 function RegisterModal({ onClose }: { onClose: () => void }) {
-  // Pinning body via position:fixed (the classic scroll-lock hack) turned
-  // out worse on iOS: a position:fixed modal nested inside a position:fixed
-  // body hits a real WebKit bug where the modal's centering math uses the
-  // wrong reference box, leaving a huge blank gap above the panel. Plain
-  // overflow:hidden + overscroll-behavior is the modern, purpose-built fix —
-  // it stops the background from scrolling AND stops touch-drags at the
-  // modal's own top/bottom edge from chaining into the page (which is what
-  // was triggering the native pull-to-refresh gesture instead of just doing
-  // nothing at the scroll boundary). See the `overscroll-behavior: contain`
-  // on the backdrop below — the "contain" part is the piece that fixes the
-  // pull-to-refresh issue specifically.
+  // Two custom `fixed inset-0` overlay attempts in a row both hit the same
+  // real mobile-WebKit bug: when the browser's own toolbar is showing (as
+  // opposed to collapsed after scrolling), a fixed element's centering math
+  // uses a viewport size that doesn't match what's actually visible,
+  // leaving a large blank gap. A native <dialog> sidesteps this entirely —
+  // the browser itself positions and sizes it correctly against whatever is
+  // actually on screen (it renders in the "top layer", immune to this
+  // whole class of fixed-position/viewport bug), and showModal() handles
+  // background scroll-locking natively too, so no manual body-overflow
+  // hacks are needed here anymore.
+  const dialogRef = useRef<HTMLDialogElement>(null);
+
   useEffect(() => {
-    const previousOverflow = document.body.style.overflow;
-    document.body.style.overflow = "hidden";
-    return () => {
-      document.body.style.overflow = previousOverflow;
-    };
-  }, []);
+    const dialog = dialogRef.current;
+    if (!dialog) return;
+    dialog.showModal();
+    // Belt-and-suspenders: the native `close` event (fired by Escape, or by
+    // our own .close() calls below) is the only signal for the Escape-key
+    // case, so it's still wired up here — but the X button and backdrop
+    // click below call onClose directly too rather than relying on this
+    // alone, since event-dispatch-on-.close() proved unreliable in testing.
+    dialog.addEventListener("close", onClose);
+    return () => dialog.removeEventListener("close", onClose);
+  }, [onClose]);
+
+  function closeDialog() {
+    dialogRef.current?.close();
+    onClose();
+  }
+
+  function handleDialogClick(e: React.MouseEvent<HTMLDialogElement>) {
+    // A click that lands on the <dialog> element itself (not one of its
+    // descendants) means it landed on the ::backdrop / the dialog's own
+    // padding area — the equivalent of "clicked outside the content".
+    if (e.target === dialogRef.current) closeDialog();
+  }
 
   const [contactName, setContactName] = useState("");
   const [businessName, setBusinessName] = useState("");
@@ -54,26 +72,17 @@ function RegisterModal({ onClose }: { onClose: () => void }) {
   }
 
   return (
-    <div
-      className="fixed inset-0 z-50 flex items-center justify-center bg-ink/40 backdrop-blur-sm p-5 overflow-y-auto overscroll-contain"
-      onClick={onClose}
+    <dialog
+      ref={dialogRef}
+      onClick={handleDialogClick}
+      className="w-full max-w-[600px] max-h-[85dvh] overflow-y-auto overscroll-contain bg-white rounded-2xl shadow-xl p-4 md:p-6 m-auto border-0 backdrop:bg-ink/40 backdrop:backdrop-blur-sm"
     >
-      {/* items-start + py-8 on the backdrop (not items-center) — if this
-          panel is ever taller than the viewport, centering it would clip
-          the top (logo, close button) above the scrollable area with no
-          way to reach it. Starting from the top keeps everything reachable
-          regardless of viewport height. The panel itself is wide + compact
-          (2-column fields, tight gaps) specifically so it fits on a normal
-          screen without needing that scroll in the first place. */}
-      <div
-        className="w-full max-w-[600px] max-h-full overflow-y-auto overscroll-contain bg-white rounded-2xl shadow-xl p-4 md:p-6 relative"
-        onClick={(e) => e.stopPropagation()}
-      >
+      <div className="relative">
         <button
           type="button"
-          onClick={onClose}
+          onClick={closeDialog}
           aria-label="Cerrar"
-          className="absolute top-3.5 right-3.5 text-ink-faint hover:text-ink transition-colors"
+          className="absolute top-0 right-0 text-ink-faint hover:text-ink transition-colors"
         >
           <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2">
             <path d="M6 6l12 12M18 6L6 18" />
@@ -193,7 +202,7 @@ function RegisterModal({ onClose }: { onClose: () => void }) {
           </form>
         )}
       </div>
-    </div>
+    </dialog>
   );
 }
 
