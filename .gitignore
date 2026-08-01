@@ -58,3 +58,6 @@ reference/*.mp4
 /.agents/
 /.impeccable/
 /.mcp.json
+
+.vercel
+.env*

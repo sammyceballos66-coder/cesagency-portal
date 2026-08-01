@@ -80,9 +80,18 @@ function PlanCard({ plan, featured }: { plan: Plan; featured?: boolean }) {
         <strong className="text-[36px] font-bold font-display">{setupAmount}</strong>{" "}
         {setupRest.join(" ")}
       </div>
-      <div className={`text-[15px] mb-[22px] ${featured ? "text-white/85" : "text-ink-muted"}`}>
+      <div className={`text-[15px] ${featured ? "text-white/85" : "text-ink-muted"}`}>
         + {plan.maintenancePrice} de mantenimiento ({BUSINESS.maintenanceIncludes})
       </div>
+      {BUSINESS.firstMonthFree && (
+        <div
+          className={`self-start inline-flex items-center gap-1.5 mt-2.5 mb-[22px] text-[12.5px] font-bold uppercase tracking-[0.03em] px-3 py-1.5 rounded-full ${
+            featured ? "bg-white text-blue-deep" : "bg-accent-green-bg text-accent-green"
+          }`}
+        >
+          🎁 Primer mes de mantenimiento gratis
+        </div>
+      )}
       <hr className={`border-none border-t mb-5 ${featured ? "border-white/25" : "border-line"}`} />
       <ul className="flex flex-col gap-3 mb-[26px] flex-1 list-none">
         {plan.features.map((f) => (

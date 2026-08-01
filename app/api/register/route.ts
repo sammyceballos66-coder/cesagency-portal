@@ -1,6 +1,11 @@
-// Recibe los registros del formulario "Regístrate" de la página. Por ahora
-// solo valida y confirma — falta conectarlo a la hoja de Google Sheets donde
-// Samuel y Emmanuel ven los prospectos (siguiente paso planeado).
+// Recibe los registros del formulario "Regístrate" de la página y los
+// guarda en la tabla `registrations` de Supabase (ver
+// supabase/registrations.sql) — el mismo proyecto compartido de CES Agencia,
+// no una hoja de Google Sheets aparte, para que Jarvis y cualquier panel
+// futuro puedan leerlos con el mismo cliente que ya se usa en el resto de
+// la plataforma.
+
+import { supabase } from "@/lib/supabase";
 
 type RegisterBody = {
   contactName: string;
@@ -38,8 +43,19 @@ export async function POST(request: Request) {
     return Response.json({ error: "Datos incompletos o inválidos" }, { status: 400 });
   }
 
-  // TODO: guardar en la hoja de Google Sheets compartida de prospectos.
-  console.log("Nuevo registro:", body);
+  const { error } = await supabase.from("registrations").insert({
+    contact_name: body.contactName.trim(),
+    business_name: body.businessName?.trim() || null,
+    phone: body.phone.trim(),
+    email: body.email.trim(),
+    description: body.description?.trim() || null,
+    plan_id: body.planId,
+  });
+
+  if (error) {
+    console.error("Error guardando registro:", error);
+    return Response.json({ error: "No se pudo guardar el registro" }, { status: 500 });
+  }
 
   return Response.json({ ok: true });
 }

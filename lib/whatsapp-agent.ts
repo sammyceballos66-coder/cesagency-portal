@@ -11,7 +11,7 @@ export type AgentReply = {
 
 const PLANS_TEXT = PLANS.map(
   (p) =>
-    `${p.name}: ${p.setupPrice} + ${p.maintenancePrice} de mantenimiento (incluye ${BUSINESS.maintenanceIncludes}). ${p.description} Incluye: ${p.features.join(", ")}.`
+    `${p.name}: ${p.setupPrice} + ${p.maintenancePrice} de mantenimiento (incluye ${BUSINESS.maintenanceIncludes})${BUSINESS.firstMonthFree ? " — el primer mes de mantenimiento es GRATIS, se empieza a cobrar desde el segundo mes" : ""}. ${p.description} Incluye: ${p.features.join(", ")}.`
 ).join("\n");
 
 const SYSTEM_PROMPT = `Eres el asistente de ventas de ${BUSINESS.name}, una agencia en ${BUSINESS.serviceArea} que hace páginas web profesionales para pequeños negocios.

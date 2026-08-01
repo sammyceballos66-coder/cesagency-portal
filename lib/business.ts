@@ -52,7 +52,10 @@ export const BUSINESS = {
   founders: ["Samuel Ceballos", "Emmanuel Castañeda"],
   serviceArea: "Pereira y Dosquebradas",
   website: "https://cesagencia.co",
-  maintenanceIncludes: "dominio, hosting, actualizaciones y modificaciones",
+  maintenanceIncludes: "dominio, actualizaciones y modificaciones",
+  // Gancho comercial: el mantenimiento mensual arranca a cobrarse hasta el
+  // segundo mes — el primero después del pago inicial es gratis.
+  firstMonthFree: true,
   delivery: "lista en minutos una vez el cliente da la información de su negocio",
 };
 
