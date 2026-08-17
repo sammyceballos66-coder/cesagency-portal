@@ -52,9 +52,11 @@ function buildDigestMessage(leads: Lead[]): string {
   ].join("\n");
 }
 
-// Disparado por el cron job en vercel.json (ver ese archivo para el
-// horario). Protegido con CRON_SECRET para que no cualquiera pueda pedir el
-// resumen — Vercel manda ese header automáticamente en sus propios crons.
+// Disparado por el cron job en vercel.json, a las 4:00 UTC = 11:00 p.m. de
+// Colombia, para que alcance a cubrir la jornada completa del día (la
+// ventana la define startOfBogotaToday en lib/conversations.ts). Protegido
+// con CRON_SECRET para que no cualquiera pueda pedir el resumen — Vercel
+// manda ese header automáticamente en sus propios crons.
 export async function GET(request: Request) {
   const auth = request.headers.get("authorization");
   if (process.env.CRON_SECRET && auth !== `Bearer ${process.env.CRON_SECRET}`) {

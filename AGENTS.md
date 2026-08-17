@@ -48,9 +48,9 @@ lib/
   business.ts           ⚠️ fuente única de planes/precios (sitio + agente)
   supabase.ts           cliente server-side, llave secreta
   whatsapp-agent.ts     system prompt del agente de ventas
-  conversations.ts      historial de WhatsApp (Vercel Blob)
+  conversations.ts      historial de WhatsApp (Supabase)
   gsap.ts               registro de plugins + prefersReducedMotion()
-supabase/registrations.sql   esquema de la tabla de prospectos
+supabase/*.sql          esquemas: registrations, whatsapp_conversations
 ```
 
 ## Reglas del proyecto
@@ -83,14 +83,24 @@ son pruebas.
 
 ## Almacenamiento
 
-Mezcla intencional, no accidental:
+Todo en **Supabase** (`fadbwnnnhfzkefctyoco`), el proyecto compartido de
+toda la plataforma:
 
-- **Supabase** (`fadbwnnnhfzkefctyoco`) — proyecto compartido de toda la
-  plataforma. Tabla `registrations` (prospectos de este sitio) y el esquema
-  multi-tenant de las barberías (`businesses`, `barbers`, `bookings`,
-  `date_blocks`, separado por `business_id`).
-- **Vercel Blob** — solo el historial de conversaciones de WhatsApp
-  (`lib/conversations.ts`). Pendiente migrarlo a Supabase algún día.
+- `registrations` — prospectos del formulario de este sitio.
+- `whatsapp_conversations` — historial del agente de ventas, una fila por
+  número (`lib/conversations.ts`).
+- El esquema multi-tenant de las barberías (`businesses`, `barbers`,
+  `bookings`, `date_blocks`, separado por `business_id`) vive en el mismo
+  proyecto pero se administra desde `quality-barber-shop-web`.
+
+Vercel Blob **ya no se usa**: el historial de WhatsApp vivía ahí como un
+único JSON y se migró a Supabase. Si algún día vuelve a hacer falta
+almacenamiento de archivos, es una decisión nueva, no un regreso a esto.
+
+El resumen diario de leads (`/api/whatsapp/digest`) define "hoy" en hora de
+Colombia (UTC-5 fijo, sin horario de verano), no en UTC — comparar contra el
+día UTC dejaba por fuera casi toda la jornada. El cron corre a las 4:00 UTC
+= 11:00 p.m. de Colombia para alcanzar a cubrir el día completo.
 
 ## Integraciones
 

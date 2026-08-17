@@ -1,10 +1,12 @@
-import { BlobPreconditionFailedError, get, put } from "@vercel/blob";
+import { supabase } from "./supabase";
 import type { ConversationMessage } from "./whatsapp-agent";
 
-// Historial de conversaciones de WhatsApp, guardado como un único JSON en
-// Vercel Blob — mismo patrón simple usado para las reservas de la barbería.
-// El `ifMatch` evita que dos mensajes que lleguen casi al tiempo se
-// sobreescriban entre sí.
+// Historial de conversaciones de WhatsApp en la tabla
+// `whatsapp_conversations` de Supabase (ver supabase/whatsapp-conversations.sql).
+// Antes era un único JSON en Vercel Blob que cada turno reescribía entero
+// para *todos* los leads, con un reintento por `ifMatch` para que dos
+// mensajes simultáneos no se pisaran. Con una fila por número ese problema
+// desaparece: cada lead se guarda por su lado.
 
 export type Lead = {
   phone: string;
@@ -14,28 +16,42 @@ export type Lead = {
   updatedAt: string; // ISO
 };
 
-const CONVERSATIONS_PATHNAME = "whatsapp-conversations.json";
-const blobToken = process.env.BLOB_READ_WRITE_TOKEN;
+type LeadRow = {
+  phone: string;
+  messages: ConversationMessage[] | null;
+  wants_human: boolean;
+  lead_summary: string | null;
+  updated_at: string;
+};
 
-async function readConversations(): Promise<{ leads: Lead[]; etag?: string }> {
-  try {
-    const result = await get(CONVERSATIONS_PATHNAME, {
-      access: "private",
-      useCache: false,
-      token: blobToken,
-    });
-    if (!result) return { leads: [] };
-    const text = await new Response(result.stream).text();
-    const leads = text ? (JSON.parse(text) as Lead[]) : [];
-    return { leads, etag: result.blob.etag };
-  } catch {
-    return { leads: [] };
-  }
+const TABLE = "whatsapp_conversations";
+
+function toLead(row: LeadRow): Lead {
+  return {
+    phone: row.phone,
+    messages: row.messages ?? [],
+    wantsHuman: row.wants_human,
+    leadSummary: row.lead_summary ?? undefined,
+    updatedAt: row.updated_at,
+  };
 }
 
 export async function getConversation(phone: string): Promise<ConversationMessage[]> {
-  const { leads } = await readConversations();
-  return leads.find((l) => l.phone === phone)?.messages ?? [];
+  const { data, error } = await supabase
+    .from(TABLE)
+    .select("messages")
+    .eq("phone", phone)
+    .maybeSingle();
+
+  // Igual que la versión de Blob: si la lectura falla, el agente responde
+  // sin contexto en vez de dejar al cliente sin respuesta. Se registra para
+  // que quede visible en los logs de Vercel.
+  if (error) {
+    console.error(`No se pudo leer la conversación de ${phone}:`, error.message);
+    return [];
+  }
+
+  return (data?.messages as ConversationMessage[] | null) ?? [];
 }
 
 export async function saveTurn(
@@ -44,41 +60,57 @@ export async function saveTurn(
   wantsHuman: boolean,
   leadSummary?: string,
 ): Promise<void> {
-  for (let attempt = 0; attempt < 3; attempt++) {
-    const { leads, etag } = await readConversations();
-    const existing = leads.find((l) => l.phone === phone);
-    const updated: Lead = {
+  // El upsert reemplaza la fila entera, así que hay que traer lo que ya
+  // había: una vez calificado, el lead se queda calificado aunque el
+  // siguiente turno no lo vuelva a marcar.
+  const { data: existing } = await supabase
+    .from(TABLE)
+    .select("wants_human, lead_summary")
+    .eq("phone", phone)
+    .maybeSingle();
+
+  const { error } = await supabase.from(TABLE).upsert(
+    {
       phone,
       messages,
-      // Una vez calificado, se queda calificado el resto del día aunque el
-      // siguiente turno no lo vuelva a marcar.
-      wantsHuman: wantsHuman || existing?.wantsHuman || false,
-      leadSummary: leadSummary ?? existing?.leadSummary,
-      updatedAt: new Date().toISOString(),
-    };
-    const next = existing
-      ? leads.map((l) => (l.phone === phone ? updated : l))
-      : [...leads, updated];
+      wants_human: wantsHuman || existing?.wants_human || false,
+      lead_summary: leadSummary ?? existing?.lead_summary ?? null,
+      updated_at: new Date().toISOString(),
+    },
+    { onConflict: "phone" },
+  );
 
-    try {
-      await put(CONVERSATIONS_PATHNAME, JSON.stringify(next), {
-        access: "private",
-        addRandomSuffix: false,
-        allowOverwrite: true,
-        contentType: "application/json",
-        ifMatch: etag,
-        token: blobToken,
-      });
-      return;
-    } catch (err) {
-      if (err instanceof BlobPreconditionFailedError) continue;
-      throw err;
-    }
+  if (error) {
+    throw new Error(`No se pudo guardar la conversación de ${phone}: ${error.message}`);
   }
 }
 
+// Colombia no tiene horario de verano, así que el desfase es fijo y no hace
+// falta una librería de zonas horarias.
+const BOGOTA_OFFSET_MS = 5 * 60 * 60 * 1000;
+
+// Medianoche de hoy en Colombia, en UTC. El resumen es "del día" para
+// Samuel y Emmanuel, no para el reloj del servidor: comparar contra el día
+// UTC dejaba por fuera casi toda la jornada colombiana.
+function startOfBogotaToday(): string {
+  const nowInBogota = new Date(Date.now() - BOGOTA_OFFSET_MS);
+  const dayKey = nowInBogota.toISOString().slice(0, 10);
+  return new Date(`${dayKey}T00:00:00.000-05:00`).toISOString();
+}
+
 export async function getTodaysQualifiedLeads(): Promise<Lead[]> {
-  const { leads } = await readConversations();
-  const todayKey = new Date().toISOString().slice(0, 10);
-  return leads.filter((l) => l.wantsHuman && l.updatedAt.slice(0, 10) === todayKey);
+  const { data, error } = await supabase
+    .from(TABLE)
+    .select("phone, messages, wants_human, lead_summary, updated_at")
+    .eq("wants_human", true)
+    .gte("updated_at", startOfBogotaToday())
+    .order("updated_at", { ascending: true });
+
+  // A diferencia de getConversation, aquí sí conviene fallar duro: un
+  // resumen vacío por un error de lectura se ve idéntico a un día sin leads.
+  if (error) {
+    throw new Error(`No se pudieron leer los leads del día: ${error.message}`);
+  }
+
+  return (data as LeadRow[]).map(toLead);
 }
