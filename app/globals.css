@@ -285,3 +285,59 @@ h3,
     opacity: 1;
   }
 }
+
+/* Texto corrido de /terminos y /privacidad. Se define aquí y no con
+   utilidades sueltas en cada página para que las dos se lean igual y el
+   contenido legal quede como prosa plana, sin decoración. */
+.legal-prose {
+  color: var(--ink-muted);
+  font-size: 15px;
+  line-height: 1.75;
+}
+.legal-prose h2 {
+  margin: 2.5rem 0 0.85rem;
+  color: var(--ink);
+  font-size: 1.2rem;
+  font-weight: 600;
+  letter-spacing: -0.01em;
+  line-height: 1.3;
+  text-wrap: balance;
+}
+.legal-prose h2:first-child { margin-top: 0; }
+.legal-prose h3 {
+  margin: 1.75rem 0 0.5rem;
+  color: var(--ink);
+  font-size: 1rem;
+  font-weight: 600;
+}
+.legal-prose p { margin: 0 0 1rem; }
+.legal-prose ul {
+  margin: 0 0 1rem;
+  padding: 0;
+  list-style: none;
+  display: flex;
+  flex-direction: column;
+  gap: 0.5rem;
+}
+.legal-prose li { position: relative; padding-left: 1.15rem; }
+.legal-prose li::before {
+  content: "";
+  position: absolute;
+  left: 0;
+  top: 0.68em;
+  width: 5px;
+  height: 5px;
+  border-radius: 50%;
+  background: var(--blue);
+}
+.legal-prose strong { color: var(--ink); font-weight: 600; }
+.legal-prose a { color: var(--blue-bright); text-decoration: underline; }
+.legal-prose a:hover { text-decoration: none; }
+.legal-prose .callout {
+  margin: 1.5rem 0;
+  padding: 1.1rem 1.25rem;
+  background: var(--panel);
+  border: 1px solid var(--line);
+  border-radius: var(--radius);
+}
+.legal-prose .callout p:last-child { margin-bottom: 0; }

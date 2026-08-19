@@ -1,4 +1,5 @@
 import Image from "next/image";
+import Link from "next/link";
 
 export function Footer() {
   return (
@@ -15,6 +16,14 @@ export function Footer() {
           />
           cesagencia.co
         </span>
+        <nav className="flex items-center gap-5">
+          <Link href="/terminos" className="hover:text-blue-bright transition-colors">
+            Términos de servicio
+          </Link>
+          <Link href="/privacidad" className="hover:text-blue-bright transition-colors">
+            Privacidad
+          </Link>
+        </nav>
       </div>
     </footer>
   );
