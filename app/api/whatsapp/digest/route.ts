@@ -8,7 +8,16 @@ async function sendWhatsAppMessage(to: string, message: string) {
   const token = process.env.TWILIO_AUTH_TOKEN;
   const from = process.env.TWILIO_WHATSAPP_FROM;
   if (!sid || !token || !from) {
-    return { sent: false, reason: "Credenciales de Twilio no configuradas" };
+    // Nombrar la variable ausente: el resumen sale de un cron, donde nadie ve
+    // el valor devuelto, y un motivo genérico deja el fallo invisible.
+    const faltan = [
+      !sid && "TWILIO_ACCOUNT_SID",
+      !token && "TWILIO_AUTH_TOKEN",
+      !from && "TWILIO_WHATSAPP_FROM",
+    ].filter(Boolean).join(", ");
+    const reason = `Credenciales de Twilio incompletas: falta ${faltan}`;
+    console.error(`[digest] ${reason}`);
+    return { sent: false, reason };
   }
 
   const auth = Buffer.from(`${sid}:${token}`).toString("base64");
@@ -28,7 +37,26 @@ async function sendWhatsAppMessage(to: string, message: string) {
     },
   );
 
-  if (!res.ok) return { sent: false, reason: `Twilio respondió ${res.status}` };
+  if (!res.ok) {
+    // Twilio explica la causa real en el cuerpo (número fuera de la ventana de
+    // 24h, credenciales inválidas, etc.); quedarse con el status la pierde.
+    const detalle = await res.text().catch(() => "");
+    const reason = `Twilio respondió ${res.status}: ${detalle.slice(0, 300)}`;
+    console.error(`[digest] envío fallido a ...${to.slice(-4)} — ${reason}`);
+    return { sent: false, reason };
+  }
+
+  // Que Twilio acepte no significa que llegue: guardar el SID permite ir a
+  // buscar ese mensaje en la consola, y la cuenta responde de una la pregunta
+  // de "¿por cuál de las dos cuentas salió?".
+  try {
+    const b = await res.clone().json();
+    console.log(
+      `[digest] aceptado — sid=${b.sid} status=${b.status} from=${b.from} cuenta=${String(b.account_sid).slice(0, 10)}…`
+    );
+  } catch {
+    // El log es un extra; el envío ya se hizo.
+  }
   return { sent: true };
 }
 
@@ -72,6 +100,9 @@ export async function GET(request: Request) {
     .filter(Boolean);
 
   const results = await Promise.all(recipients.map((to) => sendWhatsAppMessage(to, message)));
+  console.log(
+    `[digest] ${leads.length} lead(s) del día · ${results.filter((r) => r.sent).length}/${recipients.length} avisos enviados`
+  );
 
   return Response.json({ ok: true, leadCount: leads.length, recipients: recipients.length, results });
 }
