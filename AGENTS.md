@@ -78,10 +78,13 @@ WebKit móvil (hueco blanco enorme arriba del panel cuando la barra del
 navegador está visible). Ver `components/sections/SignUp.tsx`.
 
 **Sitios de clientes**: viven en subcarpetas (`quality-barber-shop-web/`,
-`aicontador-web/`, `renault-pereira-web/`), están en `.gitignore` y cada uno
-tiene **su propio repo y proyecto de Vercel**. No los toques desde aquí.
-Solo `quality-barber-shop-web` es cliente real en producción; los otros dos
-son pruebas.
+`aicontador-web/`, `renault-pereira-web/`) y están en el `.gitignore` de este
+repo. Cada uno tiene **su propio repo de GitHub**. No los toques desde aquí.
+
+Solo `quality-barber-shop-web` es cliente real en producción, y es el único
+con proyecto de Vercel: los otros dos son pruebas que existen en GitHub pero
+no están desplegadas. Sus repos se crearon el 19 de agosto de 2026 —antes
+vivían únicamente en el disco de Samuel, sin respaldo en ningún lado.
 
 ## Almacenamiento
 
