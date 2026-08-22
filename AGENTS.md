@@ -32,6 +32,8 @@ mensualidad cubre dominio, actualizaciones y modificaciones — **no digas
 ```
 app/
   page.tsx              Hero → Plans → SignUp (+ Header, Footer)
+  terminos/             términos de servicio (pública, enlazada en el footer)
+  privacidad/           política de privacidad (pública, enlazada en el footer)
   layout.tsx            fuentes (Space Grotesk display + Inter body)
   globals.css           tokens de color en :root, clases .field/.tilt/.bubble
   api/
@@ -101,6 +103,28 @@ El resumen diario de leads (`/api/whatsapp/digest`) define "hoy" en hora de
 Colombia (UTC-5 fijo, sin horario de verano), no en UTC — comparar contra el
 día UTC dejaba por fuera casi toda la jornada. El cron corre a las 4:00 UTC
 = 11:00 p.m. de Colombia para alcanzar a cubrir el día completo.
+
+## Páginas legales
+
+`/terminos` y `/privacidad` son estáticas y públicas. Existen porque TikTok
+las exige para conectar su API —ya bloqueó a CES por no tenerlas— y porque
+las pedirán Meta y cualquier pasarela de pago.
+
+No son plantilla: dicen lo que el código hace de verdad. Los planes y precios
+de los términos salen de `lib/business.ts`, así que no se desincronizan. La
+política nombra los seis terceros que tocan datos —Supabase, Vercel, Google,
+Twilio, Anthropic, y Meta/TikTok— y admite dos cosas en vez de esconderlas:
+que CES todavía no está constituida como sociedad, y que en las reservas de
+los clientes de nuestros clientes CES es **encargado**, no responsable.
+
+**Falta todavía**, y hay que hacerlo antes de que la barbería reciba citas
+reales: la casilla de autorización en los dos formularios (reservas y
+registro), y una política propia para la barbería en su dominio. El aviso
+tiene que estar donde se recogen los datos — quien reserva en
+`qualitybarbershop.cesagencia.co` nunca pasa por cesagencia.co.
+
+El registro en el RNBD de la SIC **no aplica**: obliga solo a sociedades y
+entidades sin ánimo de lucro con activos sobre 100.000 UVT.
 
 ## Integraciones
 
