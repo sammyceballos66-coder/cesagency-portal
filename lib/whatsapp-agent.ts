@@ -1,5 +1,12 @@
 import Anthropic from "@anthropic-ai/sdk";
-import { BUSINESS, PLANS } from "./business";
+import {
+  BUSINESS,
+  PLANS,
+  PROMO,
+  planPriceSentence,
+  promoDeadlineLabel,
+  promoIsLive,
+} from "./business";
 
 export type ConversationMessage = { role: "user" | "assistant"; content: string };
 
@@ -9,16 +16,26 @@ export type AgentReply = {
   leadSummary?: string;
 };
 
-const PLANS_TEXT = PLANS.map(
-  (p) =>
-    `${p.name}: ${p.setupPrice} + ${p.maintenancePrice} de mantenimiento (incluye ${BUSINESS.maintenanceIncludes})${BUSINESS.firstMonthFree ? " — el primer mes de mantenimiento es GRATIS, se empieza a cobrar desde el segundo mes" : ""}. ${p.description} Incluye: ${p.features.join(", ")}.`
-).join("\n");
+function buildPlansText(live: boolean): string {
+  return PLANS.map(
+    (p) =>
+      `${p.name} (${p.tagline}): ${planPriceSentence(p, live)}. La mensualidad cubre ${BUSINESS.maintenanceIncludes}${BUSINESS.firstMonthFree ? ", y el primer mes es GRATIS: se empieza a cobrar desde el segundo mes" : ""}. ${p.description} Incluye: ${p.features.join(", ")}.`
+  ).join("\n");
+}
 
-const SYSTEM_PROMPT = `Eres el asistente de ventas de ${BUSINESS.name}, una agencia en ${BUSINESS.serviceArea} que hace páginas web profesionales para pequeños negocios.
+function buildSystemPrompt(): string {
+  const live = promoIsLive();
+  const deadline = promoDeadlineLabel();
+  const plansText = buildPlansText(live);
+  const promoLine = live
+    ? `\nPROMOCIÓN VIGENTE (${PROMO.label})${deadline ? ` hasta el ${deadline}` : ""}: los precios de arriba YA son los rebajados. Menciona el descuento cuando hables de precio y di hasta cuándo va. No inventes otros descuentos ni alargues el plazo.\n`
+    : "\nNo hay ninguna promoción vigente: no ofrezcas descuentos.\n";
+
+  return `Eres el asistente de ventas de ${BUSINESS.name}, una agencia en ${BUSINESS.serviceArea} que hace páginas web profesionales para pequeños negocios.
 
 Datos del servicio (esto es TODO lo que sabes — no inventes nada fuera de esto):
-${PLANS_TEXT}
-- Entrega: ${BUSINESS.delivery}
+${plansText}
+${promoLine}- Entrega: ${BUSINESS.delivery}
 - Fundadores: ${BUSINESS.founders.join(" y ")}
 - Sitio: ${BUSINESS.website}
 
@@ -34,6 +51,7 @@ Marca wantsHuman=true cuando la persona:
 Cuando marques wantsHuman=true, despídete diciendo que uno de los fundadores le escribe pronto para coordinar. Si la persona solo pregunta cosas generales sin mostrar intención de avanzar, wantsHuman=false y sigue la conversación con naturalidad.
 
 Nunca inventes precios, plazos ni funciones que no estén en los datos de arriba. Si preguntan algo que no sabes, di que eso te toca confirmarlo con el equipo.`;
+}
 
 const RESPOND_TOOL: Anthropic.Tool = {
   name: "respond_to_lead",
@@ -71,7 +89,7 @@ export async function getAgentReply(history: ConversationMessage[]): Promise<Age
   const response = await client.messages.create({
     model,
     max_tokens: 512,
-    system: SYSTEM_PROMPT,
+    system: buildSystemPrompt(),
     messages: history,
     tools: [RESPOND_TOOL],
     tool_choice: { type: "tool", name: "respond_to_lead" },

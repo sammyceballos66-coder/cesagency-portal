@@ -18,20 +18,46 @@ plataforma. CES es dueña del código y la infraestructura.
 
 Dos planes, definidos en `lib/business.ts`:
 
-| Plan | Pago único | Mensualidad |
-|---|---|---|
-| Esencial — sitio informativo | $250.000 COP | $150.000 COP/mes |
-| Reservas — sitio + motor de citas | $500.000 COP | $150.000 COP/mes |
+| Plan | Pago único | Mensualidad | En promoción |
+|---|---|---|---|
+| Esencial — página informativa | $300.000 COP | $200.000 COP/mes | $250.000 + $150.000/mes |
+| Reservas — página con citas automáticas | $500.000 COP | $300.000 COP/mes | $500.000 + $250.000/mes |
 
 El primer mes de mantenimiento es gratis (`BUSINESS.firstMonthFree`). La
 mensualidad cubre dominio, actualizaciones y modificaciones — **no digas
 "hosting"**, se quitó a propósito de todo el copy.
 
+Los precios se guardan como **números**, no como texto ya formateado. Antes
+eran strings (`"$250.000 COP (pago único)"`) que la tarjeta partía por
+espacios para sacar la cifra; eso no permitía mostrar el precio anterior
+tachado y se rompía con solo cambiar la redacción. Para pintarlos:
+`formatCOP()` y `pricingFor(plan, live)`.
+
+### Promociones
+
+`PROMO` en `lib/business.ts` enciende y apaga el descuento. `endsOn` es el
+último día en que aplica (hora de Colombia) y **la promo se cae sola** cuando
+pasa: por eso `app/page.tsx` tiene `revalidate = 3600`, para que la portada
+estática se regenere y el descuento no quede anunciado para siempre.
+
+Que caduque no es un capricho técnico. Un "descuento limitado" que nunca
+termina deja de ser un descuento, y el Estatuto del Consumidor (Ley 1480 de
+2011) exige que el precio tachado sea uno que de verdad se haya cobrado. Si
+la promo va a estar siempre encendida, lo honesto es bajar el precio de lista
+y no tachar nada.
+
+`promoIsLive()` se evalúa **una sola vez en el servidor** y se pasa como prop
+a las secciones. Si cada componente de cliente mirara el reloj por su cuenta,
+el HTML del servidor y el del navegador podrían no coincidir justo en el
+minuto del vencimiento. El agente de WhatsApp arma su prompt por petición
+(`buildSystemPrompt()`) por la misma razón: si fuera una constante de módulo,
+una función serverless tibia seguiría ofreciendo el descuento ya vencido.
+
 ## Estructura
 
 ```
 app/
-  page.tsx              Hero → Plans → SignUp (+ Header, Footer)
+  page.tsx              Hero → Showcase → Plans → SignUp (+ Header, Footer)
   terminos/             términos de servicio (pública, enlazada en el footer)
   privacidad/           política de privacidad (pública, enlazada en el footer)
   layout.tsx            fuentes (Space Grotesk display + Inter body)
@@ -42,9 +68,9 @@ app/
     whatsapp/digest/    cron diario 1am UTC → resumen de leads a los fundadores
 components/
   Header.tsx            nav sticky, logo, CTA a #registro
+  PromoBar.tsx          franja de promoción, encima del header
   SmoothScroll.tsx      Lenis + sync con ScrollTrigger de GSAP
-  sections/             Hero, Plans, SignUp, Footer
-  ui/background-gradient-animation.tsx   fondo animado (Aceternity)
+  sections/             Hero, Showcase, Plans, SignUp, Footer
 hooks/useTilt.ts        efecto tilt 3D en tarjetas
 lib/
   business.ts           ⚠️ fuente única de planes/precios (sitio + agente)
@@ -85,6 +111,43 @@ Solo `quality-barber-shop-web` es cliente real en producción, y es el único
 con proyecto de Vercel: los otros dos son pruebas que existen en GitHub pero
 no están desplegadas. Sus repos se crearon el 19 de agosto de 2026 —antes
 vivían únicamente en el disco de Samuel, sin respaldo en ningún lado.
+
+## Diseño
+
+El sitio se rediseñó el 10 de septiembre de 2026 porque se veía genérico.
+Lo que lo hacía verse así, y lo que se hizo:
+
+- **Los blobs animados de Aceternity se eliminaron** (el componente ya no
+  existe). Esos manchones azules desenfocados son la firma visual de media
+  web hecha con plantilla. El fondo ahora es CSS puro en `.field`: un
+  resplandor fijo, una **retícula fina** y un grano muy leve. La retícula es
+  lo que da el aire de "hecho a propósito" en vez de "degradado bonito".
+- **El texto con degradado del titular se quitó**, que es la otra señal
+  típica. En su lugar va tinta sólida con un **subrayado dorado** (`.marker`)
+  detrás de las palabras clave.
+- **Se dejó de meter todo en tarjetas blancas.** El fondo pasó de un
+  periwinkle saturado a casi blanco, y con eso el texto puede ir sobre la
+  página; las tarjetas quedan solo para lo que de verdad es una tarjeta.
+- **El dorado es el segundo color de la marca**, no un adorno: marca la
+  promoción, el plan destacado y el subrayado. Sale del mismo par
+  negro+dorado del sitio de Quality Barber Shop.
+- **Hay una banda oscura** (la sección `Showcase`) para que la página cambie
+  de valor en algún punto en vez de ser clara de arriba abajo.
+
+`.drift` es lo único del fondo que se mueve, y se anima con `transform` para
+que lo resuelva la GPU. Se apaga entero con `prefers-reduced-motion`.
+
+### La captura de Quality Barber Shop
+
+`public/trabajo-quality-barber-shop.webp` es una **foto del sitio del cliente
+tomada el 10 de septiembre de 2026**: hay que volver a tomarla cuando la
+barbería cambie su diseño, o la portada queda mostrando algo que ya no es.
+
+Se probó primero con un `<iframe>` del sitio en vivo, que tenía la ventaja de
+no quedar nunca desactualizado. Se descartó: ese sitio anima su fondo sin
+parar, y tenerlo corriendo dentro de la portada dejaba al visitante
+renderizando dos páginas a la vez — en celulares de gama media eso se nota, y
+este proyecto ya tiene historial de bugs que solo aparecen en móvil real.
 
 ## Almacenamiento
 

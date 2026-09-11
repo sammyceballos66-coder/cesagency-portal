@@ -36,7 +36,7 @@ export function Header() {
         </div>
         <a
           href="#registro"
-          className="inline-flex items-center gap-2 rounded-full px-5 py-[11px] text-sm font-semibold whitespace-nowrap transition-all duration-300 ease-out bg-gradient-to-br from-blue-bright to-blue text-white hover:brightness-110 hover:-translate-y-1.5 hover:shadow-[0_10px_24px_-6px_rgba(29,79,216,0.5)]"
+          className="btn-primary whitespace-nowrap"
         >
           Regístrate
         </a>

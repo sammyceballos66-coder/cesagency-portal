@@ -1,6 +1,6 @@
 import type { Metadata } from "next";
 import { LegalPage } from "@/components/LegalPage";
-import { BUSINESS, PLANS } from "@/lib/business";
+import { BUSINESS, PLANS, formatCOP } from "@/lib/business";
 
 export const metadata: Metadata = {
   title: "Términos de servicio — CES Agencia",
@@ -12,7 +12,7 @@ const CONTACTO = "cesagency2026@gmail.com";
 
 export default function Terminos() {
   return (
-    <LegalPage title="Términos de servicio" updated="19 de agosto de 2026">
+    <LegalPage title="Términos de servicio" updated="10 de septiembre de 2026">
       <p>
         Estas condiciones aplican a quien contrata a {BUSINESS.name} para crear
         y mantener su página web. Están escritas en lenguaje corriente a
@@ -32,8 +32,9 @@ export default function Terminos() {
       <ul>
         {PLANS.map((plan) => (
           <li key={plan.id}>
-            <strong>{plan.name}</strong> — {plan.setupPrice} más{" "}
-            {plan.maintenancePrice}. {plan.description}
+            <strong>{plan.name}</strong> ({plan.tagline}) —{" "}
+            {formatCOP(plan.setup)} COP de pago único más {formatCOP(plan.monthly)}{" "}
+            COP al mes. {plan.description}
           </li>
         ))}
       </ul>
@@ -43,6 +44,14 @@ export default function Terminos() {
         {BUSINESS.firstMonthFree
           ? " El primer mes de mantenimiento no se cobra: la mensualidad empieza a correr desde el segundo."
           : ""}
+      </p>
+      <p>
+        Esos son los precios de lista. Cada cierto tiempo publicamos{" "}
+        <strong>promociones por tiempo limitado</strong>, con su fecha de fin a
+        la vista en la página de planes. El precio que rige tu contrato es el
+        que esté publicado el día en que contratas: si entraste con precio de
+        promoción, ese precio se te respeta después, aunque la promoción ya
+        haya terminado.
       </p>
 
       <h2>Dominio y propiedad: léelo con atención</h2>

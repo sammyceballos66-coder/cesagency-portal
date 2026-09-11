@@ -4,63 +4,86 @@ import { useRef } from "react";
 import { gsap, useGSAP, prefersReducedMotion } from "@/lib/gsap";
 import { whatsAppLink } from "@/lib/business";
 
+// Tres datos concretos en vez de adjetivos. Lo específico es lo que hace que
+// una página no se lea como plantilla: "lista en minutos" y "el mismo motor
+// que corre en Quality Barber Shop" son verificables; "calidad premium" no.
+const PROOF = [
+  {
+    title: "Lista en minutos",
+    detail: "Apenas nos pasas los datos de tu negocio, la página queda en línea.",
+  },
+  {
+    title: "Motor de citas propio",
+    detail: "El mismo que ya atiende las reservas de Quality Barber Shop.",
+  },
+  {
+    title: "Sin dominio que comprar",
+    detail: "Tu página vive en cesagencia.co y nosotros nos encargamos de todo.",
+  },
+];
+
 export function Hero() {
-  const scope = useRef<HTMLDivElement>(null);
+  const scope = useRef<HTMLElement>(null);
 
   useGSAP(
     () => {
       if (prefersReducedMotion()) return;
 
-      gsap.from([".hero-badge", ".hero-line", ".hero-copy", ".hero-actions"], {
-        opacity: 0,
-        y: 24,
-        duration: 0.7,
-        ease: "power3.out",
-        stagger: 0.1,
-      });
+      const tl = gsap.timeline({ defaults: { ease: "power3.out" } });
+
+      tl.from(".hero-badge", { opacity: 0, y: 16, duration: 0.5 })
+        .from(".hero-line", { opacity: 0, y: 28, duration: 0.75, stagger: 0.09 }, "-=0.25")
+        // El subrayado dorado se pinta de izquierda a derecha después de que
+        // la línea ya está en su sitio, como si alguien pasara el marcador.
+        .from(".marker", { backgroundSize: "0% 100%", duration: 0.55, ease: "power2.inOut" }, "-=0.15")
+        .from(".hero-copy", { opacity: 0, y: 18, duration: 0.6 }, "-=0.5")
+        .from(".hero-actions", { opacity: 0, y: 18, duration: 0.6 }, "-=0.45")
+        .from(".hero-proof", { opacity: 0, y: 20, duration: 0.6, stagger: 0.1 }, "-=0.35");
     },
     { scope },
   );
 
   return (
-    <section className="relative z-1 py-[60px] md:py-[80px]">
-      <div
-        ref={scope}
-        className="bg-white/95 backdrop-blur-sm border border-line shadow-sm rounded-2xl p-6 md:p-10"
-      >
-        <div className="hero-badge inline-flex items-center gap-2 text-[12.5px] text-blue-bright font-semibold uppercase tracking-[0.06em] border border-line bg-white/90 px-3.5 py-1.5 rounded-full mb-[22px]">
-          <span className="w-1.5 h-1.5 rounded-full bg-blue-bright shadow-[0_0_8px_#6E93FF]" />
-          Diseño web · Pereira y Dosquebradas
-        </div>
-        <h1 className="text-[clamp(34px,5.2vw,58px)] leading-[1.05] font-bold mb-[22px]">
-          <span className="hero-line hero-gradient-text block">
-            Tu negocio merece una página web
-          </span>
-          <span className="hero-line hero-gradient-text block">
-            profesional de verdad
-          </span>
-        </h1>
-        <p className="hero-copy text-lg text-ink-muted max-w-[640px] leading-[1.6] mb-8">
-          Diseñamos páginas web profesionales para pequeños negocios de
-          Pereira y Dosquebradas. Precio claro, lista en minutos.
-        </p>
-        <div className="hero-actions flex gap-3.5 flex-wrap">
-          <a
-            href="#planes"
-            className="inline-flex items-center gap-2 rounded-full px-5 py-[11px] text-sm font-semibold transition-all duration-300 ease-out bg-gradient-to-br from-blue-bright to-blue text-white hover:brightness-110 hover:-translate-y-1.5 hover:shadow-[0_10px_24px_-6px_rgba(29,79,216,0.5)]"
-          >
-            Ver los planes
-          </a>
-          <a
-            href={whatsAppLink("Hola, quiero cotizar mi página web")}
-            target="_blank"
-            rel="noopener noreferrer"
-            className="inline-flex items-center gap-2 rounded-full px-5 py-[11px] text-sm font-semibold border border-line text-ink transition-all duration-300 ease-out hover:border-blue hover:bg-blue/8 hover:-translate-y-1.5 hover:shadow-md"
-          >
-            Escríbenos por WhatsApp
-          </a>
-        </div>
+    <section ref={scope} className="relative z-1 pt-[64px] pb-[52px] md:pt-[96px] md:pb-[80px]">
+      <div className="hero-badge eyebrow mb-6">Diseño web · Pereira y Dosquebradas</div>
+
+      <h1 className="text-[clamp(38px,6.6vw,74px)] leading-[1.02] font-bold text-ink max-w-[16ch] mb-7">
+        <span className="hero-line block">Tu negocio merece</span>
+        <span className="hero-line block">una página web</span>
+        <span className="hero-line block">
+          <span className="marker">profesional de verdad</span>
+        </span>
+      </h1>
+
+      <p className="hero-copy text-[17px] md:text-[19px] text-ink-muted max-w-[54ch] leading-[1.65] mb-9">
+        Diseñamos páginas web para pequeños negocios de Pereira y Dosquebradas.
+        Precio claro, sin letra menuda, y lista en minutos.
+      </p>
+
+      <div className="hero-actions flex gap-3 flex-wrap mb-[62px] md:mb-[84px]">
+        <a href="#planes" className="btn-primary">
+          Ver los planes
+        </a>
+        <a
+          href={whatsAppLink("Hola, quiero cotizar mi página web")}
+          target="_blank"
+          rel="noopener noreferrer"
+          className="btn-ghost"
+        >
+          Escríbenos por WhatsApp
+        </a>
       </div>
+
+      {/* Franja de datos. Separadores con borde en vez de tarjetas: mantiene
+          la retícula del fondo visible y evita sumar otra caja blanca. */}
+      <dl className="grid grid-cols-1 sm:grid-cols-3 gap-px bg-line border-y border-line">
+        {PROOF.map((item) => (
+          <div key={item.title} className="hero-proof bg-void/70 backdrop-blur-[2px] px-1 py-6 sm:px-6">
+            <dt className="font-display font-bold text-[17px] text-ink mb-1.5">{item.title}</dt>
+            <dd className="text-[14px] text-ink-muted leading-[1.55]">{item.detail}</dd>
+          </div>
+        ))}
+      </dl>
     </section>
   );
 }

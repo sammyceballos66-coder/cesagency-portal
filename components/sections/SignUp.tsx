@@ -180,7 +180,7 @@ function RegisterModal({ onClose }: { onClose: () => void }) {
                   />
                   <span>
                     <span className="font-semibold">{p.name}</span>{" "}
-                    <span className="text-ink-muted">— {p.setupPrice}</span>
+                    <span className="text-ink-muted">— {p.tagline}</span>
                   </span>
                 </label>
               ))}
@@ -195,7 +195,7 @@ function RegisterModal({ onClose }: { onClose: () => void }) {
             <button
               type="submit"
               disabled={status === "sending"}
-              className="justify-center w-full inline-flex items-center gap-2 rounded-full px-5 py-[11px] text-sm font-semibold transition-all duration-300 ease-out bg-gradient-to-br from-blue-bright to-blue text-white hover:brightness-110 disabled:opacity-60"
+              className="btn-primary w-full disabled:opacity-60"
             >
               {status === "sending" ? "Enviando..." : "Regístrate"}
             </button>
@@ -211,9 +211,11 @@ export function SignUp() {
 
   return (
     <section id="registro" className="pt-[20px] pb-16 relative z-1">
-      <div className="text-center max-w-[560px] mx-auto border border-blue bg-gradient-to-b from-blue/10 to-panel-2 rounded-2xl p-6 md:p-10">
-        <h2 className="flex flex-wrap items-center justify-center gap-x-3 text-[clamp(32px,4.6vw,48px)] leading-[1.08] tracking-[-0.01em] mb-4 font-bold font-display">
-          <span className="hero-gradient-text">Únete a la comunidad</span>
+      <div className="text-center max-w-[620px] mx-auto border border-line bg-white rounded-2xl p-7 md:p-12 shadow-[0_24px_60px_-34px_rgba(11,16,32,0.5)]">
+        <h2 className="flex flex-wrap items-center justify-center gap-x-3 text-[clamp(30px,4.4vw,46px)] leading-[1.08] mb-4 font-bold font-display text-ink">
+          {/* Mismo subrayado dorado del titular del hero, en vez del texto con
+              degradado que se quitó de todo el sitio. */}
+          <span className="marker">Únete a la comunidad</span>
           <Image
             src="/logo.png"
             alt="CES"
@@ -229,7 +231,7 @@ export function SignUp() {
         <button
           type="button"
           onClick={() => setOpen(true)}
-          className="inline-flex items-center gap-2 rounded-full px-6 py-3 text-sm font-semibold transition-all duration-300 ease-out bg-gradient-to-br from-blue-bright to-blue text-white hover:brightness-110 hover:-translate-y-1.5 hover:shadow-[0_10px_24px_-6px_rgba(29,79,216,0.5)]"
+          className="btn-primary px-7 py-3.5"
         >
           Regístrate
         </button>

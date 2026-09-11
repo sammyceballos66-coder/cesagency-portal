@@ -1,7 +1,6 @@
 import Link from "next/link";
 import { Header } from "@/components/Header";
 import { Footer } from "@/components/sections/Footer";
-import { BackgroundGradientAnimation } from "@/components/ui/background-gradient-animation";
 
 // Caparazón compartido de /terminos y /privacidad. Repite el fondo y el
 // stacking de app/page.tsx a propósito: el z-index positivo en el contenido,
@@ -18,23 +17,9 @@ export function LegalPage({
 }) {
   return (
     <>
-      <div className="fixed inset-0">
-        <BackgroundGradientAnimation
-          gradientBackgroundStart="rgb(201, 217, 245)"
-          gradientBackgroundEnd="rgb(255, 255, 255)"
-          firstColor="61, 107, 255"
-          secondColor="143, 176, 255"
-          thirdColor="29, 79, 216"
-          fourthColor="61, 107, 255"
-          fifthColor="143, 176, 255"
-          pointerColor="29, 79, 216"
-          size="60%"
-          blendingValue="soft-light"
-          containerClassName="!h-full !w-full"
-        />
-      </div>
+      <div className="field" />
+      <div className="drift" />
       <div className="relative z-10">
-        <div className="field" />
         <Header />
         <main className="wrap max-w-[1180px] mx-auto px-7">
           <article className="max-w-[68ch] mx-auto py-14 sm:py-20">
