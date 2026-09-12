@@ -6,21 +6,24 @@ import { Showcase } from "@/components/sections/Showcase";
 import { Plans } from "@/components/sections/Plans";
 import { SignUp } from "@/components/sections/SignUp";
 import { Footer } from "@/components/sections/Footer";
-import { promoIsLive, promoDeadlineLabel } from "@/lib/business";
+import { promoParaLaPagina } from "@/lib/business";
 
-// La portada se regenera cada hora. Hace falta porque la promoción tiene
-// fecha de vencimiento: si la página quedara congelada en el momento del
-// build, el descuento seguiría anunciado para siempre aunque ya pasó el
-// plazo. Con esto la promo se cae sola, como mucho una hora tarde.
-export const revalidate = 3600;
+// La portada se regenera cada diez minutos. Hace falta porque las ventanas de
+// promoción abren y cierran solas: si la página quedara congelada en el momento
+// del build, el descuento seguiría anunciado después de vencido, y peor, una
+// ventana nueva no se encendería hasta que alguien redesplegara.
+//
+// Diez minutos y no una hora porque ABRIR tarde cuesta plata y cerrar tarde
+// cuesta credibilidad. Regenerar una página estática tan pequeña no tiene
+// ningún costo que justifique esperar más.
+export const revalidate = 600;
 
 export default function Home() {
-  // Se evalúa UNA vez, aquí en el servidor, y se les pasa a las secciones.
+  // Se resuelve UNA vez, aquí en el servidor, y se le pasa a las secciones.
   // Si cada componente de cliente mirara el reloj por su cuenta, el HTML del
-  // servidor y el del navegador podrían no coincidir justo en el minuto en
-  // que vence la promoción.
-  const promoLive = promoIsLive();
-  const promoDeadline = promoDeadlineLabel();
+  // servidor y el del navegador podrían no coincidir justo en el minuto en que
+  // abre o cierra una ventana.
+  const promo = promoParaLaPagina();
 
   return (
     <>
@@ -40,7 +43,7 @@ export default function Home() {
           visible underneath). Stacking everything else forward instead of
           pushing the background back sidesteps that. */}
       <div className="relative z-10">
-        {promoLive && <PromoBar deadline={promoDeadline} />}
+        {promo && <PromoBar promo={promo} />}
         <Header />
         <main>
           {/* El ancho lo controla cada bloque, no un contenedor único: la
@@ -53,7 +56,7 @@ export default function Home() {
           <Showcase />
 
           <div className="max-w-[1180px] mx-auto px-7">
-            <Plans promoLive={promoLive} promoDeadline={promoDeadline} />
+            <Plans promo={promo} />
             <SignUp />
           </div>
         </main>

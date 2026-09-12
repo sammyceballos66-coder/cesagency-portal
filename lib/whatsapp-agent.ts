@@ -2,10 +2,9 @@ import Anthropic from "@anthropic-ai/sdk";
 import {
   BUSINESS,
   PLANS,
-  PROMO,
+  fechaLarga,
   planPriceSentence,
-  promoDeadlineLabel,
-  promoIsLive,
+  promoVigente,
 } from "./business";
 
 export type ConversationMessage = { role: "user" | "assistant"; content: string };
@@ -24,12 +23,15 @@ function buildPlansText(live: boolean): string {
 }
 
 function buildSystemPrompt(): string {
-  const live = promoIsLive();
-  const deadline = promoDeadlineLabel();
+  // Se resuelve por petición, no al importar el módulo: si fuera una constante,
+  // una función serverless que siga tibia seguiría ofreciendo una promoción que
+  // ya venció, o se perdería una que acaba de abrir.
+  const ventana = promoVigente();
+  const live = ventana !== null;
   const plansText = buildPlansText(live);
-  const promoLine = live
-    ? `\nPROMOCIÓN VIGENTE (${PROMO.label})${deadline ? ` hasta el ${deadline}` : ""}: los precios de arriba YA son los rebajados. Menciona el descuento cuando hables de precio y di hasta cuándo va. No inventes otros descuentos ni alargues el plazo.\n`
-    : "\nNo hay ninguna promoción vigente: no ofrezcas descuentos.\n";
+  const promoLine = ventana
+    ? `\nPROMOCIÓN VIGENTE — "${ventana.label}", hasta el ${fechaLarga(ventana.hasta)}: los precios de arriba YA son los rebajados, y la promoción existe ${ventana.motivo}. Menciona el descuento cuando hables de precio y di hasta cuándo va. No inventes otros descuentos ni alargues el plazo.\n`
+    : "\nNo hay ninguna promoción vigente: no ofrezcas descuentos. Si te preguntan si habrá una promoción más adelante, di que no lo sabes y que el equipo avisa cuando haya. NUNCA prometas una fecha futura ni digas cuándo vuelve el descuento: eso le da al cliente una razón para no comprar hoy.\n";
 
   return `Eres el asistente de ventas de ${BUSINESS.name}, una agencia en ${BUSINESS.serviceArea} que hace páginas web profesionales para pequeños negocios.
 

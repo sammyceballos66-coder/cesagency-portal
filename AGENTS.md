@@ -35,23 +35,58 @@ tachado y se rompía con solo cambiar la redacción. Para pintarlos:
 
 ### Promociones
 
-`PROMO` en `lib/business.ts` enciende y apaga el descuento. `endsOn` es el
-último día en que aplica (hora de Colombia) y **la promo se cae sola** cuando
-pasa: por eso `app/page.tsx` tiene `revalidate = 3600`, para que la portada
-estática se regenere y el descuento no quede anunciado para siempre.
+Los descuentos viven en **ventanas** con fecha de inicio y fin, en
+`lib/business.ts`. Se prenden y se apagan solas; nadie tiene que acordarse.
 
-Que caduque no es un capricho técnico. Un "descuento limitado" que nunca
+- `VENTANAS_ANUALES` se repiten todos los años en las mismas fechas (`MM-DD`).
+  Hoy son tres: **Listo para diciembre** (20 oct – 8 nov), **Arranque de año**
+  (8 – 31 ene) y **Antes del Día de la Madre** (6 – 26 abr).
+- `VENTANAS_PUNTUALES` pasan una sola vez, con año explícito (`AAAA-MM-DD`).
+  Hoy solo está *Descuento por apertura*, del 10 sep al 8 nov de 2026.
+
+Las fechas salen del calendario **del cliente**, no del calendario general.
+Una barbería en diciembre está llena y sin tiempo para pensar en una página;
+el momento de venderle es el de *antes* del pico, no el del pico.
+
+**Precedencia: si una puntual y una anual se solapan, gana la puntual.** Es
+una regla escrita, no un efecto del orden de la lista. Sin ella, el 20 de
+octubre de 2026 el nombre de la promoción cambiaría solo a mitad de camino sin
+que cambiara ni un peso del precio.
+
+**Todas las ventanas dan el mismo descuento.** Los precios rebajados viven en
+cada plan (`promoSetup`/`promoMonthly`), no en la ventana. Si alguna necesita
+un descuento propio, hay que mover esos campos y cambiar la firma de
+`pricingFor`.
+
+Que caduquen no es un capricho técnico. Un "descuento limitado" que nunca
 termina deja de ser un descuento, y el Estatuto del Consumidor (Ley 1480 de
-2011) exige que el precio tachado sea uno que de verdad se haya cobrado. Si
-la promo va a estar siempre encendida, lo honesto es bajar el precio de lista
-y no tachar nada.
+2011) exige que el precio tachado sea uno que de verdad se haya cobrado. Entre
+ventana y ventana el sitio cobra el precio de lista **de verdad**, y eso es lo
+que lo hace cierto. Por eso son pocas y cortas.
 
-`promoIsLive()` se evalúa **una sola vez en el servidor** y se pasa como prop
-a las secciones. Si cada componente de cliente mirara el reloj por su cuenta,
-el HTML del servidor y el del navegador podrían no coincidir justo en el
-minuto del vencimiento. El agente de WhatsApp arma su prompt por petición
-(`buildSystemPrompt()`) por la misma razón: si fuera una constante de módulo,
-una función serverless tibia seguiría ofreciendo el descuento ya vencido.
+`promoVigente()` es la **única** función que mira el reloj, y devuelve la
+ventana activa o `null`. Antes eran dos (`promoIsLive` + `promoDeadlineLabel`)
+y con varias ventanas eso es una carrera: a las 23:59:59 del último día la
+primera podía decir que sí y la segunda devolver la fecha de otra ventana.
+
+`app/page.tsx` la resuelve **una sola vez en el servidor** y baja el resultado
+como prop. `PromoBar` y `Plans` **no importan las ventanas** — si volvieran a
+leer una constante global, mostrarían el nombre de una promoción y la fecha de
+otra. El agente de WhatsApp la resuelve por petición dentro de
+`buildSystemPrompt()`: como constante de módulo, una función serverless tibia
+seguiría ofreciendo un descuento vencido o se perdería uno recién abierto.
+
+Cuando **no** hay ventana viva, el agente tiene prohibido decir cuándo vuelve
+el descuento. Es una decisión comercial, no técnica: anunciarle a alguien que
+en enero hay promoción le da una razón para no comprar hoy.
+
+`revalidate = 600` en la portada (diez minutos, no una hora): ahora el ciclo
+también tiene que **encender** ventanas, y abrir tarde cuesta plata mientras
+que cerrar tarde cuesta credibilidad.
+
+Un error de dedo en una fecha **revienta el build**, no la página: la
+validación corre al importar el módulo, así que Vercel cancela el despliegue y
+el sitio en línea se queda como estaba.
 
 ## Estructura
 

@@ -68,24 +68,90 @@ export const PLANS: Plan[] = [
 ];
 
 // ---------------------------------------------------------------------------
-// Promoción por tiempo limitado
+// Promociones por tiempo limitado
 // ---------------------------------------------------------------------------
-// Para encenderla o apagarla se cambia `active`. `endsOn` es el último día en
-// que aplica (hora de Colombia): pasado ese día la promo se cae sola, sin que
-// haya que acordarse de venir a apagarla.
+// Los descuentos viven en ventanas con fecha de inicio y de fin. Se prenden y
+// se apagan solos; nadie tiene que acordarse de nada.
 //
-// Que se caiga sola no es un detalle técnico: un "descuento limitado" que
+// Que se apaguen solos no es un detalle técnico. Un "descuento limitado" que
 // nunca se acaba deja de ser un descuento, y el Estatuto del Consumidor
-// (Ley 1480 de 2011) exige que el precio tachado sea uno que de verdad se
-// haya cobrado. Si la promo va a estar siempre encendida, el precio de lista
-// es mentira y toca bajar los números de arriba en vez de tachar.
+// (Ley 1480 de 2011) exige que el precio tachado sea uno que de verdad se haya
+// cobrado. Entre una ventana y la siguiente el sitio cobra el precio de lista
+// de verdad, y eso es justamente lo que hace cierto el precio tachado. Por eso
+// las ventanas son pocas y cortas: si cubrieran casi todo el año, el precio de
+// lista sería mentira y lo honesto sería bajarlo en vez de tacharlo.
+//
+// Hay dos clases de ventana:
+//
+//   VENTANAS_ANUALES    se repiten todos los años en las mismas fechas (MM-DD).
+//   VENTANAS_PUNTUALES  pasan una sola vez, con año explícito (AAAA-MM-DD).
+//
+// PRECEDENCIA: si una puntual y una anual se solapan, gana la puntual. Es una
+// regla escrita, no un efecto del orden de la lista: la puntual es la excepción
+// que alguien puso a mano, así que manda sobre el calendario de siempre. Sin
+// esta regla, el 20 de octubre de 2026 el nombre de la promoción cambiaría solo
+// a mitad de camino sin que cambiara ni un peso del precio, y quien volviera al
+// sitio vería dos promociones distintas con las mismas cifras.
+//
+// TODAS LAS VENTANAS DAN EL MISMO DESCUENTO. Los precios rebajados viven en
+// cada plan (`promoSetup` / `promoMonthly`), no en la ventana. Si algún día una
+// ventana necesita un descuento distinto al de las otras, hay que mover esos
+// dos campos a la ventana y cambiar la firma de `pricingFor`.
 
-export const PROMO = {
-  active: true,
-  label: "Descuento por apertura",
-  /** Último día en que aplica, en formato AAAA-MM-DD. `null` = sin fecha de fin. */
-  endsOn: "2026-09-30" as string | null,
+export type Ventana = {
+  id: string;
+  /** El nombre que ve el cliente en la franja de arriba y en la sección de planes. */
+  label: string;
+  /** Por qué existe. Se le pasa al agente de WhatsApp para que sepa qué decir. */
+  motivo: string;
+  /** Primer día en que aplica, inclusive. */
+  desde: string;
+  /** Último día en que aplica, inclusive. */
+  hasta: string;
 };
+
+// Las fechas salen del calendario del CLIENTE, no del calendario general. Una
+// barbería en diciembre está llena y sin tiempo para pensar en una página web;
+// el momento de venderle es el de ANTES del pico, no el del pico.
+export const VENTANAS_ANUALES: Ventana[] = [
+  {
+    id: "antes-de-diciembre",
+    label: "Listo para diciembre",
+    motivo:
+      "para que la página quede lista antes de diciembre, que es el mes de más clientes para barberías y peluquerías",
+    desde: "10-20",
+    hasta: "11-08",
+  },
+  {
+    id: "arranque-de-ano",
+    label: "Arranque de año",
+    motivo:
+      "en enero los negocios vienen de su mejor mes y vuelven a tener tiempo para pensar en mejorar",
+    desde: "01-08",
+    hasta: "01-31",
+  },
+  {
+    id: "antes-del-dia-de-la-madre",
+    label: "Antes del Día de la Madre",
+    motivo:
+      "para llegar con la página lista al Día de la Madre, que es pico fuerte en peluquerías y spas",
+    desde: "04-06",
+    hasta: "04-26",
+  },
+];
+
+export const VENTANAS_PUNTUALES: Ventana[] = [
+  {
+    // La promoción con la que CES abrió. Se corrió hasta el 8 de noviembre de
+    // 2026 para que empalme con el final de "Listo para diciembre" y no haya
+    // un hueco sin descuento mientras se trabaja la lista de prospectos.
+    id: "apertura-2026",
+    label: "Descuento por apertura",
+    motivo: "es la promoción con la que CES Agencia abrió",
+    desde: "2026-09-10",
+    hasta: "2026-11-08",
+  },
+];
 
 const MESES = [
   "enero",
@@ -102,21 +168,121 @@ const MESES = [
   "diciembre",
 ];
 
-/** ¿La promoción está vigente en este momento? */
-export function promoIsLive(now: Date = new Date()): boolean {
-  if (!PROMO.active) return false;
-  if (!PROMO.endsOn) return true;
-  const [y, m, d] = PROMO.endsOn.split("-").map(Number);
-  // Fin del día en Colombia = medianoche del día siguiente, corrida 5 horas.
-  const endsAtUTC = Date.UTC(y, m - 1, d + 1) + BOGOTA_OFFSET_MS;
-  return now.getTime() < endsAtUTC;
+// Las fechas se comparan como números (aaaammdd o mmdd) en vez de construir
+// objetos Date. Así no hay aritmética de milisegundos que equivocar, el 29 de
+// febrero entra solo en cualquier ventana que lo abarque, y una ventana que
+// cruce el 31 de diciembre se resuelve con una sola condición.
+function aNumeroCompleto(fecha: string): number {
+  const [y, m, d] = fecha.split("-").map(Number);
+  return y * 10000 + m * 100 + d;
 }
 
-/** "30 de septiembre", para mostrarle al cliente hasta cuándo tiene. */
-export function promoDeadlineLabel(): string | null {
-  if (!PROMO.endsOn) return null;
-  const [, m, d] = PROMO.endsOn.split("-").map(Number);
+function aNumeroMesDia(fecha: string): number {
+  const [m, d] = fecha.split("-").map(Number);
+  return m * 100 + d;
+}
+
+/**
+ * La fecha civil colombiana, sin depender de la zona horaria del servidor.
+ * Se corre el reloj 5 horas hacia atrás y se lee en UTC: Vercel corre en UTC,
+ * pero no hay por qué darlo por sentado y Colombia no tiene horario de verano.
+ */
+function fechaEnColombia(now: Date): { completa: number; mesDia: number } {
+  const t = new Date(now.getTime() - BOGOTA_OFFSET_MS);
+  const y = t.getUTCFullYear();
+  const m = t.getUTCMonth() + 1;
+  const d = t.getUTCDate();
+  return { completa: y * 10000 + m * 100 + d, mesDia: m * 100 + d };
+}
+
+// Un error de dedo en una fecha revienta el build, no la página en producción:
+// esto corre al importar el módulo, así que `npm run build` falla, Vercel
+// cancela el despliegue y el sitio que ya está en línea se queda como estaba.
+// Es a propósito — fallar ruidosamente y temprano en vez de servir una promo
+// que no se prende nunca sin que nadie se entere.
+function revisarVentana(v: Ventana, conAno: boolean): void {
+  const formato = conAno ? "AAAA-MM-DD" : "MM-DD";
+  for (const campo of ["desde", "hasta"] as const) {
+    const valor = v[campo];
+    const trozos = valor.split("-").map(Number);
+    const mes = conAno ? trozos[1] : trozos[0];
+    const dia = conAno ? trozos[2] : trozos[1];
+    const bien =
+      trozos.length === (conAno ? 3 : 2) &&
+      trozos.every((n) => Number.isInteger(n)) &&
+      mes >= 1 &&
+      mes <= 12 &&
+      dia >= 1 &&
+      dia <= 31;
+    if (!bien) {
+      throw new Error(
+        `Ventana de promoción "${v.id}": ${campo} = "${valor}" no es una fecha válida. Se espera ${formato}.`,
+      );
+    }
+  }
+}
+
+VENTANAS_ANUALES.forEach((v) => revisarVentana(v, false));
+VENTANAS_PUNTUALES.forEach((v) => revisarVentana(v, true));
+
+/**
+ * La ventana vigente en este momento, o `null` si no hay descuento.
+ *
+ * Es la ÚNICA función que mira el reloj. Antes había dos (una decía si había
+ * promo y otra daba la fecha de fin) y con varias ventanas eso se vuelve una
+ * carrera: a las 23:59:59 del último día la primera podía decir que sí y la
+ * segunda, medio segundo después, devolver la fecha de otra ventana. Una sola
+ * llamada, un solo resultado, y de ahí sale todo lo demás.
+ */
+export function promoVigente(now: Date = new Date()): Ventana | null {
+  const hoy = fechaEnColombia(now);
+
+  for (const v of VENTANAS_PUNTUALES) {
+    if (hoy.completa >= aNumeroCompleto(v.desde) && hoy.completa <= aNumeroCompleto(v.hasta)) {
+      return v;
+    }
+  }
+
+  for (const v of VENTANAS_ANUALES) {
+    const desde = aNumeroMesDia(v.desde);
+    const hasta = aNumeroMesDia(v.hasta);
+    // Si `desde` es mayor que `hasta`, la ventana cruza el 31 de diciembre y
+    // está viva en los dos extremos del año.
+    const viva =
+      desde <= hasta
+        ? hoy.mesDia >= desde && hoy.mesDia <= hasta
+        : hoy.mesDia >= desde || hoy.mesDia <= hasta;
+    if (viva) return v;
+  }
+
+  return null;
+}
+
+/** "8 de noviembre", para decirle al cliente hasta cuándo tiene. */
+export function fechaLarga(fecha: string): string {
+  const trozos = fecha.split("-").map(Number);
+  const [m, d] = trozos.length === 3 ? [trozos[1], trozos[2]] : [trozos[0], trozos[1]];
   return `${d} de ${MESES[m - 1]}`;
+}
+
+/**
+ * Lo que necesitan los componentes, ya listo para cruzar del servidor al
+ * navegador. Los componentes NO importan las ventanas: reciben esto como prop
+ * desde `app/page.tsx`, que lo resuelve una sola vez. Si cada componente
+ * mirara el reloj por su cuenta, el HTML del servidor y el del navegador
+ * podrían no coincidir justo en el minuto en que abre o cierra una ventana.
+ */
+export type PromoActiva = {
+  label: string;
+  motivo: string;
+  /** Ya formateada: "8 de noviembre". */
+  hasta: string;
+};
+
+export function promoParaLaPagina(now: Date = new Date()): PromoActiva | null {
+  const v = promoVigente(now);
+  if (!v) return null;
+  return { label: v.label, motivo: v.motivo, hasta: fechaLarga(v.hasta) };
 }
 
 // ---------------------------------------------------------------------------

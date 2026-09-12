@@ -3,7 +3,14 @@
 import { useRef } from "react";
 import { gsap, useGSAP, prefersReducedMotion } from "@/lib/gsap";
 import { useTilt } from "@/hooks/useTilt";
-import { PLANS, BUSINESS, PROMO, formatCOP, pricingFor, type Plan } from "@/lib/business";
+import {
+  PLANS,
+  BUSINESS,
+  formatCOP,
+  pricingFor,
+  type Plan,
+  type PromoActiva,
+} from "@/lib/business";
 
 function Check({ featured }: { featured?: boolean }) {
   return (
@@ -214,14 +221,9 @@ function PlanCard({
   );
 }
 
-export function Plans({
-  promoLive,
-  promoDeadline,
-}: {
-  promoLive: boolean;
-  promoDeadline: string | null;
-}) {
+export function Plans({ promo }: { promo: PromoActiva | null }) {
   const ref = useRef<HTMLDivElement>(null);
+  const promoLive = promo !== null;
 
   useGSAP(
     () => {
@@ -254,20 +256,14 @@ export function Plans({
           </p>
         </div>
 
-        {promoLive && (
-          <div className="shrink-0 rounded-[14px] border border-gold/45 bg-gold-bg px-5 py-4 max-w-[300px]">
+        {promo && (
+          <div className="shrink-0 rounded-[14px] border border-gold/45 bg-gold-bg px-5 py-4 max-w-[310px]">
             <div className="flex items-center gap-2 text-[12px] font-bold uppercase tracking-[0.1em] text-gold-deep mb-1.5">
               <span className="w-1.5 h-1.5 rounded-full bg-gold animate-pulse" />
-              {PROMO.label}
+              {promo.label}
             </div>
             <p className="text-[13.5px] leading-[1.5] text-ink">
-              {promoDeadline ? (
-                <>
-                  Los precios tachados vuelven el <strong>{promoDeadline}</strong>.
-                </>
-              ) : (
-                <>Precios de promoción por tiempo limitado.</>
-              )}
+              Los precios tachados vuelven el <strong>{promo.hasta}</strong>.
             </p>
           </div>
         )}
