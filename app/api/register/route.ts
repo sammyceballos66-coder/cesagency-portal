@@ -7,6 +7,13 @@
 
 import { supabase } from "@/lib/supabase";
 import { PLANS, pricingFor, promoVigente } from "@/lib/business";
+import { ipDeLaPeticion, superaElLimite } from "@/lib/rate-limit";
+
+// Cinco registros cada diez minutos desde la misma IP. Nadie llena este
+// formulario cinco veces seguidas de buena fe; un bucle sí. Ver los límites
+// reales de este freno en lib/rate-limit.ts — es por instancia, no global.
+const MAX_POR_VENTANA = 5;
+const VENTANA_MS = 10 * 60 * 1000;
 
 // Este endpoint es público y no tiene captcha. Los topes de abajo son lo único
 // que impide que alguien llene la base a mano, y la base NO es solo de este
@@ -67,6 +74,20 @@ function isValidBody(body: unknown): body is RegisterBody {
 }
 
 export async function POST(request: Request) {
+  // El freno va de primero: antes de leer el cuerpo, antes de parsear y antes
+  // de tocar la base. De nada sirve limitar si igual se gastó el trabajo.
+  const { bloqueado, faltanSegundos } = superaElLimite(
+    ipDeLaPeticion(request),
+    MAX_POR_VENTANA,
+    VENTANA_MS,
+  );
+  if (bloqueado) {
+    return Response.json(
+      { error: "Demasiados intentos. Espera un momento y vuelve a intentar." },
+      { status: 429, headers: { "Retry-After": String(faltanSegundos) } },
+    );
+  }
+
   // Se corta por tamaño ANTES de parsear. La cabecera se puede mentir o no
   // venir, así que se vuelve a medir sobre el texto ya leído.
   if (Number(request.headers.get("content-length") ?? 0) > MAX_BODY_BYTES) {

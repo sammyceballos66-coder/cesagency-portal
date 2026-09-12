@@ -235,11 +235,21 @@ toda la plataforma:
   PostgREST rechaza la fila entera y se pierde **el prospecto completo**, no
   solo el precio. Migración en `supabase/registrations-precio.sql`.
 
-  El endpoint es público y sin captcha. Tiene topes de tamaño por campo y un
-  corte a 8 KB antes de parsear el cuerpo — antes entraba una descripción de
-  4 MB, y la base es la **compartida** con las reservas de Quality Barber Shop.
-  Lo que falta es un límite de peticiones por minuto, que se pone como regla de
-  rate limit en el Firewall de Vercel sobre `/api/register`, no en el código.
+  El endpoint es público y sin captcha. Tiene topes de tamaño por campo, un
+  corte a 8 KB antes de parsear el cuerpo —antes entraba una descripción de
+  4 MB, y la base es la **compartida** con las reservas de Quality Barber
+  Shop— y un freno de **5 registros cada 10 minutos por IP** (`lib/rate-limit.ts`),
+  que corre antes de leer el cuerpo y antes de tocar la base.
+
+  Ese freno está **en código y no en el Firewall de Vercel a propósito**: el
+  rate limit del WAF es de los planes pagos y este proyecto está en Hobby, así
+  que "se configura en el panel" no era una opción. El contador vive en la
+  memoria de la función, o sea que el límite es **por instancia, no global**:
+  frena en seco un bucle desde una máquina, pero no garantiza nada contra un
+  ataque repartido entre muchas IP. Para eso habría que llevar el contador a
+  Supabase, lo que implica guardar direcciones IP —dato personal— y tocar la
+  política de privacidad. Hoy la IP solo vive en memoria unos minutos y no se
+  escribe en ningún lado.
 - `whatsapp_conversations` — historial del agente de ventas, una fila por
   número (`lib/conversations.ts`).
 - El esquema multi-tenant de las barberías (`businesses`, `barbers`,
