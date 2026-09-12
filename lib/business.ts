@@ -358,6 +358,38 @@ export const BUSINESS = {
   delivery: "lista en minutos una vez el cliente da la información de su negocio",
 };
 
+// ---------------------------------------------------------------------------
+// Servicio adicional: contenido para redes
+// ---------------------------------------------------------------------------
+// No es un plan más: no tiene precio cerrado porque lo que se produce cada mes
+// se acuerda con cada negocio. Por eso va aparte de PLANS y no dentro.
+//
+// `desde` es el precio de arranque que se publica, NO el piso real. El piso
+// que Samuel acepta negociando es más bajo y se queda fuera del código a
+// propósito: publicar el piso es regalarlo antes de sentarse a hablar.
+//
+// El paquete exacto que recibe cada cliente tampoco se publica. Lo que paga
+// uno por su volumen no es lo que va a pagar otro, y poner una cifra al lado
+// de un paquete concreto haría que todos esperen ese paquete por ese precio.
+export const CONTENIDO = {
+  desde: 550_000,
+  cliente: {
+    nombre: "Todo Renault Pereira",
+    // Como se describen ellos en su propio sitio, no como suena mejor.
+    que: "repuestos Renault y multimarca en Pereira",
+    web: "https://todorenaultpereira.com",
+    // Se pintan solo si tienen algo. Falta que Samuel pase los usuarios.
+    //
+    // OJO CON LA MARCA: ellos pueden autorizar que se les nombre como
+    // cliente, y lo hicieron. Lo que no pueden autorizar es el uso del logo
+    // ni de la identidad de Renault, que no es de ellos sino del fabricante.
+    // Por eso aquí solo va el nombre del negocio y el enlace a lo suyo.
+    instagram: "",
+    tiktok: "",
+    facebook: "",
+  },
+};
+
 // El único cliente en producción hoy. Se nombra aquí para que la sección que
 // lo muestra no invente nada y para no repetir el dato en varios archivos.
 export const SHOWCASE = {

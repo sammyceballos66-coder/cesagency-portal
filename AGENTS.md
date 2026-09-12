@@ -88,11 +88,43 @@ Un error de dedo en una fecha **revienta el build**, no la página: la
 validación corre al importar el módulo, así que Vercel cancela el despliegue y
 el sitio en línea se queda como estaba.
 
+### Contenido para redes (servicio adicional)
+
+`CONTENIDO` en `lib/business.ts`, sección `components/sections/Contenido.tsx`.
+**No es un plan más y no va dentro de `PLANS`**: las páginas valen lo mismo
+para todos, pero aquí lo que se produce cada mes se acuerda con cada negocio,
+así que el precio es un "desde" y no una cifra cerrada.
+
+Eso obligó a corregir el copy de los planes, que decía "el precio es el mismo
+para todos" y con este servicio dejaba de ser cierto. Ahora dice "las páginas
+valen lo mismo para todos".
+
+**Lo que NO se publica, a propósito:**
+
+- *El piso real de negociación.* `desde` es el precio de arranque. El número
+  al que Samuel está dispuesto a bajar hablando es más bajo y no vive en el
+  código: publicarlo es regalarlo antes de sentarse.
+- *El paquete exacto de un cliente.* Lo que paga uno por su volumen no es lo
+  que va a pagar otro. Poner una cifra al lado de un paquete concreto haría
+  que todos esperen ese paquete por ese precio.
+
+**Todo Renault Pereira** es el cliente que aparece como prueba. CES le crea el
+contenido que publica cada mes, y ellos autorizaron que se les nombre.
+
+⚠️ **No uses el logo ni la identidad de Renault.** Ellos pueden autorizar que
+se les nombre como cliente —y lo hicieron— pero la marca Renault no es suya
+sino del fabricante, así que no pueden licenciarla. Va el nombre del negocio y
+el enlace a lo suyo, nada más. Se les describe como ellos se describen en su
+propio sitio ("repuestos Renault y multimarca"), no como concesionario.
+
+Los enlaces a sus redes están vacíos en `CONTENIDO.cliente` y la sección los
+pinta solo si tienen algo — falta que Samuel pase los usuarios.
+
 ## Estructura
 
 ```
 app/
-  page.tsx              Hero → Showcase → Plans → SignUp (+ Header, Footer)
+  page.tsx              Hero → Showcase → Plans → Contenido → SignUp (+ Header, Footer)
   terminos/             términos de servicio (pública, enlazada en el footer)
   privacidad/           política de privacidad (pública, enlazada en el footer)
   layout.tsx            fuentes (Space Grotesk display + Inter body)
@@ -105,7 +137,7 @@ components/
   Header.tsx            nav sticky, logo, CTA a #registro
   PromoBar.tsx          franja de promoción, encima del header
   SmoothScroll.tsx      Lenis + sync con ScrollTrigger de GSAP
-  sections/             Hero, Showcase, Plans, SignUp, Footer
+  sections/             Hero, Showcase, Plans, Contenido, SignUp, Footer
 hooks/useTilt.ts        efecto tilt 3D en tarjetas
 lib/
   business.ts           ⚠️ fuente única de planes/precios (sitio + agente)

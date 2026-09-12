@@ -252,7 +252,7 @@ export function Plans({ promo }: { promo: PromoActiva | null }) {
           </h2>
           <p className="text-ink-muted text-[16px] leading-[1.65] max-w-[46ch]">
             Un sitio informativo, o un sitio que además agenda las citas solo.
-            El precio es el mismo para todos: no cotizamos por cliente.
+            Las páginas valen lo mismo para todos: no cotizamos por cliente.
           </p>
         </div>
 

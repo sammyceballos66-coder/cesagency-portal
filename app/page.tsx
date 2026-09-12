@@ -4,6 +4,7 @@ import { SmoothScroll } from "@/components/SmoothScroll";
 import { Hero } from "@/components/sections/Hero";
 import { Showcase } from "@/components/sections/Showcase";
 import { Plans } from "@/components/sections/Plans";
+import { Contenido } from "@/components/sections/Contenido";
 import { SignUp } from "@/components/sections/SignUp";
 import { Footer } from "@/components/sections/Footer";
 import { promoParaLaPagina } from "@/lib/business";
@@ -57,6 +58,13 @@ export default function Home() {
 
           <div className="max-w-[1180px] mx-auto px-7">
             <Plans promo={promo} />
+          </div>
+
+          {/* Va después de los planes a propósito: es un servicio adicional,
+              así que primero se ve lo principal y luego lo que se le suma. */}
+          <Contenido />
+
+          <div className="max-w-[1180px] mx-auto px-7">
             <SignUp />
           </div>
         </main>
