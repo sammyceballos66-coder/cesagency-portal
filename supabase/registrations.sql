@@ -15,6 +15,13 @@ create table registrations (
   email text not null,
   description text,
   plan_id text not null,
+  -- Con qué precio entró. Se resuelve en el servidor al guardar, nunca se
+  -- acepta del navegador. Ver supabase/registrations-precio.sql para el
+  -- porqué; en las bases que ya existían se agregó con esa migración.
+  promo_id text,
+  promo_label text,
+  setup_cop integer,
+  monthly_cop integer,
   created_at timestamptz not null default now()
 );
 

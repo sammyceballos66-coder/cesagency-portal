@@ -189,7 +189,25 @@ este proyecto ya tiene historial de bugs que solo aparecen en móvil real.
 Todo en **Supabase** (`fadbwnnnhfzkefctyoco`), el proyecto compartido de
 toda la plataforma:
 
-- `registrations` — prospectos del formulario de este sitio.
+- `registrations` — prospectos del formulario de este sitio. Guarda **con qué
+  precio entró** cada uno (`promo_id`, `promo_label`, `setup_cop`,
+  `monthly_cop`), porque `/terminos` promete respetarle a cada quien el precio
+  del día en que contrató y, con los descuentos en ventanas, la mayoría entra
+  con precio rebajado. Se resuelve **en el servidor** al guardar; aceptarlo del
+  navegador dejaría que cualquiera dijera que le ofrecieron la página por mil
+  pesos. Se guardan el `id` y el `label`: el id es la llave estable para
+  agrupar, el label es el copy exacto que la persona vio y se va a reescribir.
+
+  **El SQL va antes que el despliegue.** `app/api/register/route.ts` manda las
+  cuatro columnas en un único insert, así que si el código llega primero,
+  PostgREST rechaza la fila entera y se pierde **el prospecto completo**, no
+  solo el precio. Migración en `supabase/registrations-precio.sql`.
+
+  El endpoint es público y sin captcha. Tiene topes de tamaño por campo y un
+  corte a 8 KB antes de parsear el cuerpo — antes entraba una descripción de
+  4 MB, y la base es la **compartida** con las reservas de Quality Barber Shop.
+  Lo que falta es un límite de peticiones por minuto, que se pone como regla de
+  rate limit en el Firewall de Vercel sobre `/api/register`, no en el código.
 - `whatsapp_conversations` — historial del agente de ventas, una fila por
   número (`lib/conversations.ts`).
 - El esquema multi-tenant de las barberías (`businesses`, `barbers`,
@@ -252,6 +270,12 @@ Despliegue automático por push a `main` (repo:
 ver `.env.example`.
 
 ## Verificación
+
+**El formulario de registro no se puede probar en `localhost`** desde el
+portátil de Samuel: Node no logra verificar la cadena TLS de Supabase y el
+insert falla con `UNABLE_TO_VERIFY_LEAF_SIGNATURE` antes de salir de la
+máquina. No es un bug del código y en Vercel funciona. Si hay que probarlo en
+local, `node --use-system-ca`.
 
 Este proyecto tiene historial de bugs que **solo aparecen en móvil real** y
 que las herramientas automatizadas no detectan. Antes de dar por bueno un
