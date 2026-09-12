@@ -26,11 +26,13 @@ export function Contenido() {
   const scope = useRef<HTMLElement>(null);
   const { cliente } = CONTENIDO;
 
-  const redes = [
-    { nombre: "Instagram", url: cliente.instagram },
-    { nombre: "TikTok", url: cliente.tiktok },
-    { nombre: "Facebook", url: cliente.facebook },
-  ].filter((r) => r.url);
+  const redes = cliente.mostrarRedes
+    ? [
+        { nombre: "Instagram", url: cliente.instagram },
+        { nombre: "TikTok", url: cliente.tiktok },
+        { nombre: "Facebook", url: cliente.facebook },
+      ].filter((r) => r.url)
+    : [];
 
   useGSAP(
     () => {

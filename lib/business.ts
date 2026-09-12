@@ -378,14 +378,25 @@ export const CONTENIDO = {
     // Como se describen ellos en su propio sitio, no como suena mejor.
     que: "repuestos Renault y multimarca en Pereira",
     web: "https://todorenaultpereira.com",
-    // Se pintan solo si tienen algo. Falta que Samuel pase los usuarios.
-    //
     // OJO CON LA MARCA: ellos pueden autorizar que se les nombre como
     // cliente, y lo hicieron. Lo que no pueden autorizar es el uso del logo
     // ni de la identidad de Renault, que no es de ellos sino del fabricante.
     // Por eso aquí solo va el nombre del negocio y el enlace a lo suyo.
-    instagram: "",
+    //
+    // El enlace está APAGADO a propósito — cambiar `mostrarRedes` a true lo
+    // enciende. Verificado el 12 de septiembre de 2026: la cuenta es real y
+    // es de ellos, pero tiene 67 publicaciones y 33 seguidores. Mandar a un
+    // prospecto ahí justo después de prometerle "visibilidad y clientes desde
+    // las redes" argumenta en contra de la venta: ve cuatro meses de trabajo
+    // sin audiencia. La afirmación "les hacemos el contenido" es cierta y se
+    // sostiene sola sin el enlace. Se enciende cuando la cuenta tenga tracción.
+    mostrarRedes: false,
+    instagram: "https://www.instagram.com/todorenault.pereira/",
+    // Sin verificar: TikTok no deja ver el perfil sin sesión, así que no se
+    // enlaza algo que no se pudo comprobar que exista.
     tiktok: "",
+    // facebook.com/todorenault.pereira redirige a /autopartesfrancia10, que
+    // es un PERFIL PERSONAL, no una página de negocio. No se enlaza.
     facebook: "",
   },
 };
