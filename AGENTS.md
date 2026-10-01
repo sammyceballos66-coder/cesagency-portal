@@ -42,7 +42,9 @@ Los descuentos viven en **ventanas** con fecha de inicio y fin, en
   Hoy son tres: **Listo para diciembre** (20 oct – 8 nov), **Arranque de año**
   (8 – 31 ene) y **Antes del Día de la Madre** (6 – 26 abr).
 - `VENTANAS_PUNTUALES` pasan una sola vez, con año explícito (`AAAA-MM-DD`).
-  Hoy solo está *Descuento por apertura*, del 10 sep al 8 nov de 2026.
+  Hoy solo está *Descuento por apertura*, del 10 al 30 de septiembre de 2026.
+  Del 1 al 19 de octubre rigen los precios de lista, y el 20 abre sola
+  *Listo para diciembre*.
 
 Las fechas salen del calendario **del cliente**, no del calendario general.
 Una barbería en diciembre está llena y sin tiempo para pensar en una página;

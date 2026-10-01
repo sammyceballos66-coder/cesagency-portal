@@ -142,14 +142,19 @@ export const VENTANAS_ANUALES: Ventana[] = [
 
 export const VENTANAS_PUNTUALES: Ventana[] = [
   {
-    // La promoción con la que CES abrió. Se corrió hasta el 8 de noviembre de
-    // 2026 para que empalme con el final de "Listo para diciembre" y no haya
-    // un hueco sin descuento mientras se trabaja la lista de prospectos.
+    // La promoción con la que CES abrió. Un día se corrió hasta el 8 de
+    // noviembre para empalmarla con "Listo para diciembre", y el 30 de
+    // septiembre de 2026 Samuel decidió devolverla al 30 de septiembre: del
+    // 1 de octubre en adelante rigen los precios de lista.
+    //
+    // OJO: eso deja un tramo con precio normal del 1 al 19 de octubre, y el 20
+    // abre sola "Listo para diciembre". Es lo que se quiere: ese tramo es el
+    // que hace cierto el precio tachado de la ventana siguiente.
     id: "apertura-2026",
     label: "Descuento por apertura",
     motivo: "es la promoción con la que CES Agencia abrió",
     desde: "2026-09-10",
-    hasta: "2026-11-08",
+    hasta: "2026-09-30",
   },
 ];
 
