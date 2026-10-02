@@ -260,12 +260,28 @@ export function TarjetaNfc() {
             ))}
           </ul>
 
-          <div className="flex items-baseline gap-2.5 flex-wrap mb-1.5">
-            <span className="price-now text-[38px] text-ink">{formatCOP(TARJETA_NFC.precio)}</span>
-            <span className="text-[15px] text-ink-muted">pago único</span>
+          {/* Dos opciones lado a lado. El ahorro se calcula de los dos precios y
+              no se escribe a mano: si cambia uno, la etiqueta no queda mintiendo. */}
+          <div className="grid grid-cols-2 gap-3 max-w-[420px] mb-3">
+            <div className="rounded-[14px] border border-line bg-white px-4 py-4">
+              <div className="text-[12px] font-semibold uppercase tracking-[0.11em] text-ink-faint mb-1.5">
+                1 tarjeta
+              </div>
+              <div className="price-now text-[28px] text-ink">{formatCOP(TARJETA_NFC.precio)}</div>
+            </div>
+            <div className="relative rounded-[14px] border border-gold/60 bg-gold-bg px-4 py-4">
+              <span className="absolute -top-2.5 right-3 text-[10.5px] font-bold uppercase tracking-[0.08em] text-[#1b1300] bg-gradient-to-r from-gold-soft to-gold rounded-full px-2.5 py-0.5">
+                Ahorras {formatCOP(TARJETA_NFC.precio * 2 - TARJETA_NFC.precioDos)}
+              </span>
+              <div className="text-[12px] font-semibold uppercase tracking-[0.11em] text-gold-deep mb-1.5">
+                2 tarjetas
+              </div>
+              <div className="price-now text-[28px] text-ink">{formatCOP(TARJETA_NFC.precioDos)}</div>
+            </div>
           </div>
           <p className="text-[13px] text-ink-faint mb-8">
-            Te la entregamos configurada. Es tuya: no depende de ninguna mensualidad.
+            Pago único. Por ejemplo, una para reseñas y otra para WhatsApp.{" "}
+            Te las entregamos configuradas, y son tuyas: no dependen de ninguna mensualidad.
           </p>
 
           <a

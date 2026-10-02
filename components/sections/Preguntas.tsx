@@ -31,7 +31,7 @@ const PREGUNTAS: { p: string; r: string }[] = [
   },
   {
     p: "¿Puedo contratar solo la tarjeta o solo el contenido?",
-    r: `Sí. Se contratan aparte de la página, y también sin ella. La tarjeta es un pago único de ${formatCOP(TARJETA_NFC.precio)} y es tuya: sigue funcionando aunque no tengas ningún otro servicio con nosotros.`,
+    r: `Sí. Se contratan aparte de la página, y también sin ella. La tarjeta es un pago único, ${formatCOP(TARJETA_NFC.precio)} una o ${formatCOP(TARJETA_NFC.precioDos)} dos, y es tuya: sigue funcionando aunque no tengas ningún otro servicio con nosotros.`,
   },
 ];
 

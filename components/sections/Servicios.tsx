@@ -81,7 +81,7 @@ export function Servicios({ promo }: { promo: PromoActiva | null }) {
       titulo: "Tarjeta NFC",
       texto: "Tus clientes la tocan con el celular y les abre tus reseñas de Google, tu WhatsApp o tus redes.",
       precio: formatCOP(TARJETA_NFC.precio),
-      detalle: "pago único",
+      detalle: `pago único · 2 por ${formatCOP(TARJETA_NFC.precioDos)}`,
       href: "#tarjeta-nfc",
       destacado: false,
     },

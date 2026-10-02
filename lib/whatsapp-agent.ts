@@ -17,7 +17,7 @@ import {
 function buildAdicionalesText(): string {
   return [
     `Contenido para redes con inteligencia artificial (reels y piezas gráficas cada mes): desde ${formatCOP(CONTENIDO.desde)} COP al mes. La cantidad de contenido se acuerda con cada negocio, así que el valor final se cotiza; no des otra cifra que ese "desde".`,
-    `Tarjeta NFC: ${formatCOP(TARJETA_NFC.precio)} COP, pago único. Es una tarjeta para el mostrador que el cliente del negocio toca con el celular y lo lleva a: ${TARJETA_NFC.destinos.join("; ").toLowerCase()}. Es del cliente y no depende de ninguna mensualidad. Se entrega configurada.`,
+    `Tarjeta NFC: pago único de ${formatCOP(TARJETA_NFC.precio)} COP por una, o ${formatCOP(TARJETA_NFC.precioDos)} COP por dos. De tres en adelante no hay precio publicado: di que eso lo cotiza el equipo. Es una tarjeta para el mostrador que el cliente del negocio toca con el celular y lo lleva a: ${TARJETA_NFC.destinos.join("; ").toLowerCase()}. Es del cliente y no depende de ninguna mensualidad. Se entrega configurada.`,
   ].join("\n");
 }
 

@@ -429,7 +429,14 @@ export const CONTENIDO = {
 // Google solo a los felices) y dar cualquier cosa a cambio de una reseña. Por
 // eso el copy dice "dejar una reseña", nunca "reseñas positivas".
 export const TARJETA_NFC = {
+  /** Una tarjeta. */
   precio: 50_000,
+  /**
+   * Dos tarjetas juntas. Pensado para el negocio que quiere una para reseñas y
+   * otra para WhatsApp, o una por sede. De tres en adelante no hay precio
+   * publicado: se cotiza, y el agente de WhatsApp lo sabe.
+   */
+  precioDos: 80_000,
   destinos: [
     "Dejar una reseña en Google",
     "Escribirle al negocio por WhatsApp",
