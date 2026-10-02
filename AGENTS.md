@@ -119,14 +119,33 @@ sino del fabricante, así que no pueden licenciarla. Va el nombre del negocio y
 el enlace a lo suyo, nada más. Se les describe como ellos se describen en su
 propio sitio ("repuestos Renault y multimarca"), no como concesionario.
 
-Los enlaces a sus redes están vacíos en `CONTENIDO.cliente` y la sección los
-pinta solo si tienen algo — falta que Samuel pase los usuarios.
+El enlace a su Instagram está guardado pero **apagado a propósito** detrás de
+`CONTENIDO.cliente.mostrarRedes`: la cuenta tenía 33 seguidores, y mandar ahí
+a un prospecto justo después de prometerle visibilidad argumenta en contra de
+la venta.
+
+### Tarjeta NFC (servicio adicional)
+
+`TARJETA_NFC` en `lib/business.ts`, sección `components/sections/TarjetaNfc.tsx`.
+$50.000, **pago único**. La tarjeta es del cliente y apunta directo a su
+destino, así que sigue funcionando aunque no pague ninguna mensualidad — así lo
+dicen los términos y las preguntas frecuentes.
+
+La muestra de la página está dibujada en código, no es una foto. Dice "TU
+NEGOCIO" porque ningún cliente tiene todavía la tarjeta, y **no lleva el logo
+de Google**: se dice "en Google" con texto, igual que con Renault.
+
+⚠️ El copy dice "dejar una reseña", **nunca** "reseñas positivas". Google
+permite estas tarjetas pero prohíbe filtrar a quién se le pide la reseña y dar
+cualquier cosa a cambio. El agente de WhatsApp tiene la misma prohibición
+escrita en su prompt.
 
 ## Estructura
 
 ```
 app/
-  page.tsx              Hero → Showcase → Plans → Contenido → SignUp (+ Header, Footer)
+  page.tsx              Hero → Servicios → Showcase → Plans → ComoFunciona →
+                        Contenido → TarjetaNfc → Preguntas → SignUp (+ Header, Footer)
   terminos/             términos de servicio (pública, enlazada en el footer)
   privacidad/           política de privacidad (pública, enlazada en el footer)
   layout.tsx            fuentes (Space Grotesk display + Inter body)
@@ -139,7 +158,8 @@ components/
   Header.tsx            nav sticky, logo, CTA a #registro
   PromoBar.tsx          franja de promoción, encima del header
   SmoothScroll.tsx      Lenis + sync con ScrollTrigger de GSAP
-  sections/             Hero, Showcase, Plans, Contenido, SignUp, Footer
+  sections/             Hero, Servicios, Showcase, Plans, ComoFunciona,
+                        Contenido, TarjetaNfc, Preguntas, SignUp, Footer
 hooks/useTilt.ts        efecto tilt 3D en tarjetas
 lib/
   business.ts           ⚠️ fuente única de planes/precios (sitio + agente)
@@ -166,6 +186,23 @@ atrás. El patrón correcto (ya aplicado en `app/page.tsx`) es dejar el fondo
 en flujo normal y envolver **el contenido** en `relative z-10`. El z-index
 negativo + WebKit móvil causó un bug real donde el fondo solo aparecía
 durante el rebote del overscroll.
+
+**Enlaces internos y Lenis**: `components/SmoothScroll.tsx` crea Lenis con
+`anchors: true`, y **no se puede quitar**. Sin esa opción los enlaces a
+`#planes`, `#preguntas`, etc. fallaban de forma intermitente: la dirección
+cambiaba pero la página no se movía, o se movía una vez y la siguiente no. Las
+secciones con `id` llevan `scroll-margin-top` en `globals.css` para que el
+header fijo no les tape el título, y Lenis lo respeta al saltar.
+
+Para probar esto **no sirve el panel del navegador de Claude cuando está
+oculto**: ahí `requestAnimationFrame` no corre y ninguna animación de scroll
+avanza, así que todo parece roto. Hay que usar un navegador que esté pintando
+(Playwright, o el celular).
+
+**Preguntas frecuentes**: `components/sections/Preguntas.tsx` repite lo que
+dicen `/terminos` y `lib/business.ts`. Si cambian los términos, cambia esto
+también — un "sí" en las preguntas y un "no" en los términos es lo único que
+no puede pasar.
 
 **Modales**: usa `<dialog>` nativo con `showModal()`, no un `div` con
 `fixed inset-0`. Dos intentos con overlay propio chocaron con un bug real de

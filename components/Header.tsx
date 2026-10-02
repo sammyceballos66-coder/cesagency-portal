@@ -1,7 +1,15 @@
 import Image from "next/image";
 import Link from "next/link";
 
-const NAV_LINKS = [{ href: "#planes", label: "Planes" }];
+// Antes solo decía "Planes": el menú también tiene que contar que hay más que
+// páginas. Solo se ve en pantallas anchas; en celular el resumen de servicios,
+// justo debajo del hero, hace ese trabajo.
+const NAV_LINKS = [
+  { href: "#planes", label: "Planes" },
+  { href: "#contenido", label: "Contenido" },
+  { href: "#tarjeta-nfc", label: "Tarjeta NFC" },
+  { href: "#preguntas", label: "Preguntas" },
+];
 
 export function Header() {
   return (

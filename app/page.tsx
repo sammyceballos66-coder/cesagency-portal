@@ -6,6 +6,9 @@ import { Showcase } from "@/components/sections/Showcase";
 import { Plans } from "@/components/sections/Plans";
 import { Contenido } from "@/components/sections/Contenido";
 import { TarjetaNfc } from "@/components/sections/TarjetaNfc";
+import { Servicios } from "@/components/sections/Servicios";
+import { ComoFunciona } from "@/components/sections/ComoFunciona";
+import { Preguntas } from "@/components/sections/Preguntas";
 import { SignUp } from "@/components/sections/SignUp";
 import { Footer } from "@/components/sections/Footer";
 import { promoParaLaPagina } from "@/lib/business";
@@ -53,12 +56,17 @@ export default function Home() {
               las demás quedan dentro de la caja de 1180 px. */}
           <div className="max-w-[1180px] mx-auto px-7">
             <Hero />
+            {/* Todo el catálogo en la primera pantalla después del hero: antes
+                había que bajar hasta el final para saber que CES también
+                hace contenido y tarjetas. */}
+            <Servicios promo={promo} />
           </div>
 
           <Showcase />
 
           <div className="max-w-[1180px] mx-auto px-7">
             <Plans promo={promo} />
+            <ComoFunciona />
           </div>
 
           {/* Va después de los planes a propósito: es un servicio adicional,
@@ -69,6 +77,7 @@ export default function Home() {
             {/* Banda clara después de la oscura del contenido: la página
                 alterna de valor en vez de juntar dos secciones iguales. */}
             <TarjetaNfc />
+            <Preguntas />
             <SignUp />
           </div>
         </main>
