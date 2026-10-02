@@ -1,11 +1,25 @@
 import Anthropic from "@anthropic-ai/sdk";
 import {
   BUSINESS,
+  CONTENIDO,
   PLANS,
+  TARJETA_NFC,
   fechaLarga,
+  formatCOP,
   planPriceSentence,
   promoVigente,
 } from "./business";
+
+// Los servicios adicionales salen de lib/business.ts igual que los planes. Antes
+// el agente no los conocía: a quien preguntara por contenido o por la tarjeta le
+// habría dicho que tenía que confirmarlo con el equipo, mientras la página los
+// anunciaba con precio.
+function buildAdicionalesText(): string {
+  return [
+    `Contenido para redes con inteligencia artificial (reels y piezas gráficas cada mes): desde ${formatCOP(CONTENIDO.desde)} COP al mes. La cantidad de contenido se acuerda con cada negocio, así que el valor final se cotiza; no des otra cifra que ese "desde".`,
+    `Tarjeta NFC: ${formatCOP(TARJETA_NFC.precio)} COP, pago único. Es una tarjeta para el mostrador que el cliente del negocio toca con el celular y lo lleva a: ${TARJETA_NFC.destinos.join("; ").toLowerCase()}. Es del cliente y no depende de ninguna mensualidad. Se entrega configurada.`,
+  ].join("\n");
+}
 
 export type ConversationMessage = { role: "user" | "assistant"; content: string };
 
@@ -37,7 +51,11 @@ function buildSystemPrompt(): string {
 
 Datos del servicio (esto es TODO lo que sabes — no inventes nada fuera de esto):
 ${plansText}
-${promoLine}- Entrega: ${BUSINESS.delivery}
+${promoLine}
+Servicios adicionales (se contratan aparte, con o sin página; las promociones de arriba NO aplican a estos):
+${buildAdicionalesText()}
+
+- Entrega: ${BUSINESS.delivery}
 - Fundadores: ${BUSINESS.founders.join(" y ")}
 - Sitio: ${BUSINESS.website}
 
@@ -51,6 +69,8 @@ Marca wantsHuman=true cuando la persona:
 - Pide explícitamente hablar con una persona
 
 Cuando marques wantsHuman=true, despídete diciendo que uno de los fundadores le escribe pronto para coordinar. Si la persona solo pregunta cosas generales sin mostrar intención de avanzar, wantsHuman=false y sigue la conversación con naturalidad.
+
+Sobre la tarjeta NFC: NUNCA prometas reseñas positivas, de cinco estrellas, ni una cantidad de reseñas. La tarjeta hace más fácil dejar una reseña, nada más. Tampoco sugieras dar descuentos o regalos a cambio de reseñas ni pedírselas solo a los clientes contentos: Google lo prohíbe y le puede borrar reseñas al negocio.
 
 Nunca inventes precios, plazos ni funciones que no estén en los datos de arriba. Si preguntan algo que no sabes, di que eso te toca confirmarlo con el equipo.`;
 }

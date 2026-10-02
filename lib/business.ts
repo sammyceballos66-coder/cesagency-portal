@@ -406,6 +406,38 @@ export const CONTENIDO = {
   },
 };
 
+// ---------------------------------------------------------------------------
+// Servicio adicional: tarjeta NFC
+// ---------------------------------------------------------------------------
+// Una tarjeta que el cliente del negocio toca con el celular y lo lleva a un
+// enlace: la ficha de reseñas en Google, el WhatsApp o las redes del negocio.
+// Se vende como PAGO ÚNICO, aparte de las páginas y del contenido.
+//
+// La tarjeta es del cliente y apunta directo al destino, así que sigue
+// funcionando aunque no tenga ningún otro servicio con CES ni pague
+// mensualidad. Si algún día se monta un enlace intermedio de CES (para
+// cambiar el destino o contar toques), eso tiene que ser un extra de la
+// mensualidad y la tarjeta tiene que seguir llevando a su destino aunque
+// cancelen: el cliente la pagó.
+//
+// Ya hay quien la vende en Colombia con envío a todo el país a $60.000 lista
+// (septiembre de 2026). La ventaja de CES no es el precio sino que se la
+// configuramos al dueño en persona.
+//
+// OJO CON LAS RESEÑAS: Google permite estas tarjetas, pero prohíbe filtrar a
+// quién se le pide la reseña (preguntar "¿quedaste contento?" y mandar a
+// Google solo a los felices) y dar cualquier cosa a cambio de una reseña. Por
+// eso el copy dice "dejar una reseña", nunca "reseñas positivas".
+export const TARJETA_NFC = {
+  precio: 50_000,
+  destinos: [
+    "Dejar una reseña en Google",
+    "Escribirle al negocio por WhatsApp",
+    "Seguir sus redes: Instagram, TikTok o Facebook",
+    "Abrir la página web del negocio",
+  ],
+};
+
 // El único cliente en producción hoy. Se nombra aquí para que la sección que
 // lo muestra no invente nada y para no repetir el dato en varios archivos.
 export const SHOWCASE = {

@@ -5,6 +5,7 @@ import { Hero } from "@/components/sections/Hero";
 import { Showcase } from "@/components/sections/Showcase";
 import { Plans } from "@/components/sections/Plans";
 import { Contenido } from "@/components/sections/Contenido";
+import { TarjetaNfc } from "@/components/sections/TarjetaNfc";
 import { SignUp } from "@/components/sections/SignUp";
 import { Footer } from "@/components/sections/Footer";
 import { promoParaLaPagina } from "@/lib/business";
@@ -65,6 +66,9 @@ export default function Home() {
           <Contenido />
 
           <div className="max-w-[1180px] mx-auto px-7">
+            {/* Banda clara después de la oscura del contenido: la página
+                alterna de valor en vez de juntar dos secciones iguales. */}
+            <TarjetaNfc />
             <SignUp />
           </div>
         </main>

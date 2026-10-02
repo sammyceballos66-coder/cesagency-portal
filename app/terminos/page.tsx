@@ -1,6 +1,6 @@
 import type { Metadata } from "next";
 import { LegalPage } from "@/components/LegalPage";
-import { BUSINESS, PLANS, formatCOP } from "@/lib/business";
+import { BUSINESS, CONTENIDO, PLANS, TARJETA_NFC, formatCOP } from "@/lib/business";
 
 export const metadata: Metadata = {
   title: "Términos de servicio — CES Agencia",
@@ -12,7 +12,7 @@ const CONTACTO = "cesagency2026@gmail.com";
 
 export default function Terminos() {
   return (
-    <LegalPage title="Términos de servicio" updated="10 de septiembre de 2026">
+    <LegalPage title="Términos de servicio" updated="1 de octubre de 2026">
       <p>
         Estas condiciones aplican a quien contrata a {BUSINESS.name} para crear
         y mantener su página web. Están escritas en lenguaje corriente a
@@ -53,6 +53,25 @@ export default function Terminos() {
         promoción, ese precio se te respeta después, aunque la promoción ya
         haya terminado.
       </p>
+
+      <h2>Servicios adicionales</h2>
+      <p>
+        Se contratan aparte de la página, y también sin ella. Las promociones
+        de los planes no aplican a estos servicios.
+      </p>
+      <ul>
+        <li>
+          <strong>Contenido para redes</strong> — reels y piezas gráficas cada
+          mes, desde {formatCOP(CONTENIDO.desde)} COP al mes. La cantidad de
+          contenido se acuerda contigo, y el valor final depende de ella.
+        </li>
+        <li>
+          <strong>Tarjeta NFC</strong> — {formatCOP(TARJETA_NFC.precio)} COP de
+          pago único. Te la entregamos configurada con el destino que escojas.
+          La tarjeta es tuya: sigue funcionando aunque no tengas ningún otro
+          servicio con nosotros ni pagues mensualidad.
+        </li>
+      </ul>
 
       <h2>Dominio y propiedad: léelo con atención</h2>
       <div className="callout">
