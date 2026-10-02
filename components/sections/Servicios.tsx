@@ -65,6 +65,7 @@ export function Servicios({ promo }: { promo: PromoActiva | null }) {
       precio: `Desde ${formatCOP(desdePagina)}`,
       detalle: "pago único + mensualidad",
       href: "#planes",
+      cta: "Ver planes",
       destacado: true,
     },
     {
@@ -74,6 +75,7 @@ export function Servicios({ promo }: { promo: PromoActiva | null }) {
       precio: `Desde ${formatCOP(CONTENIDO.desde)}`,
       detalle: "al mes",
       href: "#contenido",
+      cta: "Ver más",
       destacado: false,
     },
     {
@@ -83,6 +85,7 @@ export function Servicios({ promo }: { promo: PromoActiva | null }) {
       precio: formatCOP(TARJETA_NFC.precio),
       detalle: `pago único · 2 por ${formatCOP(TARJETA_NFC.precioDos)}`,
       href: "#tarjeta-nfc",
+      cta: "Ver diseños",
       destacado: false,
     },
   ];
@@ -135,20 +138,47 @@ export function Servicios({ promo }: { promo: PromoActiva | null }) {
             <p className={`text-[14px] leading-[1.6] mb-6 flex-1 ${s.destacado ? "text-white/70" : "text-ink-muted"}`}>
               {s.texto}
             </p>
-            <div className="flex items-end justify-between gap-3">
+            <div>
               <div>
                 <div className={`price-now text-[24px] ${s.destacado ? "text-white" : "text-ink"}`}>{s.precio}</div>
                 <div className={`text-[12.5px] mt-1 ${s.destacado ? "text-white/55" : "text-ink-faint"}`}>{s.detalle}</div>
               </div>
+              {/* El texto dice a dónde lleva ("Ver planes", no solo "Ver"), y el
+                  círculo se rellena al pasar sobre la tarjeta entera: toda la
+                  tarjeta es el enlace, así que el botón responde a ella y no
+                  solo a sí mismo. La flecha baja porque lleva más abajo en la
+                  misma página.
+
+                  Va en su propia fila y no al lado del precio: en tablet las
+                  tres tarjetas son angostas y lado a lado el botón se salía. */}
               <span
-                className={`text-[13px] font-semibold inline-flex items-center gap-1 transition-transform duration-200 group-hover:translate-x-0.5 ${
-                  s.destacado ? "text-gold" : "text-blue-bright"
+                className={`mt-5 pt-4 border-t w-full flex items-center justify-between gap-3 text-[13.5px] font-semibold ${
+                  s.destacado ? "text-gold border-white/12" : "text-blue-bright border-line"
                 }`}
               >
-                Ver
-                <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2.4" strokeLinecap="round" strokeLinejoin="round" aria-hidden="true">
-                  <path d="M12 5v14M6 13l6 6 6-6" />
-                </svg>
+                {s.cta}
+                <span
+                  className={`w-9 h-9 rounded-full grid place-items-center border transition-[background-color,border-color,color,transform] duration-200 ease-out group-hover:scale-105 ${
+                    s.destacado
+                      ? "border-gold/40 group-hover:bg-gold group-hover:border-gold group-hover:text-navy"
+                      : "border-blue/30 bg-blue/5 group-hover:bg-blue-bright group-hover:border-blue-bright group-hover:text-white"
+                  }`}
+                >
+                  <svg
+                    width="15"
+                    height="15"
+                    viewBox="0 0 24 24"
+                    fill="none"
+                    stroke="currentColor"
+                    strokeWidth="2.4"
+                    strokeLinecap="round"
+                    strokeLinejoin="round"
+                    className="transition-transform duration-200 ease-out group-hover:translate-y-[2px]"
+                    aria-hidden="true"
+                  >
+                    <path d="M12 5v14M6 13l6 6 6-6" />
+                  </svg>
+                </span>
               </span>
             </div>
           </a>
