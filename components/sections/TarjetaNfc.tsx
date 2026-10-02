@@ -1,25 +1,67 @@
 "use client";
 
 import Image from "next/image";
-import { useRef } from "react";
+import { useRef, useState } from "react";
 import { gsap, useGSAP, prefersReducedMotion } from "@/lib/gsap";
 import { useTilt } from "@/hooks/useTilt";
 import { TARJETA_NFC, formatCOP, whatsAppLink } from "@/lib/business";
 
-import muestra from "@/public/tarjeta-nfc-resenas.webp";
+import imgResenas from "@/public/tarjeta-nfc-resenas.webp";
+import imgWhatsapp from "@/public/tarjeta-nfc-whatsapp.webp";
+import imgFacebook from "@/public/tarjeta-nfc-facebook.webp";
+import imgInstagram from "@/public/tarjeta-nfc-instagram.webp";
+import imgTiktok from "@/public/tarjeta-nfc-tiktok.webp";
 
-// La muestra es el diseño que Samuel escogió para las tarjetas de reseñas
-// (octubre de 2026), recortado del fondo blanco que traía.
+// Los cinco diseños que Samuel escogió para las tarjetas (octubre de 2026),
+// recortados del fondo blanco que traían. Se muestra uno grande y los demás
+// como miniaturas para cambiar entre ellos: cinco tarjetas apiladas habrían
+// alargado la sección el triple.
 //
-// Reemplazó a una tarjeta dibujada en código que no llevaba el logo de Google.
-// Esta sí lo lleva, por decisión de Samuel: es como se ven estas tarjetas en
-// el mercado y como se van a ver las suyas. El logo es marca de Google; si
-// algún día hay reclamo, el cambio es volver a una muestra sin él.
+// Reemplazaron a una tarjeta dibujada en código que no llevaba logos. Estos sí
+// los llevan —Google, WhatsApp, Facebook, Instagram, TikTok—, por decisión de
+// Samuel: es como se ven estas tarjetas en el mercado y como se van a ver las
+// suyas. Los logos son marcas de esas empresas; si algún día hay reclamo, el
+// cambio es volver a muestras sin ellos.
 //
-// Es CUADRADA. Las tarjetas de PVC con chip que se consiguen en blanco son del
+// Todos tienen el MISMO precio: el de TARJETA_NFC vale para cualquier diseño.
+//
+// Son CUADRADOS. Las tarjetas de PVC con chip que se consiguen en blanco son del
 // tamaño de una tarjeta de crédito (85 x 54 mm), así que para imprimirlas este
 // diseño hay que adaptarlo a ese formato. Lo cuadrado es lo de los soportes
 // de mostrador y los adhesivos.
+
+const DISENOS = [
+  {
+    id: "resenas",
+    nombre: "Google",
+    img: imgResenas,
+    alt: "Tarjeta de reseñas: ¡Tu opinión nos ayuda! Déjanos tu reseña en Google. Acerca tu celular aquí.",
+  },
+  {
+    id: "whatsapp",
+    nombre: "WhatsApp",
+    img: imgWhatsapp,
+    alt: "Tarjeta de WhatsApp: ¡Escríbenos por WhatsApp! Te atendemos rápido y con gusto.",
+  },
+  {
+    id: "facebook",
+    nombre: "Facebook",
+    img: imgFacebook,
+    alt: "Tarjeta de Facebook: ¡Síguenos en Facebook! Contenido, noticias y más.",
+  },
+  {
+    id: "instagram",
+    nombre: "Instagram",
+    img: imgInstagram,
+    alt: "Tarjeta de Instagram: ¡Síguenos en Instagram! No te pierdas de nuestras novedades.",
+  },
+  {
+    id: "tiktok",
+    nombre: "TikTok",
+    img: imgTiktok,
+    alt: "Tarjeta de TikTok: ¡Síguenos en TikTok! Contenido, tendencias y más.",
+  },
+];
 
 function Check() {
   return (
@@ -43,6 +85,8 @@ function Check() {
 export function TarjetaNfc() {
   const scope = useRef<HTMLElement>(null);
   const tiltRef = useTilt<HTMLDivElement>();
+  const [activo, setActivo] = useState(0);
+  const diseno = DISENOS[activo];
 
   useGSAP(
     () => {
@@ -74,14 +118,40 @@ export function TarjetaNfc() {
             ref={tiltRef}
             className="tilt relative rounded-[8%] overflow-hidden shadow-[0_34px_70px_-28px_rgba(10,19,48,0.65)]"
           >
+            {/* `key` hace que la imagen se monte de nuevo al cambiar de diseño,
+                y con eso corre la animación de entrada de .nfc-aparece. */}
             <Image
-              src={muestra}
-              alt="Tarjeta de reseñas: dice ¡Tu opinión nos ayuda! Déjanos tu reseña en Google, con cinco estrellas, el símbolo de Google y la indicación Acerca tu celular aquí."
+              key={diseno.id}
+              src={diseno.img}
+              alt={diseno.alt}
               placeholder="blur"
               sizes="(max-width: 1023px) 90vw, 420px"
-              className="block w-full h-auto"
+              className="nfc-aparece block w-full h-auto"
             />
             <div className="tilt-shine" />
+          </div>
+
+          <div className="relative mt-7">
+            <div className="text-[11.5px] font-semibold uppercase tracking-[0.12em] text-ink-faint text-center mb-3">
+              Diseños · mismo precio
+            </div>
+            <div className="flex justify-center gap-2 sm:gap-2.5" role="group" aria-label="Diseños de la tarjeta">
+              {DISENOS.map((d, i) => (
+                <button
+                  key={d.id}
+                  type="button"
+                  onClick={() => setActivo(i)}
+                  aria-pressed={i === activo}
+                  aria-label={`Ver la tarjeta de ${d.nombre}`}
+                  title={d.nombre}
+                  className={`w-[52px] sm:w-[60px] rounded-[10px] overflow-hidden border-2 transition-[transform,border-color,opacity] duration-200 ease-out hover:-translate-y-0.5 ${
+                    i === activo ? "border-blue-bright opacity-100" : "border-transparent opacity-60 hover:opacity-100"
+                  }`}
+                >
+                  <Image src={d.img} alt="" sizes="60px" className="block w-full h-auto" />
+                </button>
+              ))}
+            </div>
           </div>
         </div>
 
@@ -130,8 +200,9 @@ export function TarjetaNfc() {
             </div>
           </div>
           <p className="text-[13px] text-ink-faint mb-8">
-            Pago único. Por ejemplo, una para reseñas y otra para WhatsApp.{" "}
-            Te las entregamos configuradas, y son tuyas: no dependen de ninguna mensualidad.
+            Pago único, y el mismo precio para cualquier diseño: Google, WhatsApp,
+            Facebook, Instagram o TikTok. Te las entregamos configuradas, y son
+            tuyas: no dependen de ninguna mensualidad.
           </p>
 
           <a

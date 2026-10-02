@@ -397,6 +397,28 @@ section[id] {
   scroll-margin-top: 88px;
 }
 
+/* ---- tarjeta NFC: cambio de diseño -------------------------------------- */
+/* Entrada corta al cambiar de diseño en el selector. Corta a propósito: es
+   una respuesta a un clic, y una animación larga se siente como demora. */
+.nfc-aparece {
+  animation: nfc-aparece 0.32s ease-out;
+}
+@keyframes nfc-aparece {
+  from {
+    opacity: 0;
+    transform: scale(0.97);
+  }
+  to {
+    opacity: 1;
+    transform: none;
+  }
+}
+@media (prefers-reduced-motion: reduce) {
+  .nfc-aparece {
+    animation: none;
+  }
+}
+
 /* ---- preguntas frecuentes ---------------------------------------------- */
 /* `list-none` en el <summary> quita el triángulo en Chrome y Firefox, pero
    Safari lo pinta con su propio pseudo-elemento. Sin esto, en iPhone salen

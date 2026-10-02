@@ -131,11 +131,15 @@ $50.000, **pago único**. La tarjeta es del cliente y apunta directo a su
 destino, así que sigue funcionando aunque no pague ninguna mensualidad — así lo
 dicen los términos y las preguntas frecuentes.
 
-La muestra de la página es `public/tarjeta-nfc-resenas.webp`, el diseño que
-Samuel escogió para las tarjetas de reseñas (octubre de 2026). Antes era una
-tarjeta dibujada en código sin el logo de Google; esta **sí lo lleva, por
-decisión de Samuel**. El logo es marca de Google: si algún día hay reclamo, el
-cambio es volver a una muestra sin él.
+Hay cinco diseños, en `public/tarjeta-nfc-*.webp`: reseñas de Google,
+WhatsApp, Facebook, Instagram y TikTok. Son los que Samuel escogió (octubre de
+2026). La sección muestra uno grande y los demás como miniaturas para cambiar
+entre ellos. **Todos valen lo mismo**: una a `precio`, dos a `precioDos`.
+
+Antes la muestra era una tarjeta dibujada en código, sin logos. Estos diseños
+**sí llevan los logos de cada marca, por decisión de Samuel**. Son marcas de
+esas empresas; si algún día hay reclamo, el cambio es volver a muestras sin
+ellos.
 
 ⚠️ La muestra es **cuadrada**, pero las tarjetas de PVC con chip que se compran
 en blanco son de tarjeta de crédito, 85 x 54 mm. Para imprimirlas el diseño
