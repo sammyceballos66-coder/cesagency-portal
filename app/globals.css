@@ -388,36 +388,6 @@ h3,
   );
 }
 
-/* ---- tarjeta NFC ------------------------------------------------------- */
-/* Ondas que salen de la zona de toque, como la señal de "sin contacto". Se
-   anima solo `transform` y `opacity`, que resuelve la GPU sin repintar. */
-.nfc-onda {
-  position: absolute;
-  inset: 0;
-  border-radius: 50%;
-  border: 1.5px solid var(--gold);
-  opacity: 0;
-  animation: nfc-onda 2.6s ease-out infinite;
-}
-.nfc-onda--2 {
-  animation-delay: 1.3s;
-}
-@keyframes nfc-onda {
-  0% {
-    transform: scale(1);
-    opacity: 0.55;
-  }
-  100% {
-    transform: scale(2.1);
-    opacity: 0;
-  }
-}
-@media (prefers-reduced-motion: reduce) {
-  .nfc-onda {
-    animation: none;
-  }
-}
-
 /* ---- saltos a secciones ------------------------------------------------ */
 /* El header es sticky: al saltar a #planes o a #preguntas desde el menú o
    desde el resumen de servicios, el navegador alinea la sección con el borde
