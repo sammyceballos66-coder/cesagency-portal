@@ -2,7 +2,10 @@
 
 import { useRef } from "react";
 import { gsap, useGSAP, prefersReducedMotion } from "@/lib/gsap";
+import Image from "next/image";
 import { CONTENIDO, formatCOP, whatsAppLink } from "@/lib/business";
+
+import logoCliente from "@/public/cliente-todo-renault-pereira.webp";
 
 // Por qué esto es un servicio aparte y no un plan más: una página convierte a
 // quien ya te está buscando; las redes traen a quien todavía no sabe que
@@ -109,6 +112,19 @@ export function Contenido() {
           <div className="contenido-cliente rounded-[16px] border border-white/12 bg-white/[0.04] backdrop-blur-sm p-7 md:p-9">
             <div className="text-[11.5px] font-bold uppercase tracking-[0.13em] text-gold mb-4">
               Cliente de contenido
+            </div>
+
+            {/* Logo del cliente, en una placa negra porque su logo viene sobre
+                negro y encima del azul de esta sección se veía como un recorte.
+                Lo pidió Samuel (octubre de 2026). Ver la nota de marca en
+                lib/business.ts: el rombo que trae es de Renault, no del cliente. */}
+            <div className="rounded-[12px] bg-black border border-white/10 px-6 py-5 mb-6 grid place-items-center">
+              <Image
+                src={logoCliente}
+                alt={`Logo de ${cliente.nombre}`}
+                sizes="260px"
+                className="block w-full max-w-[240px] h-auto"
+              />
             </div>
 
             <h3 className="font-display font-bold text-[26px] leading-[1.15] mb-2">

@@ -383,10 +383,11 @@ export const CONTENIDO = {
     // Como se describen ellos en su propio sitio, no como suena mejor.
     que: "repuestos Renault y multimarca en Pereira",
     web: "https://todorenaultpereira.com",
-    // OJO CON LA MARCA: ellos pueden autorizar que se les nombre como
-    // cliente, y lo hicieron. Lo que no pueden autorizar es el uso del logo
-    // ni de la identidad de Renault, que no es de ellos sino del fabricante.
-    // Por eso aquí solo va el nombre del negocio y el enlace a lo suyo.
+    // OJO CON LA MARCA: ellos autorizaron que se les nombre como cliente. Su
+    // logo (public/cliente-todo-renault-pereira.webp) se muestra por decisión
+    // de Samuel, octubre de 2026. Ese logo trae el rombo de Renault, que es
+    // del fabricante y no del cliente; si algún día hay reclamo, se quita el
+    // logo y queda solo el nombre, que es lo que había antes.
     //
     // El enlace está APAGADO a propósito — cambiar `mostrarRedes` a true lo
     // enciende. Verificado el 12 de septiembre de 2026: la cuenta es real y

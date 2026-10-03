@@ -113,11 +113,12 @@ valen lo mismo para todos".
 **Todo Renault Pereira** es el cliente que aparece como prueba. CES le crea el
 contenido que publica cada mes, y ellos autorizaron que se les nombre.
 
-⚠️ **No uses el logo ni la identidad de Renault.** Ellos pueden autorizar que
-se les nombre como cliente —y lo hicieron— pero la marca Renault no es suya
-sino del fabricante, así que no pueden licenciarla. Va el nombre del negocio y
-el enlace a lo suyo, nada más. Se les describe como ellos se describen en su
-propio sitio ("repuestos Renault y multimarca"), no como concesionario.
+⚠️ **El logo del cliente se muestra por decisión de Samuel** (octubre de 2026),
+en `public/cliente-todo-renault-pereira.webp`. Ellos autorizaron que se les
+nombre, pero su logo trae el **rombo de Renault**, que es del fabricante y no
+suyo. Si algún día hay reclamo, se quita el logo y queda solo el nombre, como
+estaba antes. Se les describe como ellos se describen en su propio sitio
+("repuestos Renault y multimarca"), no como concesionario.
 
 El enlace a su Instagram está guardado pero **apagado a propósito** detrás de
 `CONTENIDO.cliente.mostrarRedes`: la cuenta tenía 33 seguidores, y mandar ahí

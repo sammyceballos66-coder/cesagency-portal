@@ -108,10 +108,12 @@ export function TarjetaNfc() {
     <section ref={scope} id="tarjeta-nfc" className="relative z-1 pt-[72px] pb-[56px] md:pt-[104px] md:pb-[72px]">
       <div className="grid grid-cols-1 lg:grid-cols-[minmax(0,1fr)_minmax(0,1fr)] gap-12 lg:gap-16 items-center">
         <div className="nfc-escena relative mx-auto w-full max-w-[420px]">
-          {/* Resplandor detrás para que la tarjeta no quede plana sobre el fondo. */}
+          {/* Resplandor detrás para que la tarjeta no quede plana sobre el fondo.
+              En celular se abre menos hacia los lados: con 40 px a cada lado se
+              salía de la pantalla y la página se podía arrastrar de lado. */}
           <div
             aria-hidden="true"
-            className="pointer-events-none absolute -inset-10 rounded-full"
+            className="pointer-events-none absolute -inset-x-4 -inset-y-10 sm:-inset-10 rounded-full"
             style={{ background: "radial-gradient(circle, rgba(61,107,255,0.18), transparent 65%)" }}
           />
           <div
