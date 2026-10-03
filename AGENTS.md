@@ -135,7 +135,9 @@ dicen los términos y las preguntas frecuentes.
 Hay cinco diseños, en `public/tarjeta-nfc-*.webp`: reseñas de Google,
 WhatsApp, Facebook, Instagram y TikTok. Son los que Samuel escogió (octubre de
 2026). La sección muestra uno grande y los demás como miniaturas para cambiar
-entre ellos. **Todos valen lo mismo**: una a `precio`, dos a `precioDos`.
+entre ellos. **Todos valen lo mismo por unidad** (`precio`). `precioDos` es
+**solo para dos del mismo diseño**: una de Google y una de WhatsApp son dos
+tarjetas a `precio` cada una, no un par.
 
 Antes la muestra era una tarjeta dibujada en código, sin logos. Estos diseños
 **sí llevan los logos de cada marca, por decisión de Samuel**. Son marcas de

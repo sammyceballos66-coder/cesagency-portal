@@ -68,7 +68,9 @@ export default function Terminos() {
         <li>
           <strong>Tarjeta NFC</strong> — pago único de{" "}
           {formatCOP(TARJETA_NFC.precio)} COP por una, o{" "}
-          {formatCOP(TARJETA_NFC.precioDos)} COP por dos. Te la entregamos configurada con el destino que escojas.
+          {formatCOP(TARJETA_NFC.precioDos)} COP por dos del mismo diseño. Si
+          son de diseños distintos, cada una vale {formatCOP(TARJETA_NFC.precio)}{" "}
+          COP. Te la entregamos configurada con el destino que escojas.
           La tarjeta es tuya: sigue funcionando aunque no tengas ningún otro
           servicio con nosotros ni pagues mensualidad.
         </li>

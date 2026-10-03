@@ -196,15 +196,17 @@ export function TarjetaNfc() {
                 Ahorras {formatCOP(TARJETA_NFC.precio * 2 - TARJETA_NFC.precioDos)}
               </span>
               <div className="text-[12px] font-semibold uppercase tracking-[0.11em] text-gold-deep mb-1.5">
-                2 tarjetas
+                2 iguales
               </div>
               <div className="price-now text-[28px] text-ink">{formatCOP(TARJETA_NFC.precioDos)}</div>
             </div>
           </div>
           <p className="text-[13px] text-ink-faint mb-8">
             Pago único, y el mismo precio para cualquier diseño: Google, WhatsApp,
-            Facebook, Instagram o TikTok. Te las entregamos configuradas, y son
-            tuyas: no dependen de ninguna mensualidad.
+            Facebook, Instagram o TikTok. El precio de dos es para dos del mismo
+            diseño; si son distintos, cada una vale {formatCOP(TARJETA_NFC.precio)}.
+            Te las entregamos configuradas, y son tuyas: no dependen de ninguna
+            mensualidad.
           </p>
 
           <a

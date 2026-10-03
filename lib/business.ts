@@ -433,8 +433,11 @@ export const TARJETA_NFC = {
   /** Una tarjeta. */
   precio: 50_000,
   /**
-   * Dos tarjetas juntas. Pensado para el negocio que quiere una para reseñas y
-   * otra para WhatsApp, o una por sede. De tres en adelante no hay precio
+   * Dos tarjetas DEL MISMO DISEÑO, por ejemplo dos de reseñas para dos sedes.
+   * Si son de diseños distintos (una de Google y una de WhatsApp), cada una va
+   * a `precio`: el precio de dos no aplica. Así lo decidió Samuel, octubre de
+   * 2026, y así lo dicen la página, los términos, las preguntas frecuentes y
+   * el agente de WhatsApp. De tres en adelante no hay precio
    * publicado: se cotiza, y el agente de WhatsApp lo sabe.
    */
   precioDos: 80_000,
