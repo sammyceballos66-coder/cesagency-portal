@@ -96,7 +96,7 @@ export function Servicios({ promo }: { promo: PromoActiva | null }) {
         <div>
           <div className="eyebrow mb-5">Lo que hacemos</div>
           <h2 className="text-[clamp(26px,3.6vw,40px)] font-bold leading-[1.1] text-ink max-w-[20ch]">
-            Todo para que a tu negocio lo encuentren
+            Tres formas de que te encuentren
           </h2>
         </div>
         <div className="flex flex-wrap gap-2 md:max-w-[340px] md:justify-end">

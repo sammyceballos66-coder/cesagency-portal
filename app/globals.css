@@ -237,6 +237,11 @@ h3,
 .marker {
   background-image: linear-gradient(transparent 72%, rgba(240, 180, 41, 0.38) 72%);
   background-repeat: no-repeat;
+  /* Cuando la frase subrayada ocupa varias líneas, sin esto el navegador
+     estira UN solo subrayado a lo largo de todos los pedazos y la segunda
+     línea queda con el trazo cortado. `clone` lo pinta completo en cada una. */
+  -webkit-box-decoration-break: clone;
+  box-decoration-break: clone;
   /* Explicito para que GSAP pueda animarlo de 0% a 100% al entrar. Sin este
      valor el tamano calculado es `auto` y no hay nada que interpolar. */
   background-size: 100% 100%;

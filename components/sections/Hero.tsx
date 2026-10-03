@@ -45,19 +45,29 @@ export function Hero() {
 
   return (
     <section ref={scope} className="relative z-1 pt-[64px] pb-[52px] md:pt-[96px] md:pb-[80px]">
-      <div className="hero-badge eyebrow mb-6">Diseño web · Pereira y Dosquebradas</div>
+      <div className="hero-badge eyebrow mb-6">Agencia digital · Pereira y Dosquebradas</div>
 
-      <h1 className="text-[clamp(38px,6.6vw,74px)] leading-[1.02] font-bold text-ink max-w-[16ch] mb-7">
-        <span className="hero-line block">Tu negocio merece</span>
-        <span className="hero-line block">una página web</span>
-        <span className="hero-line block">
-          <span className="marker">profesional de verdad</span>
+      {/* El título habla de lo que gana el negocio, no de lo que fabrica CES.
+          Antes decía "Tu negocio merece una página web profesional de verdad":
+          se quedó corto cuando CES empezó a vender también contenido y
+          tarjetas NFC, y además lo podía decir cualquier agencia del país.
+          Los tres lugares que nombra son los tres servicios: la página pone
+          al negocio en Google, el contenido en las redes y la tarjeta en el
+          mostrador. Si se agrega o se quita un servicio, esto se revisa. */}
+      <h1 className="text-[clamp(36px,6vw,68px)] leading-[1.04] font-bold text-ink max-w-[18ch] mb-7">
+        {/* `text-balance` reparte las palabras parejo entre las líneas. Sin
+            él quedaba "Que a tu negocio lo / encuentren", con el "lo"
+            colgando y una palabra sola abajo. Se aplica a cada bloque por
+            separado para que la parte subrayada siempre empiece en su línea. */}
+        <span className="hero-line block text-balance">Que a tu negocio lo encuentren</span>
+        <span className="hero-line block text-balance">
+          <span className="marker">en Google, en redes y en el mostrador</span>
         </span>
       </h1>
 
       <p className="hero-copy text-[17px] md:text-[19px] text-ink-muted max-w-[54ch] leading-[1.65] mb-9">
-        Diseñamos páginas web para pequeños negocios de Pereira y Dosquebradas.
-        Precio claro, sin letra menuda, y lista en minutos.
+        Páginas web, contenido para redes y tarjetas NFC para negocios de
+        Pereira y Dosquebradas. Precio claro y sin letra menuda.
       </p>
 
       <div className="hero-actions flex gap-3 flex-wrap mb-[62px] md:mb-[84px]">

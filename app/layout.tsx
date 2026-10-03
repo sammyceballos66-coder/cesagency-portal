@@ -15,9 +15,11 @@ const inter = Inter({
 });
 
 export const metadata: Metadata = {
-  title: "CES Agencia — Páginas web profesionales para tu negocio",
+  // Es lo que sale en la pestaña del navegador y en el resultado de Google.
+  // Va en línea con el título de la portada: nombra los tres servicios.
+  title: "CES Agencia — Páginas web, contenido y tarjetas NFC en Pereira",
   description:
-    "Diseñamos páginas web profesionales para pequeños negocios de Pereira y Dosquebradas. Precio claro, sin letras pequeñas, lista en minutos.",
+    "Páginas web, contenido para redes y tarjetas NFC para negocios de Pereira y Dosquebradas. Precio claro y sin letra menuda.",
 };
 
 export default function RootLayout({
