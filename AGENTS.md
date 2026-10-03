@@ -144,10 +144,11 @@ Antes la muestra era una tarjeta dibujada en código, sin logos. Estos diseños
 esas empresas; si algún día hay reclamo, el cambio es volver a muestras sin
 ellos.
 
-⚠️ La muestra es **cuadrada**, pero las tarjetas de PVC con chip que se compran
-en blanco son de tarjeta de crédito, 85 x 54 mm. Para imprimirlas el diseño
-hay que adaptarlo a ese formato; lo cuadrado es de soportes de mostrador y
-adhesivos.
+Las imágenes de la página son **los mismos archivos que se imprimen**, pasados
+a webp: tarjeta de PVC vertical de 54 x 85,6 mm, 638 x 1012 px a 300 dpi. Los
+PNG para la imprenta están fuera del repo, en el OneDrive de Samuel
+(`CES - Tarjetas NFC para imprimir`). Si cambia un diseño, se cambia en los dos
+lados, o la página promete una tarjeta distinta a la que se entrega.
 
 ⚠️ El copy dice "dejar una reseña", **nunca** "reseñas positivas". Google
 permite estas tarjetas pero prohíbe filtrar a quién se le pide la reseña y dar

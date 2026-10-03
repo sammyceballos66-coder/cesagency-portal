@@ -12,8 +12,8 @@ import imgFacebook from "@/public/tarjeta-nfc-facebook.webp";
 import imgInstagram from "@/public/tarjeta-nfc-instagram.webp";
 import imgTiktok from "@/public/tarjeta-nfc-tiktok.webp";
 
-// Los cinco diseños que Samuel escogió para las tarjetas (octubre de 2026),
-// recortados del fondo blanco que traían. Se muestra uno grande y los demás
+// Los cinco diseños que Samuel escogió para las tarjetas (octubre de 2026). Se
+// muestra uno grande y los demás
 // como miniaturas para cambiar entre ellos: cinco tarjetas apiladas habrían
 // alargado la sección el triple.
 //
@@ -25,10 +25,10 @@ import imgTiktok from "@/public/tarjeta-nfc-tiktok.webp";
 //
 // Todos tienen el MISMO precio: el de TARJETA_NFC vale para cualquier diseño.
 //
-// Son CUADRADOS. Las tarjetas de PVC con chip que se consiguen en blanco son del
-// tamaño de una tarjeta de crédito (85 x 54 mm), así que para imprimirlas este
-// diseño hay que adaptarlo a ese formato. Lo cuadrado es lo de los soportes
-// de mostrador y los adhesivos.
+// Son los MISMOS archivos que se mandan a imprimir, pasados a webp: tarjeta de
+// PVC vertical de 54 x 85,6 mm (638 x 1012 px). Así lo que ve el cliente en la
+// página es exactamente lo que recibe. Si cambia un diseño, se cambia en los dos
+// lados. Antes eran muestras cuadradas, que no tenían la forma de la tarjeta.
 
 const DISENOS = [
   {
@@ -116,9 +116,12 @@ export function TarjetaNfc() {
             className="pointer-events-none absolute -inset-x-4 -inset-y-10 sm:-inset-10 rounded-full"
             style={{ background: "radial-gradient(circle, rgba(61,107,255,0.18), transparent 65%)" }}
           />
+          {/* La tarjeta es vertical, así que va más angosta que la columna: a
+              420 px de ancho mediría 670 de alto. La esquina es la de una
+              tarjeta de verdad (3 mm sobre 54 de ancho). */}
           <div
             ref={tiltRef}
-            className="tilt relative rounded-[8%] overflow-hidden shadow-[0_34px_70px_-28px_rgba(10,19,48,0.65)]"
+            className="tilt relative mx-auto w-[min(72vw,290px)] rounded-[16px] overflow-hidden shadow-[0_34px_70px_-28px_rgba(10,19,48,0.65)]"
           >
             {/* `key` hace que la imagen se monte de nuevo al cambiar de diseño,
                 y con eso corre la animación de entrada de .nfc-aparece. */}
@@ -127,7 +130,7 @@ export function TarjetaNfc() {
               src={diseno.img}
               alt={diseno.alt}
               placeholder="blur"
-              sizes="(max-width: 1023px) 90vw, 420px"
+              sizes="(max-width: 402px) 72vw, 290px"
               className="nfc-aparece block w-full h-auto"
             />
             <div className="tilt-shine" />
@@ -146,11 +149,11 @@ export function TarjetaNfc() {
                   aria-pressed={i === activo}
                   aria-label={`Ver la tarjeta de ${d.nombre}`}
                   title={d.nombre}
-                  className={`w-[52px] sm:w-[60px] rounded-[10px] overflow-hidden border-2 transition-[transform,border-color,opacity] duration-200 ease-out hover:-translate-y-0.5 ${
+                  className={`w-[44px] sm:w-[50px] rounded-[7px] overflow-hidden border-2 transition-[transform,border-color,opacity] duration-200 ease-out hover:-translate-y-0.5 ${
                     i === activo ? "border-blue-bright opacity-100" : "border-transparent opacity-60 hover:opacity-100"
                   }`}
                 >
-                  <Image src={d.img} alt="" sizes="60px" className="block w-full h-auto" />
+                  <Image src={d.img} alt="" sizes="50px"className="block w-full h-auto" />
                 </button>
               ))}
             </div>
