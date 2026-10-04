@@ -215,6 +215,7 @@ app/
     whatsapp/digest/    cron diario 1am UTC → resumen de leads a los fundadores
 components/
   Header.tsx            nav sticky, logo, CTA a #registro
+  HeroVisual.tsx        composición del hero: celular + tarjeta NFC + aviso de cita
   PromoBar.tsx          franja de promoción, encima del header
   SmoothScroll.tsx      Lenis + sync con ScrollTrigger de GSAP
   sections/             Hero, Servicios, Showcase, Plans, ComoFunciona,
@@ -320,6 +321,21 @@ que lo resuelva la GPU. Se apaga entero con `prefers-reduced-motion`.
 `public/trabajo-quality-barber-shop.webp` es una **foto del sitio del cliente
 tomada el 10 de septiembre de 2026**: hay que volver a tomarla cuando la
 barbería cambie su diseño, o la portada queda mostrando algo que ya no es.
+
+Desde el 4 de octubre de 2026 hay una segunda, **en celular**:
+`public/trabajo-quality-barber-shop-movil.webp` (390 px a 2x), dentro del
+celular de la composición del hero (`components/HeroVisual.tsx`). Se renueva
+junto con la de escritorio.
+
+### La composición del hero
+
+`HeroVisual` llena el lado derecho del hero, que era un espacio vacío, con
+los tres lugares del título: el celular con la página de la barbería
+("en Google"), la tarjeta NFC ("en el mostrador") y un aviso de cita nueva.
+Se descartó un fondo decorativo porque no decía nada de lo que vende CES.
+El aviso es de **cita**, nunca de "reseña ★★★★★": daría a entender que la
+tarjeta consigue reseñas de cinco estrellas. El resplandor de detrás va con
+`inset` positivo para no abrir scroll lateral en celular.
 
 Se probó primero con un `<iframe>` del sitio en vivo, que tenía la ventaja de
 no quedar nunca desactualizado. Se descartó: ese sitio anima su fondo sin
