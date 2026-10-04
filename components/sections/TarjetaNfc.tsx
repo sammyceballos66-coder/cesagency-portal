@@ -11,10 +11,15 @@ import imgWhatsapp from "@/public/tarjeta-nfc-whatsapp.webp";
 import imgFacebook from "@/public/tarjeta-nfc-facebook.webp";
 import imgInstagram from "@/public/tarjeta-nfc-instagram.webp";
 import imgTiktok from "@/public/tarjeta-nfc-tiktok.webp";
-import imgReverso from "@/public/tarjeta-nfc-reverso.webp";
+import revResenas from "@/public/tarjeta-nfc-reverso-resenas.webp";
+import revWhatsapp from "@/public/tarjeta-nfc-reverso-whatsapp.webp";
+import revFacebook from "@/public/tarjeta-nfc-reverso-facebook.webp";
+import revInstagram from "@/public/tarjeta-nfc-reverso-instagram.webp";
+import revTiktok from "@/public/tarjeta-nfc-reverso-tiktok.webp";
 
-// La parte de atrás es la misma para todos los diseños: un QR con el número de
-// la tarjeta, para los celulares que no leen NFC. El de esta muestra apunta a
+// Cada diseño tiene su parte de atrás, con los mismos colores del frente: un QR
+// con el número de la tarjeta, para los celulares que no leen NFC. El de estas
+// muestras apunta a
 // /r/muestra, que trae de vuelta a esta sección: si apuntara a un negocio real,
 // cualquier visitante curioso le dejaría una reseña sin haber ido nunca, que es
 // justo lo que Google castiga. Ver lib/tarjetas.ts.
@@ -22,9 +27,8 @@ const ALT_REVERSO =
   "Parte de atrás de la tarjeta: Escanea este código con la cámara de tu celular, o acerca tu celular a la tarjeta. Un código QR y el número de la tarjeta.";
 
 // Los cinco diseños que Samuel escogió para las tarjetas (octubre de 2026). Se
-// muestra uno grande y los demás
-// como miniaturas para cambiar entre ellos: cinco tarjetas apiladas habrían
-// alargado la sección el triple.
+// muestra uno grande y los demás como miniaturas para cambiar entre ellos:
+// cinco tarjetas apiladas habrían alargado la sección el triple.
 //
 // Reemplazaron a una tarjeta dibujada en código que no llevaba logos. Estos sí
 // los llevan —Google, WhatsApp, Facebook, Instagram, TikTok—, por decisión de
@@ -44,30 +48,35 @@ const DISENOS = [
     id: "resenas",
     nombre: "Google",
     img: imgResenas,
+    reverso: revResenas,
     alt: "Tarjeta de reseñas: ¡Tu opinión nos ayuda! Déjanos tu reseña en Google. Acerca tu celular aquí.",
   },
   {
     id: "whatsapp",
     nombre: "WhatsApp",
     img: imgWhatsapp,
+    reverso: revWhatsapp,
     alt: "Tarjeta de WhatsApp: ¡Escríbenos por WhatsApp! Te atendemos rápido y con gusto.",
   },
   {
     id: "facebook",
     nombre: "Facebook",
     img: imgFacebook,
+    reverso: revFacebook,
     alt: "Tarjeta de Facebook: ¡Síguenos en Facebook! Contenido, noticias y más.",
   },
   {
     id: "instagram",
     nombre: "Instagram",
     img: imgInstagram,
+    reverso: revInstagram,
     alt: "Tarjeta de Instagram: ¡Síguenos en Instagram! No te pierdas de nuestras novedades.",
   },
   {
     id: "tiktok",
     nombre: "TikTok",
     img: imgTiktok,
+    reverso: revTiktok,
     alt: "Tarjeta de TikTok: ¡Síguenos en TikTok! Contenido, tendencias y más.",
   },
 ];
@@ -136,8 +145,8 @@ export function TarjetaNfc() {
             {/* `key` hace que la imagen se monte de nuevo al cambiar de diseño,
                 y con eso corre la animación de entrada de .nfc-aparece. */}
             <Image
-              key={atras ? "reverso" : diseno.id}
-              src={atras ? imgReverso : diseno.img}
+              key={atras ? `${diseno.id}-atras` : diseno.id}
+              src={atras ? diseno.reverso : diseno.img}
               alt={atras ? ALT_REVERSO : diseno.alt}
               placeholder="blur"
               sizes="(max-width: 402px) 72vw, 290px"
@@ -172,15 +181,12 @@ export function TarjetaNfc() {
                 <button
                   key={d.id}
                   type="button"
-                  onClick={() => {
-                    setActivo(i);
-                    setAtras(false);
-                  }}
-                  aria-pressed={i === activo && !atras}
+                  onClick={() => setActivo(i)}
+                  aria-pressed={i === activo}
                   aria-label={`Ver la tarjeta de ${d.nombre}`}
                   title={d.nombre}
                   className={`w-[44px] sm:w-[50px] rounded-[7px] overflow-hidden border-2 transition-[transform,border-color,opacity] duration-200 ease-out hover:-translate-y-0.5 ${
-                    i === activo && !atras ? "border-blue-bright opacity-100" : "border-transparent opacity-60 hover:opacity-100"
+                    i === activo ? "border-blue-bright opacity-100" : "border-transparent opacity-60 hover:opacity-100"
                   }`}
                 >
                   <Image src={d.img} alt="" sizes="50px" className="block w-full h-auto" />
