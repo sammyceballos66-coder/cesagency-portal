@@ -331,10 +331,15 @@ junto con la de escritorio.
 
 `HeroVisual` llena el lado derecho del hero, que era un espacio vacío, con
 los tres lugares del título: el celular con la página de la barbería
-("en Google"), la tarjeta NFC ("en el mostrador") y un aviso de cita nueva.
+("en Google"), la tarjeta NFC ("en el mostrador") y tres avisos tipo
+notificación, uno por servicio: reel publicado, cita nueva y reseña nueva.
 Se descartó un fondo decorativo porque no decía nada de lo que vende CES.
-El aviso es de **cita**, nunca de "reseña ★★★★★": daría a entender que la
-tarjeta consigue reseñas de cinco estrellas. El resplandor de detrás va con
+Los avisos **no llevan cifras ni estrellas**. Samuel pidió "recibiste 100
+reseñas hoy" y se cambió por "Nueva reseña en Google · Un cliente usó tu
+tarjeta": una cifra así no la logra ningún negocio con una tarjeta
+(publicidad engañosa, Ley 1480) y unas estrellas prometerían reseñas
+positivas. Lo mismo con redes: "Reel publicado", sin vistas ni seguidores
+inventados. El resplandor de detrás va con
 `inset` positivo para no abrir scroll lateral en celular.
 
 Se probó primero con un `<iframe>` del sitio en vivo, que tenía la ventaja de
