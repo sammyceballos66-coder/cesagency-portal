@@ -213,8 +213,7 @@ export function SignUp() {
     <section id="registro" className="pt-[20px] pb-16 relative z-1">
       <div className="text-center max-w-[620px] mx-auto border border-line bg-white rounded-2xl p-7 md:p-12 shadow-[0_24px_60px_-34px_rgba(11,16,32,0.5)]">
         <h2 className="flex flex-wrap items-center justify-center gap-x-3 text-[clamp(30px,4.4vw,46px)] leading-[1.08] mb-4 font-bold font-display text-ink">
-          {/* Mismo subrayado dorado del titular del hero, en vez del texto con
-              degradado que se quitó de todo el sitio. */}
+          {/* Mismo resaltado de las palabras clave del titular del hero. */}
           <span className="marker">Únete a la comunidad</span>
           <Image
             src="/logo.png"

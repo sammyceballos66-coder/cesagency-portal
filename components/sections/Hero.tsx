@@ -33,9 +33,6 @@ export function Hero() {
 
       tl.from(".hero-badge", { opacity: 0, y: 16, duration: 0.5 })
         .from(".hero-line", { opacity: 0, y: 28, duration: 0.75, stagger: 0.09 }, "-=0.25")
-        // El subrayado dorado se pinta de izquierda a derecha después de que
-        // la línea ya está en su sitio, como si alguien pasara el marcador.
-        .from(".marker", { backgroundSize: "0% 100%", duration: 0.55, ease: "power2.inOut" }, "-=0.15")
         .from(".hero-copy", { opacity: 0, y: 18, duration: 0.6 }, "-=0.5")
         .from(".hero-actions", { opacity: 0, y: 18, duration: 0.6 }, "-=0.45")
         .from(".hero-proof", { opacity: 0, y: 20, duration: 0.6, stagger: 0.1 }, "-=0.35");

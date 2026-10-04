@@ -246,7 +246,7 @@ export function Plans({ promo }: { promo: PromoActiva | null }) {
         className="flex flex-col md:flex-row md:items-end md:justify-between gap-6 mb-11 md:mb-14"
       >
         <div>
-          <div className="eyebrow mb-5">Planes</div>
+          <div className="eyebrow mb-5">Planes del servicio de los sitios web</div>
           <h2 className="text-[clamp(28px,4vw,44px)] font-bold leading-[1.08] mb-4 text-ink max-w-[15ch]">
             Un plan para cada tipo de negocio
           </h2>

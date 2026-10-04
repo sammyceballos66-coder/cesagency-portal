@@ -67,7 +67,7 @@ export function Contenido() {
         <div className="grid grid-cols-1 lg:grid-cols-[minmax(0,1fr)_minmax(0,0.85fr)] gap-11 lg:gap-16 items-start">
           <div>
             <div className="contenido-texto">
-              <div className="eyebrow eyebrow--light mb-5">Servicio adicional</div>
+              <div className="eyebrow eyebrow--light mb-5">Servicio de redes sociales</div>
 
               <h2 className="text-[clamp(28px,3.9vw,42px)] leading-[1.1] font-bold mb-5">
                 Tu página convence a quien ya te busca.

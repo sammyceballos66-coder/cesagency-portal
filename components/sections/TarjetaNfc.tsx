@@ -197,7 +197,7 @@ export function TarjetaNfc() {
         </div>
 
         <div className="nfc-texto">
-          <div className="eyebrow mb-5">Servicio adicional</div>
+          <div className="eyebrow mb-5">Servicio de tarjetas NFC</div>
           <h2 className="text-[clamp(28px,3.9vw,42px)] leading-[1.1] font-bold mb-5 text-ink">
             Una reseña en Google,
             <br />

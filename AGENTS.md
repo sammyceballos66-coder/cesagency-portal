@@ -207,7 +207,7 @@ app/
   tarjeta-sin-activar/  a donde cae una tarjeta sin vender o si la base falla
   terminos/             términos de servicio (pública, enlazada en el footer)
   privacidad/           política de privacidad (pública, enlazada en el footer)
-  layout.tsx            fuentes (Space Grotesk display + Inter body)
+  layout.tsx            fuentes (Bricolage Grotesque títulos + Inter texto)
   globals.css           tokens de color en :root, clases .field/.tilt/.bubble
   api/
     register/           formulario "Regístrate" → tabla registrations (Supabase)
@@ -290,16 +290,27 @@ Lo que lo hacía verse así, y lo que se hizo:
   resplandor fijo, una **retícula fina** y un grano muy leve. La retícula es
   lo que da el aire de "hecho a propósito" en vez de "degradado bonito".
 - **El texto con degradado del titular se quitó**, que es la otra señal
-  típica. En su lugar va tinta sólida con un **subrayado dorado** (`.marker`)
-  detrás de las palabras clave.
+  típica. Las palabras clave (`.marker`) llevaron un subrayado dorado hasta
+  el 4 de octubre de 2026; Samuel pidió quitarlo y ahora van en el azul de la
+  marca, color sólido. No vuelvas al degradado.
 - **Se dejó de meter todo en tarjetas blancas.** El fondo pasó de un
   periwinkle saturado a casi blanco, y con eso el texto puede ir sobre la
   página; las tarjetas quedan solo para lo que de verdad es una tarjeta.
 - **El dorado es el segundo color de la marca**, no un adorno: marca la
-  promoción, el plan destacado y el subrayado. Sale del mismo par
+  promoción, el plan destacado y las etiquetas de las bandas oscuras. Sale del mismo par
   negro+dorado del sitio de Quality Barber Shop.
 - **Hay una banda oscura** (la sección `Showcase`) para que la página cambie
   de valor en algún punto en vez de ser clara de arriba abajo.
+
+**Tipografía (4 de octubre de 2026):** los títulos van en **Bricolage
+Grotesque** con eje de tamaño óptico; el texto sigue en Inter. Samuel la
+escogió entre cuatro opciones con sus títulos reales; Space Grotesk, la de
+antes, no le convencía y es de las más repetidas en páginas de plantilla.
+
+**Etiquetas de sección (`.eyebrow`):** píldora con un punto, no raya con
+texto suelto. En celular (≤ 480 px) baja el tracking para que la del hero
+quepa en una línea, y el radio pasa a 14 px para que, si igual se parte en
+un celular angosto, no quede como cápsula estirada.
 
 `.drift` es lo único del fondo que se mueve, y se anima con `transform` para
 que lo resuelva la GPU. Se apaga entero con `prefers-reduced-motion`.

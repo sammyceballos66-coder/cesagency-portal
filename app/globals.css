@@ -81,7 +81,7 @@
   --color-accent-red: var(--accent-red);
   --color-whatsapp-green: var(--whatsapp-green);
   --color-whatsapp-green-deep: var(--whatsapp-green-deep);
-  --font-display: var(--font-space-grotesk);
+  --font-display: var(--font-bricolage);
   --font-sans: var(--font-inter);
   --radius-brand: var(--radius);
   --breakpoint-xs: 480px;
@@ -207,46 +207,64 @@ h3,
 }
 
 /* ---- tipografía de sección -------------------------------------------- */
-/* Etiqueta corta con una raya delante. Es el detalle que hace que un
-   encabezado se lea como editorial y no como el "eyebrow" centrado que trae
-   cualquier plantilla. */
+/* Etiqueta corta encima de cada título de sección. */
+/* Desde el 4 de octubre de 2026 es una píldora con un punto, no una raya con
+   texto suelto: Samuel la veía sin terminar. El punto lleva un anillo suave
+   para que se lea como señal y no como viñeta. */
 .eyebrow {
   display: inline-flex;
   align-items: center;
-  gap: 0.65rem;
-  font-size: 12px;
+  gap: 0.55rem;
+  padding: 0.42rem 0.95rem 0.42rem 0.6rem;
+  border-radius: 999px;
+  background: rgba(29, 79, 216, 0.07);
+  border: 1px solid rgba(29, 79, 216, 0.16);
+  font-size: 11.5px;
   font-weight: 600;
-  letter-spacing: 0.15em;
+  line-height: 1.3;
+  letter-spacing: 0.09em;
   text-transform: uppercase;
   color: var(--blue-bright);
 }
 .eyebrow::before {
   content: "";
-  width: 26px;
-  height: 1px;
-  background: currentColor;
-  opacity: 0.55;
+  flex-shrink: 0;
+  width: 7px;
+  height: 7px;
+  border-radius: 50%;
+  background: linear-gradient(135deg, var(--blue), var(--blue-bright));
+  box-shadow: 0 0 0 3px rgba(61, 107, 255, 0.16);
+}
+/* En celular la más larga ("Agencia digital · Pereira y Dosquebradas") se
+   partía en dos líneas y la píldora quedaba deforme. Menos tracking la deja
+   en una sola desde 390 px; en celulares más angostos igual se parte, y el
+   radio fijo de 14 px hace que con dos líneas quede como una tarjetica
+   redondeada en vez de una cápsula estirada. Con una línea (29 px de alto)
+   14 px sigue siendo píldora. */
+@media (max-width: 480px) {
+  .eyebrow {
+    font-size: 11px;
+    letter-spacing: 0.03em;
+    padding-right: 0.75rem;
+    border-radius: 14px;
+  }
 }
 .eyebrow--light {
-  color: var(--gold);
+  background: rgba(240, 180, 41, 0.09);
+  border-color: rgba(240, 180, 41, 0.3);
+  color: var(--gold-soft);
+}
+.eyebrow--light::before {
+  background: var(--gold);
+  box-shadow: 0 0 0 3px rgba(240, 180, 41, 0.18);
 }
 
-/* Subrayado dorado detrás de las palabras clave del titular. Sustituye al
-   texto con degradado, que es la señal más común de página autogenerada.
-   Va al 62% de la altura para que cruce por debajo de la línea base. */
+/* Palabras clave del titular. Hasta el 4 de octubre de 2026 llevaban un
+   subrayado dorado detrás; Samuel pidió quitarlo. Quedan en el azul de la
+   marca para que la frase siga teniendo dónde apoyarse, sin volver al texto
+   con degradado, que es la señal más común de página autogenerada. */
 .marker {
-  background-image: linear-gradient(transparent 72%, rgba(240, 180, 41, 0.38) 72%);
-  background-repeat: no-repeat;
-  /* Cuando la frase subrayada ocupa varias líneas, sin esto el navegador
-     estira UN solo subrayado a lo largo de todos los pedazos y la segunda
-     línea queda con el trazo cortado. `clone` lo pinta completo en cada una. */
-  -webkit-box-decoration-break: clone;
-  box-decoration-break: clone;
-  /* Explicito para que GSAP pueda animarlo de 0% a 100% al entrar. Sin este
-     valor el tamano calculado es `auto` y no hay nada que interpolar. */
-  background-size: 100% 100%;
-  /* `padding` lateral pequeño para que el trazo no muera pegado a la letra. */
-  padding: 0 0.06em;
+  color: var(--blue-bright);
 }
 
 /* ---- botones ----------------------------------------------------------- */
