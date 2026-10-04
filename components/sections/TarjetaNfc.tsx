@@ -19,7 +19,7 @@ import imgReverso from "@/public/tarjeta-nfc-reverso.webp";
 // cualquier visitante curioso le dejaría una reseña sin haber ido nunca, que es
 // justo lo que Google castiga. Ver lib/tarjetas.ts.
 const ALT_REVERSO =
-  "Parte de atrás de la tarjeta: ¿No te funcionó? Escanea este código con la cámara de tu celular. Un código QR y el número de la tarjeta.";
+  "Parte de atrás de la tarjeta: Escanea este código con la cámara de tu celular, o acerca tu celular a la tarjeta. Un código QR y el número de la tarjeta.";
 
 // Los cinco diseños que Samuel escogió para las tarjetas (octubre de 2026). Se
 // muestra uno grande y los demás
