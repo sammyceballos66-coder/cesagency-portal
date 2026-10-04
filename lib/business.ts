@@ -414,12 +414,15 @@ export const CONTENIDO = {
 // enlace: la ficha de reseñas en Google, el WhatsApp o las redes del negocio.
 // Se vende como PAGO ÚNICO, aparte de las páginas y del contenido.
 //
-// La tarjeta es del cliente y apunta directo al destino, así que sigue
-// funcionando aunque no tenga ningún otro servicio con CES ni pague
-// mensualidad. Si algún día se monta un enlace intermedio de CES (para
-// cambiar el destino o contar toques), eso tiene que ser un extra de la
-// mensualidad y la tarjeta tiene que seguir llevando a su destino aunque
-// cancelen: el cliente la pagó.
+// Desde octubre de 2026 la tarjeta NO apunta directo al destino: lleva un
+// enlace de CES con su número (cesagencia.co/r/7), y la tabla `tarjetas_nfc`
+// dice a dónde manda. Así se imprimen en lote antes de venderlas y se
+// configuran en plena venta (ver lib/tarjetas.ts).
+//
+// Lo que eso obliga: la tarjeta es del cliente y la pagó una vez, así que su
+// enlace se queda activo SIEMPRE, tenga o no otro servicio con CES y pague o
+// no mensualidad. Nunca se libera la tarjeta de alguien por falta de pago. Así
+// lo prometen los términos y las preguntas frecuentes.
 //
 // Ya hay quien la vende en Colombia con envío a todo el país a $60.000 lista
 // (septiembre de 2026). La ventaja de CES no es el precio sino que se la

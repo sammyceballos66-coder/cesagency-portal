@@ -11,6 +11,15 @@ import imgWhatsapp from "@/public/tarjeta-nfc-whatsapp.webp";
 import imgFacebook from "@/public/tarjeta-nfc-facebook.webp";
 import imgInstagram from "@/public/tarjeta-nfc-instagram.webp";
 import imgTiktok from "@/public/tarjeta-nfc-tiktok.webp";
+import imgReverso from "@/public/tarjeta-nfc-reverso.webp";
+
+// La parte de atrás es la misma para todos los diseños: un QR con el número de
+// la tarjeta, para los celulares que no leen NFC. El de esta muestra apunta a
+// /r/muestra, que trae de vuelta a esta sección: si apuntara a un negocio real,
+// cualquier visitante curioso le dejaría una reseña sin haber ido nunca, que es
+// justo lo que Google castiga. Ver lib/tarjetas.ts.
+const ALT_REVERSO =
+  "Parte de atrás de la tarjeta: ¿No te funcionó? Escanea este código con la cámara de tu celular. Un código QR y el número de la tarjeta.";
 
 // Los cinco diseños que Samuel escogió para las tarjetas (octubre de 2026). Se
 // muestra uno grande y los demás
@@ -86,6 +95,7 @@ export function TarjetaNfc() {
   const scope = useRef<HTMLElement>(null);
   const tiltRef = useTilt<HTMLDivElement>();
   const [activo, setActivo] = useState(0);
+  const [atras, setAtras] = useState(false);
   const diseno = DISENOS[activo];
 
   useGSAP(
@@ -126,14 +136,31 @@ export function TarjetaNfc() {
             {/* `key` hace que la imagen se monte de nuevo al cambiar de diseño,
                 y con eso corre la animación de entrada de .nfc-aparece. */}
             <Image
-              key={diseno.id}
-              src={diseno.img}
-              alt={diseno.alt}
+              key={atras ? "reverso" : diseno.id}
+              src={atras ? imgReverso : diseno.img}
+              alt={atras ? ALT_REVERSO : diseno.alt}
               placeholder="blur"
               sizes="(max-width: 402px) 72vw, 290px"
               className="nfc-aparece block w-full h-auto"
             />
             <div className="tilt-shine" />
+          </div>
+
+          <div className="relative mt-5 flex justify-center">
+            <button
+              type="button"
+              onClick={() => setAtras((a) => !a)}
+              aria-pressed={atras}
+              className="inline-flex items-center gap-2 rounded-full border border-line-strong bg-white/80 px-4 py-2 text-[13.5px] font-semibold text-ink transition-colors hover:border-blue-bright hover:text-blue-bright"
+            >
+              <svg width="15" height="15" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2.2" strokeLinecap="round" strokeLinejoin="round" aria-hidden="true">
+                <path d="M3 12a9 9 0 0 1 15.5-6.2L21 8" />
+                <path d="M21 3v5h-5" />
+                <path d="M21 12a9 9 0 0 1-15.5 6.2L3 16" />
+                <path d="M3 21v-5h5" />
+              </svg>
+              {atras ? "Ver el frente" : "Voltear: atrás va un QR"}
+            </button>
           </div>
 
           <div className="relative mt-7">
@@ -145,15 +172,18 @@ export function TarjetaNfc() {
                 <button
                   key={d.id}
                   type="button"
-                  onClick={() => setActivo(i)}
-                  aria-pressed={i === activo}
+                  onClick={() => {
+                    setActivo(i);
+                    setAtras(false);
+                  }}
+                  aria-pressed={i === activo && !atras}
                   aria-label={`Ver la tarjeta de ${d.nombre}`}
                   title={d.nombre}
                   className={`w-[44px] sm:w-[50px] rounded-[7px] overflow-hidden border-2 transition-[transform,border-color,opacity] duration-200 ease-out hover:-translate-y-0.5 ${
-                    i === activo ? "border-blue-bright opacity-100" : "border-transparent opacity-60 hover:opacity-100"
+                    i === activo && !atras ? "border-blue-bright opacity-100" : "border-transparent opacity-60 hover:opacity-100"
                   }`}
                 >
-                  <Image src={d.img} alt="" sizes="50px"className="block w-full h-auto" />
+                  <Image src={d.img} alt="" sizes="50px" className="block w-full h-auto" />
                 </button>
               ))}
             </div>
@@ -170,7 +200,8 @@ export function TarjetaNfc() {
           <p className="text-[16px] leading-[1.7] text-ink-muted mb-7 max-w-[48ch]">
             Una tarjeta para el mostrador de tu negocio. Tus clientes la tocan
             con el celular y se les abre directo, sin buscarte ni escribir nada.
-            En la mayoría de celulares no hace falta descargar ninguna app.
+            En la mayoría de celulares no hace falta descargar ninguna app, y
+            atrás lleva un código QR para los que no la leen.
           </p>
 
           <div className="text-[12px] font-semibold uppercase tracking-[0.12em] text-ink-faint mb-3">

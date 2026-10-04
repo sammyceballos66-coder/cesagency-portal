@@ -12,7 +12,7 @@ const CONTACTO = "cesagency2026@gmail.com";
 
 export default function Terminos() {
   return (
-    <LegalPage title="Términos de servicio" updated="1 de octubre de 2026">
+    <LegalPage title="Términos de servicio" updated="3 de octubre de 2026">
       <p>
         Estas condiciones aplican a quien contrata a {BUSINESS.name} para crear
         y mantener su página web. Están escritas en lenguaje corriente a
@@ -71,8 +71,11 @@ export default function Terminos() {
           {formatCOP(TARJETA_NFC.precioDos)} COP por dos del mismo diseño. Si
           son de diseños distintos, cada una vale {formatCOP(TARJETA_NFC.precio)}{" "}
           COP. Te la entregamos configurada con el destino que escojas.
-          La tarjeta es tuya: sigue funcionando aunque no tengas ningún otro
-          servicio con nosotros ni pagues mensualidad.
+          La tarjeta lleva un enlace de {BUSINESS.name} con su número, que
+          lleva a ese destino; si algún día lo cambias, lo actualizamos sin
+          cambiar la tarjeta. La tarjeta es tuya: ese enlace lo mantenemos
+          activo aunque no tengas ningún otro servicio con nosotros ni pagues
+          mensualidad.
         </li>
       </ul>
 

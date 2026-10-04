@@ -128,9 +128,10 @@ la venta.
 ### Tarjeta NFC (servicio adicional)
 
 `TARJETA_NFC` en `lib/business.ts`, sección `components/sections/TarjetaNfc.tsx`.
-$50.000, **pago único**. La tarjeta es del cliente y apunta directo a su
-destino, así que sigue funcionando aunque no pague ninguna mensualidad — así lo
-dicen los términos y las preguntas frecuentes.
+$50.000, **pago único**. La tarjeta es del cliente y sigue funcionando aunque
+no pague ninguna mensualidad — así lo dicen los términos y las preguntas
+frecuentes. Pasa por un desvío de CES (ver abajo), y por eso ese desvío no se
+apaga nunca.
 
 Hay cinco diseños, en `public/tarjeta-nfc-*.webp`: reseñas de Google,
 WhatsApp, Facebook, Instagram y TikTok. Son los que Samuel escogió (octubre de
@@ -143,6 +144,41 @@ Antes la muestra era una tarjeta dibujada en código, sin logos. Estos diseños
 **sí llevan los logos de cada marca, por decisión de Samuel**. Son marcas de
 esas empresas; si algún día hay reclamo, el cambio es volver a muestras sin
 ellos.
+
+#### Tarjetas con número: el desvío `/r/<número>`
+
+La tarjeta **no lleva el enlace del negocio**. Su QR (atrás) y su chip llevan
+`https://www.cesagencia.co/r/7`, y la tabla `tarjetas_nfc` de Supabase dice a
+dónde manda el 7 (`supabase/tarjetas-nfc.sql`, `app/r/[numero]/route.ts`).
+Así se imprimen en lote **antes de saber de quién van a ser**, y en plena
+venta Samuel asigna el número desde el celular en `/admin/tarjetas`, en
+menos de un minuto, sin imprenta ni NFC Tools. Si el negocio cambia de
+enlace, se edita la fila y la tarjeta sigue igual.
+
+- El redirect es **302 con `no-store`**, nunca 301/308: un permanente se
+  queda guardado en el celular de quien ya escaneó, y el cambio de destino
+  no le llegaría.
+- **El enlace se queda activo siempre.** El cliente pagó la tarjeta una vez
+  y los términos prometen que funciona aunque no pague nada más. Nunca se
+  libera la tarjeta de alguien por falta de pago.
+- `/r/muestra` es el QR de la página de CES y trae de vuelta a
+  `#tarjeta-nfc`. **No lo apuntes a un cliente real**: los visitantes que
+  lo escanean por curiosidad le dejarían reseñas sin haber ido nunca.
+- No se guarda nada de quien escanea (ni IP ni conteo). Contar toques sería
+  una decisión nueva que toca la política de privacidad.
+- `/admin` entra con **una sola clave** (`TARJETAS_CLAVE` en Vercel), sin
+  usuarios. La cookie guarda una firma HMAC derivada de la clave, así que
+  cambiar la clave cierra todas las sesiones. `haySesion()` lee la cookie
+  antes de mirar la clave **a propósito**: si no, sin la variable el build
+  congelaba las páginas privadas como estáticas.
+- Asignar un número que ya es de **otro** negocio da error: un dedazo le
+  quitaría la tarjeta del mostrador a alguien sin que nadie se diera cuenta.
+  Las tarjetas vendidas se cambian con "Editar" en la lista.
+
+Los reversos para imprimir (QR + número) están en el OneDrive de Samuel,
+`CES - Tarjetas NFC para imprimir/reverso/`, del 1 al 20. Para un lote nuevo
+hay que generar los siguientes números **y** agregarlos en el panel con
+"Agregar tarjetas": un QR impreso sin fila en la tabla lleva a "sin activar".
 
 Las imágenes de la página son **los mismos archivos que se imprimen**, pasados
 a webp: tarjeta de PVC vertical de 54 x 85,6 mm, 638 x 1012 px a 300 dpi. Los
@@ -161,6 +197,9 @@ escrita en su prompt.
 app/
   page.tsx              Hero → Servicios → Showcase → Plans → ComoFunciona →
                         Contenido → TarjetaNfc → Preguntas → SignUp (+ Header, Footer)
+  r/[numero]/           desvío de las tarjetas NFC (QR y chip) → tabla tarjetas_nfc
+  admin/                página privada con clave: asignar tarjetas NFC
+  tarjeta-sin-activar/  a donde cae una tarjeta sin vender o si la base falla
   terminos/             términos de servicio (pública, enlazada en el footer)
   privacidad/           política de privacidad (pública, enlazada en el footer)
   layout.tsx            fuentes (Space Grotesk display + Inter body)
@@ -180,6 +219,8 @@ lib/
   business.ts           ⚠️ fuente única de planes/precios (sitio + agente)
   supabase.ts           cliente server-side, llave secreta
   whatsapp-agent.ts     system prompt del agente de ventas
+  tarjetas.ts           destinos y validación de enlaces de las tarjetas NFC
+  admin-sesion.ts       clave y cookie de /admin
   conversations.ts      historial de WhatsApp (Supabase)
   gsap.ts               registro de plugins + prefersReducedMotion()
 supabase/*.sql          esquemas: registrations, whatsapp_conversations
