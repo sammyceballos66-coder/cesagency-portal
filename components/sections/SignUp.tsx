@@ -180,7 +180,7 @@ function RegisterModal({ onClose }: { onClose: () => void }) {
                   />
                   <span>
                     <span className="font-semibold">{p.name}</span>{" "}
-                    <span className="text-ink-muted">— {p.tagline}</span>
+                    <span className="text-ink-muted">· {p.tagline}</span>
                   </span>
                 </label>
               ))}

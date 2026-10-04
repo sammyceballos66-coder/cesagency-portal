@@ -3,7 +3,7 @@ import { LegalPage } from "@/components/LegalPage";
 import { BUSINESS, CONTENIDO, PLANS, TARJETA_NFC, formatCOP } from "@/lib/business";
 
 export const metadata: Metadata = {
-  title: "Términos de servicio — CES Agencia",
+  title: "Términos de servicio | CES Agencia",
   description:
     "Condiciones bajo las que CES Agencia crea y mantiene las páginas web de sus clientes: planes, pagos, propiedad del código y cancelación.",
 };
@@ -32,7 +32,7 @@ export default function Terminos() {
       <ul>
         {PLANS.map((plan) => (
           <li key={plan.id}>
-            <strong>{plan.name}</strong> ({plan.tagline}) —{" "}
+            <strong>{plan.name}</strong> ({plan.tagline}):{" "}
             {formatCOP(plan.setup)} COP de pago único más {formatCOP(plan.monthly)}{" "}
             COP al mes. {plan.description}
           </li>
@@ -61,12 +61,12 @@ export default function Terminos() {
       </p>
       <ul>
         <li>
-          <strong>Contenido para redes</strong> — reels y piezas gráficas cada
+          <strong>Contenido para redes</strong>: reels y piezas gráficas cada
           mes, desde {formatCOP(CONTENIDO.desde)} COP al mes. La cantidad de
           contenido se acuerda contigo, y el valor final depende de ella.
         </li>
         <li>
-          <strong>Tarjeta NFC</strong> — pago único de{" "}
+          <strong>Tarjeta NFC</strong>: pago único de{" "}
           {formatCOP(TARJETA_NFC.precio)} COP por una, o{" "}
           {formatCOP(TARJETA_NFC.precioDos)} COP por dos del mismo diseño. Si
           son de diseños distintos, cada una vale {formatCOP(TARJETA_NFC.precio)}{" "}
@@ -119,8 +119,8 @@ export default function Terminos() {
           vulneren derechos de terceros.
         </li>
         <li>
-          Que si tu página recoge datos de tus clientes —por ejemplo, un motor
-          de reservas—, cumplas con la ley de protección de datos frente a esas
+          Que si tu página recoge datos de tus clientes (por ejemplo, un motor
+          de reservas), cumplas con la ley de protección de datos frente a esas
           personas. Nosotros procesamos esa información por encargo tuyo; el
           responsable ante ellas eres tú.
         </li>
@@ -139,8 +139,8 @@ export default function Terminos() {
       <h2>Hasta dónde respondemos</h2>
       <p>
         Hacemos lo razonable para que tu página esté disponible y funcione bien,
-        pero depende de servicios de terceros —alojamiento, dominio, bases de
-        datos, mensajería— que pueden fallar. No respondemos por interrupciones
+        pero depende de servicios de terceros (alojamiento, dominio, bases de
+        datos, mensajería) que pueden fallar. No respondemos por interrupciones
         causadas por esos servicios, ni por lucro cesante o pérdidas indirectas.
         Nuestra responsabilidad máxima se limita a lo que hayas pagado en los
         últimos tres meses.

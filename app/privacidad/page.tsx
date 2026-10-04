@@ -3,7 +3,7 @@ import { LegalPage } from "@/components/LegalPage";
 import { BUSINESS } from "@/lib/business";
 
 export const metadata: Metadata = {
-  title: "Política de privacidad — CES Agencia",
+  title: "Política de privacidad | CES Agencia",
   description:
     "Qué datos personales recoge CES Agencia, para qué los usa, dónde los guarda, con quién los comparte y cómo pedir que se eliminen.",
 };
@@ -62,8 +62,8 @@ export default function Privacidad() {
 
       <h3>Si reservas una cita en la página de un negocio que atendemos</h3>
       <p>
-        Algunos de nuestros clientes tienen motor de reservas —por ejemplo,
-        barberías—. Cuando agendas un turno ahí, se guardan tu nombre, teléfono
+        Algunos de nuestros clientes tienen motor de reservas (por ejemplo,
+        barberías). Cuando agendas un turno ahí, se guardan tu nombre, teléfono
         y correo para confirmarte la cita, recordártela y avisarle al
         profesional que te va a atender.
       </p>
@@ -85,26 +85,26 @@ export default function Privacidad() {
       </p>
       <ul>
         <li>
-          <strong>Supabase</strong> — la base de datos donde vive todo lo
+          <strong>Supabase</strong>: la base de datos donde vive todo lo
           anterior.
         </li>
         <li>
-          <strong>Vercel</strong> — el alojamiento de los sitios web.
+          <strong>Vercel</strong>: el alojamiento de los sitios web.
         </li>
         <li>
-          <strong>Google</strong> — el correo desde el que escribimos y con el
+          <strong>Google</strong>: el correo desde el que escribimos y con el
           que enviamos confirmaciones y recordatorios.
         </li>
         <li>
-          <strong>Twilio</strong> — por donde entran y salen los mensajes de
+          <strong>Twilio</strong>: por donde entran y salen los mensajes de
           WhatsApp.
         </li>
         <li>
-          <strong>Anthropic</strong> — el modelo de inteligencia artificial que
+          <strong>Anthropic</strong>: el modelo de inteligencia artificial que
           redacta las respuestas automáticas de WhatsApp.
         </li>
         <li>
-          <strong>Meta y TikTok</strong> — solo para publicar y medir el
+          <strong>Meta y TikTok</strong>: solo para publicar y medir el
           contenido de nuestras propias redes. No les enviamos datos de
           clientes ni de personas que reservan.
         </li>
@@ -117,18 +117,18 @@ export default function Privacidad() {
       <h2>Cuánto tiempo los guardamos</h2>
       <ul>
         <li>
-          <strong>Reservas de citas</strong> — 12 meses después de la cita.
+          <strong>Reservas de citas</strong>: 12 meses después de la cita.
         </li>
         <li>
-          <strong>Registros del formulario</strong> — 24 meses desde el último
+          <strong>Registros del formulario</strong>: 24 meses desde el último
           contacto.
         </li>
         <li>
-          <strong>Conversaciones de WhatsApp</strong> — 6 meses desde el último
+          <strong>Conversaciones de WhatsApp</strong>: 6 meses desde el último
           mensaje.
         </li>
         <li>
-          <strong>Datos de facturación</strong> — el tiempo que exijan las
+          <strong>Datos de facturación</strong>: el tiempo que exijan las
           obligaciones contables y tributarias.
         </li>
       </ul>

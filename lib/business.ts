@@ -36,7 +36,7 @@ export const PLANS: Plan[] = [
     promoSetup: 250_000,
     promoMonthly: 150_000,
     description:
-      "Para cualquier negocio que quiere un sitio informativo — profesional y llamativo, sin necesidad de reservas en línea.",
+      "Para cualquier negocio que quiere un sitio informativo, profesional y llamativo, sin necesidad de reservas en línea.",
     features: [
       "Diseño profesional a la medida de tu negocio",
       "Adaptada a celular y computador",
@@ -54,7 +54,7 @@ export const PLANS: Plan[] = [
     monthly: 300_000,
     promoMonthly: 250_000,
     description:
-      "Para negocios que viven de las citas (barberías, peluquerías, salones de belleza) — el mismo motor de reservas automático que le armamos a Quality Barber Shop.",
+      "Para negocios que viven de las citas (barberías, peluquerías, salones de belleza): el mismo motor de reservas automático que le armamos a Quality Barber Shop.",
     features: [
       "Diseño profesional a la medida de tu negocio",
       "Adaptada a celular y computador",

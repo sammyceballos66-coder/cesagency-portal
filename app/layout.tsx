@@ -22,7 +22,7 @@ const inter = Inter({
 export const metadata: Metadata = {
   // Es lo que sale en la pestaña del navegador y en el resultado de Google.
   // Va en línea con el título de la portada: nombra los tres servicios.
-  title: "CES Agencia — Páginas web, contenido y tarjetas NFC en Pereira",
+  title: "CES Agencia | Páginas web, contenido y tarjetas NFC en Pereira",
   description:
     "Páginas web, contenido para redes y tarjetas NFC para negocios de Pereira y Dosquebradas. Precio claro y sin letra menuda.",
 };

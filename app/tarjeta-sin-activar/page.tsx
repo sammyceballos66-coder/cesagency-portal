@@ -7,7 +7,7 @@ import Link from "next/link";
 // eso no le habla de números ni de tablas, y no le pide nada.
 
 export const metadata: Metadata = {
-  title: "Tarjeta sin activar — CES Agencia",
+  title: "Tarjeta sin activar | CES Agencia",
   robots: { index: false, follow: false },
 };
 

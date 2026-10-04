@@ -62,7 +62,7 @@ async function sendWhatsAppMessage(to: string, message: string) {
 
 function buildDigestMessage(leads: Lead[]): string {
   if (leads.length === 0) {
-    return `📋 *Resumen del día — ${BUSINESS.name}*\n\nHoy no hubo clientes que pidieran hablar personalmente.`;
+    return `📋 *Resumen del día: ${BUSINESS.name}*\n\nHoy no hubo clientes que pidieran hablar personalmente.`;
   }
 
   const rows = leads.map((l) => {
@@ -71,7 +71,7 @@ function buildDigestMessage(leads: Lead[]): string {
   });
 
   return [
-    `📋 *Resumen del día — ${BUSINESS.name}*`,
+    `📋 *Resumen del día: ${BUSINESS.name}*`,
     "",
     `${leads.length} ${leads.length === 1 ? "cliente quiere" : "clientes quieren"} hablar personalmente:`,
     "```",
