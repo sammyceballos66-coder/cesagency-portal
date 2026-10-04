@@ -24,7 +24,7 @@ import revTiktok from "@/public/tarjeta-nfc-reverso-tiktok.webp";
 // cualquier visitante curioso le dejaría una reseña sin haber ido nunca, que es
 // justo lo que Google castiga. Ver lib/tarjetas.ts.
 const ALT_REVERSO =
-  "Parte de atrás de la tarjeta: ¡O escanea este código! Un código QR, y abajo: acerca tu celular aquí.";
+  "Parte de atrás de la tarjeta: ¡O escanea este código! Un código QR, y abajo: enfoca tu celular acá, con flechas que apuntan al código.";
 
 // Los cinco diseños que Samuel escogió para las tarjetas (octubre de 2026). Se
 // muestra uno grande y los demás como miniaturas para cambiar entre ellos:
