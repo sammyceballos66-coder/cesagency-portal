@@ -452,6 +452,48 @@ export const TARJETA_NFC = {
   ],
 };
 
+// ---------------------------------------------------------------------------
+// Servicio adicional: ficha de Google (Perfil de Negocio)
+// ---------------------------------------------------------------------------
+// Lanzado el 5 de octubre de 2026. Cuando alguien busca "barbería cerca de mí"
+// lo primero que ve es la ficha de Google, no la página, y la mayoría de
+// negocios la tiene abandonada. Combina con la tarjeta NFC: la tarjeta trae
+// las reseñas y nosotros las respondemos.
+//
+// Precios de Samuel. Referencia del mercado (octubre de 2026): Labweb, agencia
+// colombiana, cobra $800.000 de montaje con tarjeta NFC y $600.000 al mes; las
+// agencias de SEO local de Bogotá y Medellín, $600.000 a $1.500.000 al mes. Se
+// puso muy por debajo a propósito: la mensualidad queda por debajo de la de la
+// página ($200.000) para que sea fácil decir que sí.
+//
+// El montaje INCLUYE una tarjeta NFC de reseñas, del diseño de Google. No se
+// cobra aparte ni se descuenta del precio de la tarjeta suelta.
+//
+// Reglas que no se negocian, y que dicen los términos y el agente:
+// - Nunca se pide la contraseña: el dueño agrega a CES como administrador de
+//   su perfil desde su cuenta, y la ficha sigue siendo suya.
+// - No se compran, inventan ni filtran reseñas. Se responden todas, también
+//   las malas.
+// - No se promete salir de primeros en Google: eso no lo controla nadie.
+export const FICHA_GOOGLE = {
+  /** Pago único. Incluye una tarjeta NFC de reseñas. */
+  montaje: 250_000,
+  mensual: 150_000,
+  montajeIncluye: [
+    "Reclamar y verificar tu ficha, o crearla si no existe",
+    "Categorías, descripción y servicios con precios",
+    "Horarios, fotos y botón de WhatsApp o de reservas",
+    "3 publicaciones para arrancar",
+    "Una tarjeta NFC de reseñas para el mostrador",
+  ],
+  mesIncluye: [
+    "Una publicación cada semana",
+    "Respuesta a todas las reseñas, también las malas",
+    "Horarios de festivos, fotos y servicios al día",
+    "Reporte mensual: llamadas, rutas pedidas y visitas a tu ficha",
+  ],
+};
+
 // El único cliente en producción hoy. Se nombra aquí para que la sección que
 // lo muestra no invente nada y para no repetir el dato en varios archivos.
 export const SHOWCASE = {

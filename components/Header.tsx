@@ -6,6 +6,7 @@ import Link from "next/link";
 // justo debajo del hero, hace ese trabajo.
 const NAV_LINKS = [
   { href: "#planes", label: "Planes" },
+  { href: "#ficha-google", label: "Google" },
   { href: "#contenido", label: "Contenido" },
   { href: "#tarjeta-nfc", label: "Tarjeta NFC" },
   { href: "#preguntas", label: "Preguntas" },

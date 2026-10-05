@@ -1,6 +1,6 @@
 import type { Metadata } from "next";
 import { LegalPage } from "@/components/LegalPage";
-import { BUSINESS, CONTENIDO, PLANS, TARJETA_NFC, formatCOP } from "@/lib/business";
+import { BUSINESS, CONTENIDO, FICHA_GOOGLE, PLANS, TARJETA_NFC, formatCOP } from "@/lib/business";
 
 export const metadata: Metadata = {
   title: "Términos de servicio | CES Agencia",
@@ -12,7 +12,7 @@ const CONTACTO = "cesagency2026@gmail.com";
 
 export default function Terminos() {
   return (
-    <LegalPage title="Términos de servicio" updated="3 de octubre de 2026">
+    <LegalPage title="Términos de servicio" updated="5 de octubre de 2026">
       <p>
         Estas condiciones aplican a quien contrata a {BUSINESS.name} para crear
         y mantener su página web. Están escritas en lenguaje corriente a
@@ -64,6 +64,17 @@ export default function Terminos() {
           <strong>Contenido para redes</strong>: reels y piezas gráficas cada
           mes, desde {formatCOP(CONTENIDO.desde)} COP al mes. La cantidad de
           contenido se acuerda contigo, y el valor final depende de ella.
+        </li>
+        <li>
+          <strong>Ficha de Google</strong>: montaje de{" "}
+          {formatCOP(FICHA_GOOGLE.montaje)} COP de pago único, que incluye una
+          tarjeta NFC de reseñas, más {formatCOP(FICHA_GOOGLE.mensual)} COP al
+          mes. Nunca te pedimos la contraseña de tu cuenta: nos agregas como
+          administradores de tu perfil y la ficha sigue siendo tuya. No
+          compramos, inventamos ni filtramos reseñas, y no garantizamos una
+          posición en los resultados de Google, que no depende de nosotros. Si
+          cancelas, nos quitas el acceso y la ficha queda como está; el montaje
+          no se devuelve.
         </li>
         <li>
           <strong>Tarjeta NFC</strong>: pago único de{" "}

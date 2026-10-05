@@ -1,5 +1,6 @@
 import {
   CONTENIDO,
+  FICHA_GOOGLE,
   PLANS,
   TARJETA_NFC,
   formatCOP,
@@ -9,8 +10,8 @@ import {
 
 // Resumen de todo lo que vende CES, justo debajo del hero.
 //
-// Existe porque CES dejó de vender solo páginas: hoy son páginas, contenido
-// para redes y tarjetas NFC, pero cada servicio estaba en su propia sección
+// Existe porque CES dejó de vender solo páginas: hoy son páginas, ficha de
+// Google, contenido para redes y tarjetas NFC, pero cada servicio estaba en su propia sección
 // más abajo. Quien entraba veía una agencia de páginas web y tenía que bajar
 // casi hasta el final para enterarse del resto. Las agencias de IA que se
 // revisaron como referencia (octubre de 2026) muestran todo su catálogo en la
@@ -25,6 +26,15 @@ function IconoPagina() {
     <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="1.8" strokeLinecap="round" strokeLinejoin="round" className="w-6 h-6" aria-hidden="true">
       <rect x="3" y="4" width="18" height="16" rx="2.5" />
       <path d="M3 9h18M7 6.5h.01M10 6.5h.01" />
+    </svg>
+  );
+}
+
+function IconoGoogle() {
+  return (
+    <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="1.8" strokeLinecap="round" strokeLinejoin="round" className="w-6 h-6" aria-hidden="true">
+      <path d="M12 21s-6.5-5.6-6.5-11a6.5 6.5 0 0 1 13 0c0 5.4-6.5 11-6.5 11Z" />
+      <circle cx="12" cy="10" r="2.4" />
     </svg>
   );
 }
@@ -69,6 +79,16 @@ export function Servicios({ promo }: { promo: PromoActiva | null }) {
       destacado: true,
     },
     {
+      icono: <IconoGoogle />,
+      titulo: "Ficha de Google",
+      texto: "Tu ficha de Google Maps completa y al día: fotos, publicaciones cada semana y respuesta a todas tus reseñas.",
+      precio: formatCOP(FICHA_GOOGLE.mensual),
+      detalle: `al mes · montaje ${formatCOP(FICHA_GOOGLE.montaje)}`,
+      href: "#ficha-google",
+      cta: "Ver qué incluye",
+      destacado: false,
+    },
+    {
       icono: <IconoRedes />,
       titulo: "Contenido para redes",
       texto: "Reels y piezas gráficas hechas con inteligencia artificial, cada mes, para que te encuentren en Instagram y TikTok.",
@@ -96,7 +116,7 @@ export function Servicios({ promo }: { promo: PromoActiva | null }) {
         <div>
           <div className="eyebrow mb-5">Lo que hacemos</div>
           <h2 className="text-[clamp(26px,3.6vw,40px)] font-bold leading-[1.1] text-ink max-w-[20ch]">
-            Tres formas de que te encuentren
+            Cuatro formas de que te encuentren
           </h2>
         </div>
         <div className="flex flex-wrap gap-2 md:max-w-[340px] md:justify-end">
@@ -114,7 +134,7 @@ export function Servicios({ promo }: { promo: PromoActiva | null }) {
         </div>
       </div>
 
-      <div className="grid grid-cols-1 md:grid-cols-3 gap-4 md:gap-5">
+      <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-4 md:gap-5">
         {servicios.map((s) => (
           <a
             key={s.titulo}
@@ -149,8 +169,8 @@ export function Servicios({ promo }: { promo: PromoActiva | null }) {
                   solo a sí mismo. La flecha baja porque lleva más abajo en la
                   misma página.
 
-                  Va en su propia fila y no al lado del precio: en tablet las
-                  tres tarjetas son angostas y lado a lado el botón se salía. */}
+                  Va en su propia fila y no al lado del precio: con cuatro
+                  tarjetas lado a lado son angostas y el botón se salía. */}
               <span
                 className={`mt-5 pt-4 border-t w-full flex items-center justify-between gap-3 text-[13.5px] font-semibold ${
                   s.destacado ? "text-gold border-white/12" : "text-blue-bright border-line"

@@ -8,6 +8,7 @@ import { Contenido } from "@/components/sections/Contenido";
 import { TarjetaNfc } from "@/components/sections/TarjetaNfc";
 import { Servicios } from "@/components/sections/Servicios";
 import { ComoFunciona } from "@/components/sections/ComoFunciona";
+import { FichaGoogle } from "@/components/sections/FichaGoogle";
 import { Preguntas } from "@/components/sections/Preguntas";
 import { SignUp } from "@/components/sections/SignUp";
 import { Footer } from "@/components/sections/Footer";
@@ -67,6 +68,9 @@ export default function Home() {
           <div className="max-w-[1180px] mx-auto px-7">
             <Plans promo={promo} />
             <ComoFunciona />
+            {/* Clara, antes de la banda oscura de contenido: queda cerca de
+                las páginas, que es con lo que más se compara. */}
+            <FichaGoogle />
           </div>
 
           {/* Va después de los planes a propósito: es un servicio adicional,

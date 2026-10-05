@@ -1,4 +1,4 @@
-import { BUSINESS, TARJETA_NFC, formatCOP } from "@/lib/business";
+import { BUSINESS, FICHA_GOOGLE, TARJETA_NFC, formatCOP } from "@/lib/business";
 
 // Preguntas frecuentes. Cada respuesta dice lo mismo que /terminos o que
 // lib/business.ts — no hay aquí ninguna promesa que no esté escrita allá. Si
@@ -30,8 +30,12 @@ const PREGUNTAS: { p: string; r: string }[] = [
     r: "No. El precio que rige es el que estaba publicado el día que contrataste, y se te respeta aunque la promoción ya haya terminado.",
   },
   {
-    p: "¿Puedo contratar solo la tarjeta o solo el contenido?",
+    p: "¿Puedo contratar solo la tarjeta, la ficha de Google o el contenido?",
     r: `Sí. Se contratan aparte de la página, y también sin ella. La tarjeta es un pago único: ${formatCOP(TARJETA_NFC.precio)} una, o ${formatCOP(TARJETA_NFC.precioDos)} dos del mismo diseño. Si son de diseños distintos, cada una vale ${formatCOP(TARJETA_NFC.precio)}. Es tuya: sigue funcionando aunque no tengas ningún otro servicio con nosotros, y si cambias de enlace la actualizamos sin cambiar la tarjeta.`,
+  },
+  {
+    p: "Para manejar mi ficha de Google, ¿necesitan mi contraseña?",
+    r: `No, y nunca te la vamos a pedir. Desde tu cuenta de Google nos agregas como administradores de tu perfil, y la ficha sigue siendo tuya. Si cancelas, nos quitas el acceso y la ficha queda tal como está. El montaje vale ${formatCOP(FICHA_GOOGLE.montaje)} e incluye una tarjeta NFC de reseñas; la mensualidad, ${formatCOP(FICHA_GOOGLE.mensual)}. No compramos ni inventamos reseñas, y no prometemos el primer lugar en Google.`,
   },
 ];
 

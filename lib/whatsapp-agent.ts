@@ -2,6 +2,7 @@ import Anthropic from "@anthropic-ai/sdk";
 import {
   BUSINESS,
   CONTENIDO,
+  FICHA_GOOGLE,
   PLANS,
   TARJETA_NFC,
   fechaLarga,
@@ -17,6 +18,7 @@ import {
 function buildAdicionalesText(): string {
   return [
     `Contenido para redes con inteligencia artificial (reels y piezas gráficas cada mes): desde ${formatCOP(CONTENIDO.desde)} COP al mes. La cantidad de contenido se acuerda con cada negocio, así que el valor final se cotiza; no des otra cifra que ese "desde".`,
+    `Ficha de Google (Perfil de Negocio en Google Maps): montaje de ${formatCOP(FICHA_GOOGLE.montaje)} COP, pago único que incluye una tarjeta NFC de reseñas, más ${formatCOP(FICHA_GOOGLE.mensual)} COP al mes. El montaje incluye: ${FICHA_GOOGLE.montajeIncluye.join("; ").toLowerCase()}. Cada mes: ${FICHA_GOOGLE.mesIncluye.join("; ").toLowerCase()}. Nunca pedimos la contraseña de Google: el dueño nos agrega como administradores y la ficha sigue siendo suya. NO prometas el primer lugar en Google ni una cantidad de reseñas o de clientes.`,
     `Tarjeta NFC: pago único de ${formatCOP(TARJETA_NFC.precio)} COP por una, o ${formatCOP(TARJETA_NFC.precioDos)} COP por dos DEL MISMO DISEÑO. Si son de diseños distintos (por ejemplo una de Google y una de WhatsApp), NO aplica el precio de dos: cada una vale ${formatCOP(TARJETA_NFC.precio)}. El precio por unidad es el mismo para cualquier diseño: Google (reseñas), WhatsApp, Facebook, Instagram o TikTok. De tres en adelante no hay precio publicado: di que eso lo cotiza el equipo. Es una tarjeta para el mostrador que el cliente del negocio toca con el celular y lo lleva a: ${TARJETA_NFC.destinos.join("; ").toLowerCase()}. Por detrás lleva un código QR que lleva al mismo lugar, para los celulares que no leen NFC. Es del cliente y no depende de ninguna mensualidad. Se entrega configurada, y si el negocio cambia de enlace se actualiza sin cambiar la tarjeta.`,
   ].join("\n");
 }

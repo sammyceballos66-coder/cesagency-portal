@@ -125,6 +125,23 @@ El enlace a su Instagram está guardado pero **apagado a propósito** detrás de
 a un prospecto justo después de prometerle visibilidad argumenta en contra de
 la venta.
 
+### Ficha de Google (servicio adicional)
+
+`FICHA_GOOGLE` en `lib/business.ts`, sección `components/sections/FichaGoogle.tsx`
+(`#ficha-google`). Lanzado el 5 de octubre de 2026: montaje de **$250.000**
+(pago único, **incluye una tarjeta NFC de reseñas**) y **$150.000 al mes**.
+Precios de Samuel; la referencia del mercado está en el comentario de la
+constante (Labweb cobra $800.000 + $600.000/mes).
+
+Tres reglas que dicen la sección, los términos, las preguntas y el agente, y
+que no se negocian: **nunca se pide la contraseña** (el dueño agrega a CES como
+administrador y la ficha sigue siendo suya), **no se compran ni inventan
+reseñas** (se responden todas, también las malas) y **no se promete el primer
+lugar** en Google.
+
+Va entre "Cómo funciona" y la banda oscura de contenido, y en el resumen de
+servicios de arriba (que pasó de tres a cuatro tarjetas).
+
 ### Tarjeta NFC (servicio adicional)
 
 `TARJETA_NFC` en `lib/business.ts`, sección `components/sections/TarjetaNfc.tsx`.
@@ -201,7 +218,8 @@ escrita en su prompt.
 ```
 app/
   page.tsx              Hero → Servicios → Showcase → Plans → ComoFunciona →
-                        Contenido → TarjetaNfc → Preguntas → SignUp (+ Header, Footer)
+                        FichaGoogle → Contenido → TarjetaNfc → Preguntas → SignUp
+                        (+ Header, Footer)
   r/[numero]/           desvío de las tarjetas NFC (QR y chip) → tabla tarjetas_nfc
   admin/                página privada con clave: asignar tarjetas NFC
   tarjeta-sin-activar/  a donde cae una tarjeta sin vender o si la base falla
@@ -219,7 +237,7 @@ components/
   PromoBar.tsx          franja de promoción, encima del header
   SmoothScroll.tsx      Lenis + sync con ScrollTrigger de GSAP
   sections/             Hero, Servicios, Showcase, Plans, ComoFunciona,
-                        Contenido, TarjetaNfc, Preguntas, SignUp, Footer
+                        FichaGoogle, Contenido, TarjetaNfc, Preguntas, SignUp, Footer
 hooks/useTilt.ts        efecto tilt 3D en tarjetas
 lib/
   business.ts           ⚠️ fuente única de planes/precios (sitio + agente)
