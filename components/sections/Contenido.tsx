@@ -110,7 +110,7 @@ export function Contenido() {
               cliente real con nombre, no un testimonio anónimo. Ellos
               autorizaron que se les nombre. */}
           <div className="contenido-cliente rounded-[16px] border border-white/12 bg-white/[0.04] backdrop-blur-sm p-7 md:p-9">
-            <div className="text-[11.5px] font-bold uppercase tracking-[0.13em] text-gold mb-4">
+            <div className="text-[15px] md:text-[16px] font-bold uppercase tracking-[0.12em] text-gold mb-5">
               Cliente de contenido
             </div>
 
