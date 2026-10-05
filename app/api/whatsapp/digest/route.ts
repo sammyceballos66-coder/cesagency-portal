@@ -60,15 +60,37 @@ async function sendWhatsAppMessage(to: string, message: string) {
   return { sent: true };
 }
 
+// El resumen de cada lead lo escribe el modelo, guiado por lo que el cliente
+// le dijo: es texto de un desconocido, aunque llegue desde nuestro propio
+// número. Se recorta, se le quitan los enlaces y los caracteres de formato, y
+// se pone un tope de filas. Sin esto (auditoría del 5 de octubre de 2026) un
+// cliente podía meter un enlace de estafa en el mensaje que reciben los
+// fundadores, o inundar el resumen hasta que WhatsApp lo rechazara y esa noche
+// no llegara nada.
+const MAX_FILAS = 25;
+const MAX_RESUMEN = 120;
+
+function resumenSeguro(texto: string | undefined): string {
+  const limpio = (texto ?? "")
+    .replace(/https?:\/\/\S+|www\.\S+/gi, "[enlace]")
+    .replace(/[`*_~\r\n]+/g, " ")
+    .replace(/\s+/g, " ")
+    .trim();
+  if (!limpio) return "Quiere hablar personalmente";
+  return limpio.length > MAX_RESUMEN ? `${limpio.slice(0, MAX_RESUMEN - 1)}…` : limpio;
+}
+
+// Solo dígitos y el "+". Desde que el webhook valida el remitente esto ya
+// viene limpio, pero las filas viejas se guardaron sin esa validación.
+const telefonoSeguro = (phone: string) => phone.replace(/^whatsapp:/, "").replace(/[^\d+]/g, "").slice(0, 16);
+
 function buildDigestMessage(leads: Lead[]): string {
   if (leads.length === 0) {
     return `📋 *Resumen del día: ${BUSINESS.name}*\n\nHoy no hubo clientes que pidieran hablar personalmente.`;
   }
 
-  const rows = leads.map((l) => {
-    const summary = l.leadSummary ?? "Quiere hablar personalmente";
-    return `${l.phone}  ${summary}`;
-  });
+  const rows = leads.slice(0, MAX_FILAS).map((l) => `${telefonoSeguro(l.phone)}  ${resumenSeguro(l.leadSummary)}`);
+  const resto = leads.length - MAX_FILAS;
 
   return [
     `📋 *Resumen del día: ${BUSINESS.name}*`,
@@ -77,6 +99,7 @@ function buildDigestMessage(leads: Lead[]): string {
     "```",
     rows.join("\n"),
     "```",
+    ...(resto > 0 ? ["", `Y ${resto} más. Revísalos en Supabase.`] : []),
   ].join("\n");
 }
 

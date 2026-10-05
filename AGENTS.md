@@ -445,6 +445,20 @@ número propio falta: pasar la cuenta de Twilio de trial a pagada (bloqueada
 por verificación de identidad de la titular), verificar el negocio en Meta
 Business Manager, registrar el número y aprobar plantillas.
 
+**El webhook verifica la firma de Twilio** (`lib/twilio-firma.ts`) antes de
+hacer cualquier cosa, y responde 403 sin ella. Hasta el 5 de octubre de 2026
+aceptaba cualquier POST: una auditoría (skill security-audit de Cloudflare)
+confirmó que cualquiera podía gastar sin límite en Anthropic, escribir en la
+conversación de cualquier número y meter texto en el resumen de los
+fundadores. Además: el remitente tiene que ser `whatsapp:+<dígitos>`, el
+mensaje se corta a 1.500 caracteres, hay freno de 20 mensajes cada 10
+minutos por remitente, al modelo van solo los últimos 20 mensajes (se guardan
+60) y el resumen diario recorta cada fila, quita enlaces y no pasa de 25.
+**Si el asistente deja de contestar** después de un cambio en Twilio, mira los
+logs: "firma de Twilio ausente o inválida" significa que `TWILIO_AUTH_TOKEN`
+no es de la cuenta dueña del número/sandbox, o que Twilio apunta a una URL
+distinta (ponla en `TWILIO_WEBHOOK_URL`).
+
 **Anthropic**: `lib/whatsapp-agent.ts` arma el system prompt desde
 `BUSINESS` y `PLANS`. Responde en español colombiano, mensajes cortos, y
 marca `wantsHuman` cuando el prospecto quiere hablar con una persona.
