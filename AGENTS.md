@@ -289,6 +289,8 @@ no puede pasar.
 WebKit móvil (hueco blanco enorme arriba del panel cuando la barra del
 navegador está visible). Ver `components/sections/SignUp.tsx`.
 
+**Reels de las redes de CES**: viven en otro proyecto, `../ces-reels` (Remotion), con su propio `AGENTS.md`. Copian los diseños de las tarjetas y el logo de `public/` de aquí: si cambian aquí, hay que copiarlos allá.
+
 **Sitios de clientes**: viven en subcarpetas (`quality-barber-shop-web/`,
 `aicontador-web/`, `renault-pereira-web/`) y están en el `.gitignore` de este
 repo. Cada uno tiene **su propio repo de GitHub**. No los toques desde aquí.
