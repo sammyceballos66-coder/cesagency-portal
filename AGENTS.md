@@ -439,7 +439,13 @@ entidades sin ánimo de lucro con activos sobre 100.000 UVT.
 
 ## Integraciones
 
-**Twilio + WhatsApp**: el sitio y el agente todavía corren sobre el **número
+**Botones de WhatsApp del sitio**: desde el 6 de octubre de 2026 llevan al
+WhatsApp personal de **Emmanuel** (`573117331386`), que es quien atiende a los
+clientes. Salen de `NEXT_PUBLIC_WHATSAPP_NUMBER` en Vercel, que se lee en el
+build: cambiarla exige redesplegar. Cuando CES tenga su eSIM y WhatsApp
+Business propio, se cambia ahí.
+
+**Twilio + WhatsApp**: el agente automático todavía corre sobre el **número
 sandbox compartido** (`+1 415 523 8886`), no uno propio de CES. Para tener
 número propio falta: pasar la cuenta de Twilio de trial a pagada (bloqueada
 por verificación de identidad de la titular), verificar el negocio en Meta
