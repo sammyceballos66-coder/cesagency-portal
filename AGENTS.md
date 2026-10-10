@@ -389,11 +389,15 @@ toda la plataforma:
   agrupar, el label es el copy exacto que la persona vio y se va a reescribir.
 
   Desde el 10 de octubre de 2026 el formulario ofrece los cuatro servicios
-  más "No sé todavía" (`OPCIONES_REGISTRO`), no solo los dos planes. Se
-  guarda en `plan_id` (texto, sin migración) y el precio sale de
-  `precioDeRegistro()`: la promoción solo se anota en los planes de página;
-  contenido guarda el "desde" como mensualidad; tarjeta y "no sé" van sin
-  mensualidad.
+  más "No sé todavía" (`OPCIONES_REGISTRO`), no solo los dos planes, y se
+  pueden **marcar varios**. Se guardan juntos en `plan_id` separados por
+  coma (`esencial,tarjeta-nfc`; texto, sin migración) y `setup_cop` /
+  `monthly_cop` son la **suma** de lo mostrado (`precioDeVarios()`); el
+  detalle de cada uno se reconstruye con los ids, `promo_id` y la fecha. La
+  promoción solo se anota si hay un plan de página; contenido suma su
+  "desde" como mensualidad. "No sé todavía" no se combina con nada. El
+  servidor aún acepta el `planId` viejo (uno solo) de pestañas abiertas
+  antes del cambio.
 
   **El SQL va antes que el despliegue.** `app/api/register/route.ts` manda las
   cuatro columnas en un único insert, así que si el código llega primero,

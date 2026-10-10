@@ -514,10 +514,10 @@ export function whatsAppLink(prefillText: string): string {
 
 // Lo que se puede escoger en el formulario "Regístrate". Hasta el 10 de
 // octubre de 2026 solo salían los dos planes de página; Samuel pidió que
-// salieran los cuatro servicios. Es UNA sola opción a propósito: `plan_id` es
-// una columna de texto, así que esto entra sin migración, y con varias habría
-// que cambiar la tabla y el precio que se guarda. "No sé todavía" existe para
-// que nadie escoja un servicio al azar solo por poder enviar el formulario.
+// salieran los cuatro servicios y que se pudiera marcar más de uno. Se guardan
+// juntos en `plan_id` separados por coma ("esencial,tarjeta-nfc"): la columna
+// es texto, así que entra sin migración. "No sé todavía" existe para que nadie
+// marque un servicio al azar solo por poder enviar, y no se combina con otros.
 export const OPCIONES_REGISTRO = [
   ...PLANS.map((p) => ({ id: p.id, nombre: p.id === "esencial" ? "Página informativa" : "Página con reservas", detalle: p.name })),
   { id: "ficha-google", nombre: "Ficha de Google", detalle: "Que te encuentren en Maps" },
@@ -546,6 +546,25 @@ export function precioDeRegistro(
   if (id === "tarjeta-nfc") return { setup: TARJETA_NFC.precio, monthly: null, conPromo: false };
   if (id === "no-se") return { setup: null, monthly: null, conPromo: false };
   return null;
+}
+
+/**
+ * Lo mismo para varios servicios a la vez: suma lo que se le mostró. El
+ * detalle de cada uno se puede reconstruir con los ids, `promo_id` y la fecha.
+ * Devuelve null si alguno no existe.
+ */
+export function precioDeVarios(ids: string[], ventanaViva: boolean) {
+  let setup: number | null = null;
+  let monthly: number | null = null;
+  let conPromo = false;
+  for (const id of ids) {
+    const p = precioDeRegistro(id, ventanaViva);
+    if (!p) return null;
+    if (p.setup !== null) setup = (setup ?? 0) + p.setup;
+    if (p.monthly !== null) monthly = (monthly ?? 0) + p.monthly;
+    conPromo ||= p.conPromo;
+  }
+  return { setup, monthly, conPromo };
 }
 
 // Los dos números que se publican en el pie de página (10 oct 2026, pedido

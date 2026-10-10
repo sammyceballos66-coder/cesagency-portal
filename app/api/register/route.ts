@@ -6,7 +6,7 @@
 // la plataforma.
 
 import { supabase } from "@/lib/supabase";
-import { precioDeRegistro, promoVigente } from "@/lib/business";
+import { precioDeVarios, promoVigente } from "@/lib/business";
 import { ipDeLaPeticion, superaElLimite } from "@/lib/rate-limit";
 
 // Cinco registros cada diez minutos desde la misma IP. Nadie llena este
@@ -32,6 +32,8 @@ const MAX = {
   phone: 30,
   email: 254,
   description: 2000,
+  // Cuántos servicios y qué tan largo puede ser cada id.
+  servicios: 6,
   planId: 40,
 } as const;
 
@@ -41,7 +43,7 @@ type RegisterBody = {
   phone: string;
   email: string;
   description?: string;
-  planId: string;
+  planIds: string[];
 };
 
 // Un campo opcional puede no venir, pero si viene tiene que ser texto y caber.
@@ -65,9 +67,10 @@ function isValidBody(body: unknown): body is RegisterBody {
     typeof b.email === "string" &&
     b.email.length <= MAX.email &&
     /^[^\s@]+@[^\s@]+\.[^\s@]+$/.test(b.email) &&
-    typeof b.planId === "string" &&
-    b.planId.length > 0 &&
-    b.planId.length <= MAX.planId &&
+    Array.isArray(b.planIds) &&
+    b.planIds.length > 0 &&
+    b.planIds.length <= MAX.servicios &&
+    b.planIds.every((id) => typeof id === "string" && id.length > 0 && id.length <= MAX.planId) &&
     opcional(b.businessName, MAX.businessName) &&
     opcional(b.description, MAX.description)
   );
@@ -111,6 +114,12 @@ export async function POST(request: Request) {
     return Response.json({ error: "JSON inválido" }, { status: 400 });
   }
 
+  // Formato de antes del 10 oct 2026 (`planId`, uno solo): lo sigue mandando
+  // quien tenga la página abierta desde antes del cambio.
+  if (body && typeof body === "object" && !("planIds" in body) && typeof (body as { planId?: unknown }).planId === "string") {
+    (body as { planIds?: unknown }).planIds = [(body as { planId: string }).planId];
+  }
+
   if (!isValidBody(body)) {
     return Response.json({ error: "Datos incompletos o inválidos" }, { status: 400 });
   }
@@ -120,8 +129,13 @@ export async function POST(request: Request) {
   // que no corresponde a nada, y además hace falta el servicio real para saber
   // qué precio se le mostró. Desde el 10 oct 2026 no son solo los dos planes
   // de página: ver OPCIONES_REGISTRO en lib/business.ts.
+  // Se quitan repetidos, y "no sé todavía" no se combina con nada.
+  const ids = [...new Set(body.planIds)];
+  if (ids.includes("no-se") && ids.length > 1) {
+    return Response.json({ error: "\"No sé todavía\" va solo" }, { status: 400 });
+  }
   const ventana = promoVigente();
-  const precio = precioDeRegistro(body.planId, ventana !== null);
+  const precio = precioDeVarios(ids, ventana !== null);
   if (!precio) {
     return Response.json({ error: "Ese servicio no existe" }, { status: 400 });
   }
@@ -147,7 +161,7 @@ export async function POST(request: Request) {
     phone: body.phone.trim().slice(0, MAX.phone),
     email: body.email.trim().slice(0, MAX.email),
     description: body.description?.trim().slice(0, MAX.description) || null,
-    plan_id: body.planId,
+    plan_id: ids.join(","),
     // Se guardan los dos: el `id` es la llave estable con la que se puede
     // agrupar dentro de un año, y el `label` es el copy exacto que la persona
     // vio. El label se va a reescribir —es texto de venta—, así que por sí

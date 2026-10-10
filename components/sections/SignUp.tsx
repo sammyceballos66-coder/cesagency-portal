@@ -52,17 +52,35 @@ function RegisterModal({ onClose }: { onClose: () => void }) {
   const [phone, setPhone] = useState("");
   const [email, setEmail] = useState("");
   const [description, setDescription] = useState("");
-  const [planId, setPlanId] = useState("");
+  const [planIds, setPlanIds] = useState<string[]>([]);
+  const [faltaServicio, setFaltaServicio] = useState(false);
   const [status, setStatus] = useState<Status>("idle");
+
+  // Se pueden marcar varios. "No sé todavía" va solo: marcarlo quita los
+  // demás, y marcar otro lo quita a él.
+  function alternar(id: string) {
+    setFaltaServicio(false);
+    setPlanIds((actual) => {
+      if (actual.includes(id)) return actual.filter((x) => x !== id);
+      if (id === "no-se") return ["no-se"];
+      return [...actual.filter((x) => x !== "no-se"), id];
+    });
+  }
 
   async function handleSubmit(e: React.FormEvent) {
     e.preventDefault();
+    // Un grupo de casillas no se puede marcar como `required` en HTML, así
+    // que se revisa aquí.
+    if (planIds.length === 0) {
+      setFaltaServicio(true);
+      return;
+    }
     setStatus("sending");
     try {
       const res = await fetch("/api/register", {
         method: "POST",
         headers: { "Content-Type": "application/json" },
-        body: JSON.stringify({ contactName, businessName, phone, email, description, planId }),
+        body: JSON.stringify({ contactName, businessName, phone, email, description, planIds }),
       });
       if (!res.ok) throw new Error("request failed");
       setStatus("sent");
@@ -166,22 +184,23 @@ function RegisterModal({ onClose }: { onClose: () => void }) {
             </label>
 
             <fieldset className="flex flex-col gap-1.5">
-              <legend className="text-sm text-ink mb-1.5">¿Qué te interesa?</legend>
+              <legend className="text-sm text-ink mb-1.5">
+                ¿Qué te interesa? <span className="text-ink-faint">(puedes marcar varios)</span>
+              </legend>
               <div className="grid grid-cols-2 sm:grid-cols-3 gap-2">
                 {OPCIONES_REGISTRO.map((o) => (
                   <label
                     key={o.id}
                     className={`flex items-start gap-2 text-sm text-ink border rounded-lg px-3 py-2.5 cursor-pointer transition-colors ${
-                      planId === o.id ? "border-blue-bright bg-blue/5" : "border-line hover:border-line-strong"
+                      planIds.includes(o.id) ? "border-blue-bright bg-blue/5" : "border-line hover:border-line-strong"
                     }`}
                   >
                     <input
-                      required
-                      type="radio"
-                      name="plan"
+                      type="checkbox"
+                      name="servicios"
                       value={o.id}
-                      checked={planId === o.id}
-                      onChange={(e) => setPlanId(e.target.value)}
+                      checked={planIds.includes(o.id)}
+                      onChange={() => alternar(o.id)}
                       className="mt-1 accent-blue-bright"
                     />
                     <span className="flex flex-col leading-snug">
@@ -191,6 +210,9 @@ function RegisterModal({ onClose }: { onClose: () => void }) {
                   </label>
                 ))}
               </div>
+              {faltaServicio && (
+                <p className="text-sm text-accent-red">Marca al menos una opción. Si no sabes, escoge "No sé todavía".</p>
+              )}
             </fieldset>
 
             {status === "error" && (
