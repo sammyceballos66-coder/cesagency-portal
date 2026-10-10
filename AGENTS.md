@@ -448,6 +448,12 @@ del papá de Samuel). Antes iban al personal de Emmanuel. Salen de
 exige redesplegar (`npx vercel redeploy <última de producción>`).
 `AGENCY_WHATSAPP_NUMBERS` es otra cosa: a quién le llega el resumen diario.
 
+El pie de página publica **los dos números** (`CONTACTOS_WHATSAPP` en
+`lib/business.ts`): el de CES y el personal de Emmanuel (`573117331386`),
+pedido de Samuel el 10 de octubre de 2026. Los botones grandes siguen yendo
+solo al de CES, para que las conversaciones entren por un lado. Los reels y
+flyers de `../ces-reels` también traen los dos.
+
 Este número es de la **app** WhatsApp Business. El agente automático sigue en
 el sandbox de Twilio; pasarlo a este número exige Meta y es otra decisión.
 

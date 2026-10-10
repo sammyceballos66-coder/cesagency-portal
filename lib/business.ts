@@ -511,3 +511,18 @@ export function whatsAppLink(prefillText: string): string {
   if (!AGENCY_WHATSAPP_NUMBER) return "#registro";
   return `https://wa.me/${AGENCY_WHATSAPP_NUMBER}?text=${encodeURIComponent(prefillText)}`;
 }
+
+// Los dos números que se publican en el pie de página (10 oct 2026, pedido
+// de Samuel): el de CES y el personal de Emmanuel, que es quien atiende. Los
+// botones grandes van solo al de CES, para que las conversaciones entren por
+// un lado; aquí se dan los dos para quien prefiera escribirle a una persona.
+export const CONTACTOS_WHATSAPP = [
+  { nombre: "CES Agencia", numero: AGENCY_WHATSAPP_NUMBER || "573127780076" },
+  { nombre: "Emmanuel", numero: "573117331386" },
+];
+
+/** "573127780076" → "312 778 0076" */
+export function formatoCelular(numero: string): string {
+  const local = numero.replace(/^57/, "");
+  return `${local.slice(0, 3)} ${local.slice(3, 6)} ${local.slice(6)}`;
+}
