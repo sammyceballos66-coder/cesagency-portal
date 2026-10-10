@@ -441,11 +441,15 @@ entidades sin ánimo de lucro con activos sobre 100.000 UVT.
 
 ## Integraciones
 
-**Botones de WhatsApp del sitio**: desde el 6 de octubre de 2026 llevan al
-WhatsApp personal de **Emmanuel** (`573117331386`), que es quien atiende a los
-clientes. Salen de `NEXT_PUBLIC_WHATSAPP_NUMBER` en Vercel, que se lee en el
-build: cambiarla exige redesplegar. Cuando CES tenga su eSIM y WhatsApp
-Business propio, se cambia ahí.
+**Botones de WhatsApp del sitio**: desde el 10 de octubre de 2026 llevan al
+**WhatsApp Business propio de CES** (`573127780076`, eSIM de Claro a nombre
+del papá de Samuel). Antes iban al personal de Emmanuel. Salen de
+`NEXT_PUBLIC_WHATSAPP_NUMBER` en Vercel, que se lee en el build: cambiarla
+exige redesplegar (`npx vercel redeploy <última de producción>`).
+`AGENCY_WHATSAPP_NUMBERS` es otra cosa: a quién le llega el resumen diario.
+
+Este número es de la **app** WhatsApp Business. El agente automático sigue en
+el sandbox de Twilio; pasarlo a este número exige Meta y es otra decisión.
 
 **Twilio + WhatsApp**: el agente automático todavía corre sobre el **número
 sandbox compartido** (`+1 415 523 8886`), no uno propio de CES. Para tener
