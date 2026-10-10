@@ -6,7 +6,7 @@
 // la plataforma.
 
 import { supabase } from "@/lib/supabase";
-import { PLANS, pricingFor, promoVigente } from "@/lib/business";
+import { precioDeRegistro, promoVigente } from "@/lib/business";
 import { ipDeLaPeticion, superaElLimite } from "@/lib/rate-limit";
 
 // Cinco registros cada diez minutos desde la misma IP. Nadie llena este
@@ -115,13 +115,15 @@ export async function POST(request: Request) {
     return Response.json({ error: "Datos incompletos o inválidos" }, { status: 400 });
   }
 
-  // El plan tiene que ser uno de los que existen. Antes se guardaba tal cual
-  // venía del navegador, así que un POST a mano podía dejar un `plan_id` que
-  // no corresponde a nada — y ahora además hace falta el plan real para saber
-  // qué precio se le mostró.
-  const plan = PLANS.find((p) => p.id === body.planId);
-  if (!plan) {
-    return Response.json({ error: "Ese plan no existe" }, { status: 400 });
+  // El servicio tiene que ser uno de los que existen. Antes se guardaba tal
+  // cual venía del navegador, así que un POST a mano podía dejar un `plan_id`
+  // que no corresponde a nada, y además hace falta el servicio real para saber
+  // qué precio se le mostró. Desde el 10 oct 2026 no son solo los dos planes
+  // de página: ver OPCIONES_REGISTRO en lib/business.ts.
+  const ventana = promoVigente();
+  const precio = precioDeRegistro(body.planId, ventana !== null);
+  if (!precio) {
+    return Response.json({ error: "Ese servicio no existe" }, { status: 400 });
   }
 
   // El precio se resuelve AQUÍ, en el servidor, y no se acepta del navegador:
@@ -135,8 +137,9 @@ export async function POST(request: Request) {
   // `revalidate`. Queda `created_at` al lado para poder mirarlo si algún día
   // alguien reclama, y el criterio comercial es simple: si la persona dice que
   // vio el precio de promoción y la fecha cuadra, se le respeta.
-  const ventana = promoVigente();
-  const precio = pricingFor(plan, ventana !== null);
+  // La promoción solo se anota en los planes de página, que son los únicos
+  // con ventanas.
+  const promo = precio.conPromo ? ventana : null;
 
   const { error } = await supabase.from("registrations").insert({
     contact_name: body.contactName.trim().slice(0, MAX.contactName),
@@ -144,13 +147,13 @@ export async function POST(request: Request) {
     phone: body.phone.trim().slice(0, MAX.phone),
     email: body.email.trim().slice(0, MAX.email),
     description: body.description?.trim().slice(0, MAX.description) || null,
-    plan_id: plan.id,
+    plan_id: body.planId,
     // Se guardan los dos: el `id` es la llave estable con la que se puede
     // agrupar dentro de un año, y el `label` es el copy exacto que la persona
     // vio. El label se va a reescribir —es texto de venta—, así que por sí
     // solo no sirve para saber de qué ventana salió una fila.
-    promo_id: ventana?.id ?? null,
-    promo_label: ventana?.label ?? null,
+    promo_id: promo?.id ?? null,
+    promo_label: promo?.label ?? null,
     setup_cop: precio.setup,
     monthly_cop: precio.monthly,
   });

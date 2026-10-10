@@ -388,6 +388,13 @@ toda la plataforma:
   pesos. Se guardan el `id` y el `label`: el id es la llave estable para
   agrupar, el label es el copy exacto que la persona vio y se va a reescribir.
 
+  Desde el 10 de octubre de 2026 el formulario ofrece los cuatro servicios
+  más "No sé todavía" (`OPCIONES_REGISTRO`), no solo los dos planes. Se
+  guarda en `plan_id` (texto, sin migración) y el precio sale de
+  `precioDeRegistro()`: la promoción solo se anota en los planes de página;
+  contenido guarda el "desde" como mensualidad; tarjeta y "no sé" van sin
+  mensualidad.
+
   **El SQL va antes que el despliegue.** `app/api/register/route.ts` manda las
   cuatro columnas en un único insert, así que si el código llega primero,
   PostgREST rechaza la fila entera y se pierde **el prospecto completo**, no

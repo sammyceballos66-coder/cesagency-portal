@@ -2,7 +2,7 @@
 
 import { useEffect, useRef, useState } from "react";
 import Image from "next/image";
-import { PLANS } from "@/lib/business";
+import { OPCIONES_REGISTRO } from "@/lib/business";
 
 type Status = "idle" | "sending" | "sent" | "error";
 
@@ -165,30 +165,33 @@ function RegisterModal({ onClose }: { onClose: () => void }) {
               />
             </label>
 
-            <div className="grid grid-cols-1 sm:grid-cols-2 gap-2.5">
-              {PLANS.map((p) => (
-                <label
-                  key={p.id}
-                  className={`flex items-start gap-2.5 text-sm text-ink border rounded-lg px-3 py-2.5 cursor-pointer transition-colors ${
-                    planId === p.id ? "border-blue-bright bg-blue/5" : "border-line"
-                  }`}
-                >
-                  <input
-                    required
-                    type="radio"
-                    name="plan"
-                    value={p.id}
-                    checked={planId === p.id}
-                    onChange={(e) => setPlanId(e.target.value)}
-                    className="mt-0.5 accent-blue-bright"
-                  />
-                  <span>
-                    <span className="font-semibold">{p.name}</span>{" "}
-                    <span className="text-ink-muted">· {p.tagline}</span>
-                  </span>
-                </label>
-              ))}
-            </div>
+            <fieldset className="flex flex-col gap-1.5">
+              <legend className="text-sm text-ink mb-1.5">¿Qué te interesa?</legend>
+              <div className="grid grid-cols-2 sm:grid-cols-3 gap-2">
+                {OPCIONES_REGISTRO.map((o) => (
+                  <label
+                    key={o.id}
+                    className={`flex items-start gap-2 text-sm text-ink border rounded-lg px-3 py-2.5 cursor-pointer transition-colors ${
+                      planId === o.id ? "border-blue-bright bg-blue/5" : "border-line hover:border-line-strong"
+                    }`}
+                  >
+                    <input
+                      required
+                      type="radio"
+                      name="plan"
+                      value={o.id}
+                      checked={planId === o.id}
+                      onChange={(e) => setPlanId(e.target.value)}
+                      className="mt-1 accent-blue-bright"
+                    />
+                    <span className="flex flex-col leading-snug">
+                      <span className="font-semibold">{o.nombre}</span>
+                      <span className="text-ink-muted text-[12px]">{o.detalle}</span>
+                    </span>
+                  </label>
+                ))}
+              </div>
+            </fieldset>
 
             {status === "error" && (
               <p className="text-sm text-red-600">
@@ -229,7 +232,7 @@ export function SignUp() {
           />
         </h2>
         <p className="text-ink text-base mb-8">
-          Regístrate, cuéntanos de tu negocio, y te contactamos personalmente para arrancar con tu página.
+          Regístrate, cuéntanos de tu negocio, y te contactamos personalmente para arrancar.
         </p>
         <button
           type="button"
