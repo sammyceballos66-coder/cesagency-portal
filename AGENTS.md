@@ -399,6 +399,12 @@ toda la plataforma:
   servidor aún acepta el `planId` viejo (uno solo) de pestañas abiertas
   antes del cambio.
 
+  **Cada registro nuevo avisa por WhatsApp** a `AGENCY_WHATSAPP_NUMBERS`
+  (desde el 10 oct 2026, `lib/twilio-envio.ts`, el mismo envío del resumen
+  diario). Todo lo que escribió la persona pasa por `textoSeguro()`. El aviso
+  espera máximo 4 s y nunca tumba el registro. Sale por el sandbox de
+  Twilio: solo llega a quien haya hecho el `join` y tenga la sesión viva.
+
   **El SQL va antes que el despliegue.** `app/api/register/route.ts` manda las
   cuatro columnas en un único insert, así que si el código llega primero,
   PostgREST rechaza la fila entera y se pierde **el prospecto completo**, no

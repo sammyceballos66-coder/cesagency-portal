@@ -6,7 +6,8 @@
 // la plataforma.
 
 import { supabase } from "@/lib/supabase";
-import { precioDeVarios, promoVigente } from "@/lib/business";
+import { OPCIONES_REGISTRO, precioDeVarios, promoVigente } from "@/lib/business";
+import { enviarWhatsApp, numerosFundadores, textoSeguro } from "@/lib/twilio-envio";
 import { ipDeLaPeticion, superaElLimite } from "@/lib/rate-limit";
 
 // Cinco registros cada diez minutos desde la misma IP. Nadie llena este
@@ -177,5 +178,50 @@ export async function POST(request: Request) {
     return Response.json({ error: "No se pudo guardar el registro" }, { status: 500 });
   }
 
+  // El registro ya quedó guardado; el aviso es aparte. Si Twilio falla o se
+  // demora, la persona igual ve "¡Listo!": se espera máximo 4 s y nada más.
+  // Se espera (en vez de dispararlo y seguir) porque en Vercel la función se
+  // congela al responder y un envío suelto podía no salir nunca.
+  try {
+    await Promise.race([avisarRegistro(body, ids), new Promise((r) => setTimeout(r, 4000))]);
+  } catch (e) {
+    console.error("[registro] no se pudo avisar por WhatsApp:", e);
+  }
+
   return Response.json({ ok: true });
+}
+
+// Aviso a los fundadores por WhatsApp (pedido de Samuel, 10 oct 2026). Todo lo
+// que escribió la persona pasa por textoSeguro(): es un formulario público, y
+// sin eso cualquiera podía meter un enlace de estafa en el celular de Samuel.
+async function avisarRegistro(body: RegisterBody, ids: string[]) {
+  const destinos = numerosFundadores();
+  if (destinos.length === 0) {
+    console.error("[registro] AGENCY_WHATSAPP_NUMBERS vacío: nadie recibe el aviso");
+    return;
+  }
+
+  const digitos = body.phone.replace(/\D/g, "").slice(0, 15);
+  const celularWa = digitos.length === 10 && digitos.startsWith("3") ? `57${digitos}` : digitos;
+  const servicios = ids
+    .map((id) => OPCIONES_REGISTRO.find((o) => o.id === id)?.nombre ?? id)
+    .join(", ");
+  const negocio = textoSeguro(body.businessName, 80);
+  const mensaje = textoSeguro(body.description, 200);
+
+  const texto = [
+    "🆕 *Registro nuevo en cesagencia.co*",
+    "",
+    `*Nombre:* ${textoSeguro(body.contactName, 80)}`,
+    ...(negocio ? [`*Negocio:* ${negocio}`] : []),
+    `*Le interesa:* ${servicios}`,
+    `*Celular:* ${digitos}`,
+    `*Correo:* ${textoSeguro(body.email, 120)}`,
+    ...(mensaje ? [`*Mensaje:* ${mensaje}`] : []),
+    "",
+    `Escríbele: https://wa.me/${celularWa}`,
+  ].join("\n");
+
+  const resultados = await Promise.all(destinos.map((to) => enviarWhatsApp(to, texto, "registro")));
+  console.log(`[registro] aviso enviado a ${resultados.filter((r) => r.sent).length}/${destinos.length}`);
 }
