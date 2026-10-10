@@ -116,7 +116,9 @@ function RegisterModal({ onClose }: { onClose: () => void }) {
               </label>
 
               <label className="flex flex-col gap-1.5 text-sm text-ink">
-                Nombre de la empresa <span className="text-ink-faint">(opcional)</span>
+                <span>
+                  Nombre de la empresa <span className="text-ink-faint">(opcional)</span>
+                </span>
                 <input
                   value={businessName}
                   onChange={(e) => setBusinessName(e.target.value)}
@@ -151,7 +153,9 @@ function RegisterModal({ onClose }: { onClose: () => void }) {
             </div>
 
             <label className="flex flex-col gap-1.5 text-sm text-ink">
-              Descripción <span className="text-ink-faint">(opcional)</span>
+              <span>
+                Descripción <span className="text-ink-faint">(opcional)</span>
+              </span>
               <textarea
                 value={description}
                 onChange={(e) => setDescription(e.target.value)}
