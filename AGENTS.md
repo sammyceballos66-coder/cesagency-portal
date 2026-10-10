@@ -193,7 +193,8 @@ enlace, se edita la fila y la tarjeta sigue igual.
   Las tarjetas vendidas se cambian con "Editar" en la lista.
 
 Los reversos para imprimir (QR + número) están en el OneDrive de Samuel,
-`CES - Tarjetas NFC para imprimir/reverso/<diseño>/`, del 1 al 20: cada
+`CES - Tarjetas NFC para imprimir/reverso/<diseño>/`, del 1 al 40 (21 a 40
+desde el 10 de octubre de 2026, para el lote de 40 tarjetas): cada
 diseño del frente tiene su reverso con los mismos colores, así que la
 imprenta combina `tarjeta-google-resenas.png` con `reverso/google/reverso-07.png`.
 El número sale del reverso, no del frente. **No le pidas el QR a ChatGPT**:
@@ -201,6 +202,11 @@ dibuja algo que parece un QR y no se lee. Los QR se generan con código y se
 comprobaron todos con un lector antes de entregarlos. Para un lote nuevo
 hay que generar los siguientes números **y** agregarlos en el panel con
 "Agregar tarjetas": un QR impreso sin fila en la tabla lleva a "sin activar".
+
+El generador vive en `CES - Tarjetas NFC para imprimir/generador/`:
+`npm install` una vez, luego `node reversos.cjs 41 60` y `node verificar.cjs`
+(lee cada QR con jsQR; hay que cambiarle el rango adentro). Usa el `sharp`
+de `node_modules` de este repo, por ruta absoluta.
 
 Las imágenes de la página son **los mismos archivos que se imprimen**, pasados
 a webp: tarjeta de PVC vertical de 54 x 85,6 mm, 638 x 1012 px a 300 dpi. Los
