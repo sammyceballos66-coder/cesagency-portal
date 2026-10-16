@@ -20,8 +20,8 @@ const campo =
   "w-full rounded-[12px] border border-line-strong bg-white px-4 py-3 text-[16px] text-ink outline-none focus:border-blue-bright";
 const etiqueta = "block text-[13px] font-semibold text-ink-muted mb-1.5";
 
-export function Panel({ tarjetas }: { tarjetas: Tarjeta[] }) {
-  const [numeros, setNumeros] = useState("");
+export function Panel({ tarjetas, numeroInicial = "" }: { tarjetas: Tarjeta[]; numeroInicial?: string }) {
+  const [numeros, setNumeros] = useState(numeroInicial);
   const [negocio, setNegocio] = useState("");
   const [destino, setDestino] = useState<DestinoId>("google");
   const [url, setUrl] = useState("");

@@ -1,6 +1,7 @@
 import { NextResponse, type NextRequest } from "next/server";
 import { supabase } from "@/lib/supabase";
 import { NUMERO_MUESTRA } from "@/lib/tarjetas";
+import { haySesion } from "@/lib/admin-sesion";
 
 // El enlace que llevan el QR y el chip de cada tarjeta NFC. Busca el número en
 // `tarjetas_nfc` y manda a la persona a donde diga, sin mostrar nada de CES.
@@ -43,7 +44,17 @@ export async function GET(request: NextRequest, ctx: RouteContext<"/r/[numero]">
   // La tabla solo acepta http(s) y el admin lo vuelve a validar al guardar,
   // pero esto abre el celular de un desconocido: se revisa una vez más.
   const url = data?.url;
-  if (!url || !/^https?:\/\//i.test(url)) return irA(sinActivar);
+  if (!url || !/^https?:\/\//i.test(url)) {
+    // Tarjeta sin vender escaneada por Samuel o Emmanuel con la sesión del
+    // panel abierta en ese celular: se va directo a asignarla, con el número
+    // ya puesto (15 oct 2026). Un cliente cualquiera no tiene la cookie y ve
+    // "sin activar" como siempre. Solo si la fila existe: un número que no se
+    // agregó con "Agregar tarjetas" no se puede asignar.
+    if (data && (await haySesion())) {
+      return irA(new URL(`/admin/tarjetas?numero=${numero}`, request.url));
+    }
+    return irA(sinActivar);
+  }
 
   return irA(url);
 }

@@ -181,6 +181,10 @@ enlace, se edita la fila y la tarjeta sigue igual.
 - `/r/muestra` es el QR de la página de CES y trae de vuelta a
   `#tarjeta-nfc`. **No lo apuntes a un cliente real**: los visitantes que
   lo escanean por curiosidad le dejarían reseñas sin haber ido nunca.
+- **Escanear una tarjeta sin vender con la sesión del panel abierta** (15 oct
+  2026) lleva directo a `/admin/tarjetas?numero=N` con el número puesto: en
+  plena venta se escanea la tarjeta y se llena el negocio y el enlace. Sin la
+  cookie (cualquier cliente) se ve "sin activar" como siempre.
 - No se guarda nada de quien escanea (ni IP ni conteo). Contar toques sería
   una decisión nueva que toca la política de privacidad.
 - `/admin` entra con **una sola clave** (`TARJETAS_CLAVE` en Vercel), sin

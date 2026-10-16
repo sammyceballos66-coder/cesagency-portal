@@ -8,13 +8,22 @@ import { Panel } from "./Panel";
 // La página que Samuel abre en el celular en plena venta para decir a dónde
 // lleva cada tarjeta. Ver lib/tarjetas.ts.
 
-export default async function Tarjetas() {
+export default async function Tarjetas({
+  searchParams,
+}: {
+  searchParams: Promise<{ numero?: string | string[] }>;
+}) {
   if (!(await haySesion())) redirect("/admin/entrar");
 
   const { data, error } = await supabase
     .from("tarjetas_nfc")
     .select("numero, negocio, destino, url")
     .order("numero");
+
+  // Llega desde /r/<número> al escanear una tarjeta sin vender: el número
+  // queda puesto en el formulario.
+  const pedido = (await searchParams).numero;
+  const numeroInicial = typeof pedido === "string" && /^\d{1,6}$/.test(pedido) ? pedido : "";
 
   return (
     <>
@@ -39,7 +48,7 @@ export default async function Tarjetas() {
             supabase/tarjetas-nfc.sql en Supabase.
           </p>
         ) : (
-          <Panel tarjetas={data as Tarjeta[]} />
+          <Panel tarjetas={data as Tarjeta[]} numeroInicial={numeroInicial} />
         )}
       </main>
     </>
