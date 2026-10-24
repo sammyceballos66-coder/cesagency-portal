@@ -32,9 +32,11 @@ export const PLANS: Plan[] = [
     name: "Plan Esencial",
     tagline: "Página informativa",
     setup: 300_000,
-    monthly: 200_000,
+    // Bajó de $200.000 / $150.000 en promoción el 24 de octubre de 2026,
+    // por decisión de Samuel.
+    monthly: 150_000,
     promoSetup: 250_000,
-    promoMonthly: 150_000,
+    promoMonthly: 100_000,
     description:
       "Para cualquier negocio que quiere un sitio informativo, profesional y llamativo, sin necesidad de reservas en línea.",
     features: [
@@ -463,8 +465,9 @@ export const TARJETA_NFC = {
 // Precios de Samuel. Referencia del mercado (octubre de 2026): Labweb, agencia
 // colombiana, cobra $800.000 de montaje con tarjeta NFC y $600.000 al mes; las
 // agencias de SEO local de Bogotá y Medellín, $600.000 a $1.500.000 al mes. Se
-// puso muy por debajo a propósito: la mensualidad queda por debajo de la de la
-// página ($200.000) para que sea fácil decir que sí.
+// puso muy por debajo a propósito para que sea fácil decir que sí. Desde el 24
+// de octubre de 2026 cuesta lo mismo al mes que la página informativa
+// ($150.000).
 //
 // El montaje INCLUYE una tarjeta NFC de reseñas, del diseño de Google. No se
 // cobra aparte ni se descuenta del precio de la tarjeta suelta.

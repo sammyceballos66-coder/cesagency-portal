@@ -20,7 +20,7 @@ Dos planes, definidos en `lib/business.ts`:
 
 | Plan | Pago único | Mensualidad | En promoción |
 |---|---|---|---|
-| Esencial — página informativa | $300.000 COP | $200.000 COP/mes | $250.000 + $150.000/mes |
+| Esencial — página informativa | $300.000 COP | $150.000 COP/mes | $250.000 + $100.000/mes |
 | Reservas — página con citas automáticas | $500.000 COP | $300.000 COP/mes | $500.000 + $250.000/mes |
 
 El primer mes de mantenimiento es gratis (`BUSINESS.firstMonthFree`). La
