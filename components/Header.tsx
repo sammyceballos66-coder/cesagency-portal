@@ -9,6 +9,7 @@ const NAV_LINKS = [
   { href: "#ficha-google", label: "Google" },
   { href: "#contenido", label: "Contenido" },
   { href: "#tarjeta-nfc", label: "Tarjeta NFC" },
+  { href: "#recepcionista", label: "Recepcionista" },
   { href: "#preguntas", label: "Preguntas" },
 ];
 
@@ -36,7 +37,9 @@ export function Header() {
           />
           <span className="text-ink-muted font-medium text-sm">Agencia</span>
         </Link>
-        <div className="hidden min-[760px]:flex gap-8 text-sm text-ink-muted">
+        {/* Con seis enlaces ya no caben desde 760 px: aparecen desde 900 y
+            con menos espacio entre ellos hasta pantalla grande. */}
+        <div className="hidden min-[900px]:flex gap-6 lg:gap-8 text-sm text-ink-muted">
           {NAV_LINKS.map((link) => (
             <a key={link.href} href={link.href} className="transition-colors hover:text-ink">
               {link.label}
