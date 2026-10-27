@@ -82,18 +82,33 @@ export function Contenido() {
                 contrata aparte de la página, y funciona tengas página o no.
               </p>
 
-              <div className="flex items-baseline gap-3 flex-wrap mb-2">
-                <span className="text-[12px] font-semibold uppercase tracking-[0.13em] text-white/50">
-                  Desde
-                </span>
-                <span className="price-now text-[38px] md:text-[42px] text-white">
-                  {formatCOP(CONTENIDO.desde)}
-                </span>
-                <span className="text-[15px] text-white/70">/mes</span>
+              {/* Mismo formato que las tarjetas de los planes (pedido de
+                  Samuel): etiqueta pequeña arriba y la cifra grande debajo,
+                  primero el pago único y luego la mensualidad. */}
+              <div className="flex flex-col gap-5 mb-3">
+                <div>
+                  <div className="text-[11.5px] font-semibold uppercase tracking-[0.11em] mb-1.5 text-white/50">
+                    Pago único
+                  </div>
+                  <span className="price-now text-[34px] md:text-[38px] text-white">
+                    {formatCOP(CONTENIDO.montaje)}
+                  </span>
+                </div>
+                <div>
+                  <div className="text-[11.5px] font-semibold uppercase tracking-[0.11em] mb-1.5 text-white/50">
+                    Mensualidad
+                  </div>
+                  <div className="flex items-baseline gap-2.5 flex-wrap">
+                    <span className="text-[15px] text-white/70">Desde</span>
+                    <span className="price-now text-[34px] md:text-[38px] text-white">
+                      {formatCOP(CONTENIDO.desde)}
+                    </span>
+                    <span className="text-[15px] text-white/70">/mes</span>
+                  </div>
+                </div>
               </div>
               <p className="text-[13px] text-white/55 mb-9">
-                Más un montaje de {formatCOP(CONTENIDO.montaje)}, pago único. El
-                valor del mes depende de cuánto contenido publiques.
+                El valor del mes depende de cuánto contenido publiques.
               </p>
             </div>
 
