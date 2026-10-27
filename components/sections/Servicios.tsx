@@ -116,7 +116,7 @@ export function Servicios({ promo }: { promo: PromoActiva | null }) {
       titulo: "Contenido para redes",
       texto: "Reels y piezas gráficas hechas con inteligencia artificial, cada mes, para que te encuentren en Instagram y TikTok.",
       precio: `Desde ${formatCOP(CONTENIDO.desde)}`,
-      detalle: "al mes",
+      detalle: `al mes · montaje ${formatCOP(CONTENIDO.montaje)}`,
       href: "#contenido",
       cta: "Ver más",
       destacado: false,

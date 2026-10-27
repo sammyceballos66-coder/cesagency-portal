@@ -62,7 +62,8 @@ export default function Terminos() {
       <ul>
         <li>
           <strong>Contenido para redes</strong>: reels y piezas gráficas cada
-          mes, desde {formatCOP(CONTENIDO.desde)} COP al mes. La cantidad de
+          mes: montaje de {formatCOP(CONTENIDO.montaje)} COP de pago único,
+          más desde {formatCOP(CONTENIDO.desde)} COP al mes. La cantidad de
           contenido se acuerda contigo, y el valor final depende de ella.
         </li>
         <li>

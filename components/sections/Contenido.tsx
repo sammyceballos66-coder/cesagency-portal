@@ -92,7 +92,8 @@ export function Contenido() {
                 <span className="text-[15px] text-white/70">/mes</span>
               </div>
               <p className="text-[13px] text-white/55 mb-9">
-                El valor final depende de cuánto contenido publiques al mes.
+                Más un montaje de {formatCOP(CONTENIDO.montaje)}, pago único. El
+                valor del mes depende de cuánto contenido publiques.
               </p>
             </div>
 

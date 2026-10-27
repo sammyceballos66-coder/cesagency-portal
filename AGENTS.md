@@ -95,7 +95,9 @@ el sitio en línea se queda como estaba.
 `CONTENIDO` en `lib/business.ts`, sección `components/sections/Contenido.tsx`.
 **No es un plan más y no va dentro de `PLANS`**: las páginas valen lo mismo
 para todos, pero aquí lo que se produce cada mes se acuerda con cada negocio,
-así que el precio es un "desde" y no una cifra cerrada.
+así que el precio es un "desde" y no una cifra cerrada. Desde el 27 de octubre de 2026 lleva
+además un **montaje de $500.000** (pago único) y la mensualidad es **desde
+$350.000** (antes desde $550.000, sin montaje).
 
 Eso obligó a corregir el copy de los planes, que decía "el precio es el mismo
 para todos" y con este servicio dejaba de ser cierto. Ahora dice "las páginas

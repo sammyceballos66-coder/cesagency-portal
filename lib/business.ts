@@ -378,8 +378,15 @@ export const BUSINESS = {
 // El paquete exacto que recibe cada cliente tampoco se publica. Lo que paga
 // uno por su volumen no es lo que va a pagar otro, y poner una cifra al lado
 // de un paquete concreto haría que todos esperen ese paquete por ese precio.
+//
+// Desde el 27 de octubre de 2026 (Samuel): montaje de $500.000 de pago único
+// y mensualidad desde $350.000. Antes no había montaje y la mensualidad era
+// desde $550.000. El montaje cubre arrancar: revisar las cuentas, definir la
+// línea gráfica y dejar listo el primer lote.
 export const CONTENIDO = {
-  desde: 550_000,
+  /** Pago único al arrancar. */
+  montaje: 500_000,
+  desde: 350_000,
   cliente: {
     nombre: "Todo Renault Pereira",
     // Como se describen ellos en su propio sitio, no como suena mejor.
@@ -594,7 +601,7 @@ export function precioDeRegistro(
     return { setup: p.setup, monthly: p.monthly, conPromo: true };
   }
   if (id === "ficha-google") return { setup: FICHA_GOOGLE.montaje, monthly: FICHA_GOOGLE.mensual, conPromo: false };
-  if (id === "contenido") return { setup: null, monthly: CONTENIDO.desde, conPromo: false };
+  if (id === "contenido") return { setup: CONTENIDO.montaje, monthly: CONTENIDO.desde, conPromo: false };
   if (id === "tarjeta-nfc") return { setup: TARJETA_NFC.precio, monthly: null, conPromo: false };
   if (id === "recepcionista") return { setup: RECEPCIONISTA.montaje || null, monthly: RECEPCIONISTA.mensual, conPromo: false };
   if (id === "no-se") return { setup: null, monthly: null, conPromo: false };
