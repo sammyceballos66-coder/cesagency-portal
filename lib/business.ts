@@ -486,8 +486,8 @@ export const TARJETA_NFC = {
 //   las malas.
 // - No se promete salir de primeros en Google: eso no lo controla nadie.
 export const FICHA_GOOGLE = {
-  /** Pago único. Incluye una tarjeta NFC de reseñas. */
-  montaje: 250_000,
+  /** Pago único. Incluye una tarjeta NFC de reseñas. Bajó de $250.000 el 27 de octubre de 2026 (Samuel). */
+  montaje: 200_000,
   mensual: 150_000,
   montajeIncluye: [
     "Reclamar y verificar tu ficha, o crearla si no existe",

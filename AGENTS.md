@@ -130,7 +130,7 @@ la venta.
 ### Ficha de Google (servicio adicional)
 
 `FICHA_GOOGLE` en `lib/business.ts`, sección `components/sections/FichaGoogle.tsx`
-(`#ficha-google`). Lanzado el 5 de octubre de 2026: montaje de **$250.000**
+(`#ficha-google`). Lanzado el 5 de octubre de 2026: montaje de **$200.000** (antes $250.000, bajó el 27 oct 2026)
 (pago único, **incluye una tarjeta NFC de reseñas**) y **$150.000 al mes**.
 Precios de Samuel; la referencia del mercado está en el comentario de la
 constante (Labweb cobra $800.000 + $600.000/mes).
