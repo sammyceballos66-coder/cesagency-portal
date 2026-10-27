@@ -10,6 +10,7 @@ import { Servicios } from "@/components/sections/Servicios";
 import { ComoFunciona } from "@/components/sections/ComoFunciona";
 import { FichaGoogle } from "@/components/sections/FichaGoogle";
 import { Preguntas } from "@/components/sections/Preguntas";
+import { Recepcionista } from "@/components/sections/Recepcionista";
 import { SignUp } from "@/components/sections/SignUp";
 import { Footer } from "@/components/sections/Footer";
 import { promoParaLaPagina } from "@/lib/business";
@@ -81,6 +82,9 @@ export default function Home() {
             {/* Banda clara después de la oscura del contenido: la página
                 alterna de valor en vez de juntar dos secciones iguales. */}
             <TarjetaNfc />
+            {/* El servicio más nuevo: después de lo que ya se vende y antes
+                del registro. */}
+            <Recepcionista />
             <Preguntas />
             <SignUp />
           </div>

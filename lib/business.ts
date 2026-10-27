@@ -497,6 +497,48 @@ export const FICHA_GOOGLE = {
   ],
 };
 
+// ---------------------------------------------------------------------------
+// Servicio adicional: recepcionista de llamadas con IA
+// ---------------------------------------------------------------------------
+// Anunciado el 27 de octubre de 2026, después de una demo en ElevenLabs
+// (restaurante inventado "Casa Guadua") que Samuel probó por voz y le sonó
+// natural. Contesta las llamadas que el negocio no alcanza: toma reservas,
+// responde horarios y precios que el negocio le dio, y toma recados.
+//
+// Los precios los propuso Claude con Samuel, para arrancar en Pereira y
+// Dosquebradas. El costo para CES es variable: unos $0,10 a $0,20 dólares por
+// minuto de llamada (voz + IA + línea) más el número colombiano en Twilio
+// (unos $14 dólares al mes). Por eso la mensualidad trae un tope de minutos y
+// el minuto extra se cobra: una llamada larga no puede comerse la ganancia.
+// Con 200 minutos al costo más alto, CES gasta unos $220.000 y le quedan unos
+// $130.000. Si con los primeros clientes el costo real sale distinto, se
+// ajusta aquí.
+//
+// Regla que no se negocia: suena natural, pero SIEMPRE dice que es la
+// asistente virtual del negocio. Nunca se hace pasar por persona (engaño al
+// consumidor, y la Ley 1581 obliga a avisar quién procesa la llamada).
+export const RECEPCIONISTA = {
+  /** Pago único. */
+  montaje: 400_000,
+  mensual: 350_000,
+  /** Minutos de llamada incluidos en la mensualidad. */
+  minutosIncluidos: 200,
+  /** Cada minuto que pase del tope. */
+  minutoExtra: 1_200,
+  montajeIncluye: [
+    "Guion a la medida: horarios, servicios, precios y preguntas frecuentes",
+    "Voz natural en español de Colombia, escogida contigo",
+    "Número de teléfono colombiano y desvío de tus llamadas",
+    "Toma de reservas o citas con todos los datos",
+    "Una semana de pruebas y ajustes antes de arrancar",
+  ],
+  mesIncluye: [
+    "Hasta 200 minutos de llamadas, todos los días y a cualquier hora",
+    "Cada reserva o recado te llega con nombre, teléfono y detalle",
+    "Cambios al guion cuando cambien tus horarios o precios",
+  ],
+};
+
 // El único cliente en producción hoy. Se nombra aquí para que la sección que
 // lo muestra no invente nada y para no repetir el dato en varios archivos.
 export const SHOWCASE = {
@@ -526,6 +568,7 @@ export const OPCIONES_REGISTRO = [
   { id: "ficha-google", nombre: "Ficha de Google", detalle: "Que te encuentren en Maps" },
   { id: "contenido", nombre: "Contenido para redes", detalle: "Reels y publicaciones" },
   { id: "tarjeta-nfc", nombre: "Tarjeta NFC", detalle: "Reseñas con un toque" },
+  { id: "recepcionista", nombre: "Recepcionista con IA", detalle: "Contesta tus llamadas" },
   { id: "no-se", nombre: "No sé todavía", detalle: "Asesórenme" },
 ];
 
@@ -547,6 +590,7 @@ export function precioDeRegistro(
   if (id === "ficha-google") return { setup: FICHA_GOOGLE.montaje, monthly: FICHA_GOOGLE.mensual, conPromo: false };
   if (id === "contenido") return { setup: null, monthly: CONTENIDO.desde, conPromo: false };
   if (id === "tarjeta-nfc") return { setup: TARJETA_NFC.precio, monthly: null, conPromo: false };
+  if (id === "recepcionista") return { setup: RECEPCIONISTA.montaje, monthly: RECEPCIONISTA.mensual, conPromo: false };
   if (id === "no-se") return { setup: null, monthly: null, conPromo: false };
   return null;
 }

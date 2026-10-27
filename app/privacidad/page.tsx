@@ -12,7 +12,7 @@ const CONTACTO = "cesagency2026@gmail.com";
 
 export default function Privacidad() {
   return (
-    <LegalPage title="Política de privacidad" updated="19 de agosto de 2026">
+    <LegalPage title="Política de privacidad" updated="27 de octubre de 2026">
       <p>
         Esta política explica qué datos personales trata {BUSINESS.name} y qué
         puedes hacer con ellos. Está escrita para que se entienda, no para
@@ -77,6 +77,23 @@ export default function Privacidad() {
         </p>
       </div>
 
+      <h3>Si llamas a un negocio que usa nuestra recepcionista con IA</h3>
+      <p>
+        Algunos negocios que atendemos contestan sus llamadas con un asistente
+        de voz con inteligencia artificial, que siempre se presenta como
+        asistente virtual. Durante la llamada se procesa tu voz para entender
+        lo que dices, y se guardan la grabación, la transcripción y los datos
+        que des (por ejemplo, nombre, teléfono y la reserva o el recado) para
+        pasárselos al negocio.
+      </p>
+      <div className="callout">
+        <p>
+          <strong>Aquí tampoco somos los dueños de tus datos.</strong> Llamaste
+          a ese negocio, no a {BUSINESS.name}: el negocio es el responsable y
+          nosotros procesamos la llamada por encargo suyo.
+        </p>
+      </div>
+
       <h2>Dónde se guardan y con quién se comparten</h2>
       <p>
         No vendemos datos personales ni los cedemos con fines publicitarios. Sí
@@ -97,7 +114,12 @@ export default function Privacidad() {
         </li>
         <li>
           <strong>Twilio</strong>: por donde entran y salen los mensajes de
-          WhatsApp.
+          WhatsApp y las llamadas de la recepcionista con IA.
+        </li>
+        <li>
+          <strong>ElevenLabs</strong>: la plataforma de voz de la recepcionista
+          con IA. Procesa el audio de la llamada y guarda su grabación y
+          transcripción.
         </li>
         <li>
           <strong>Anthropic</strong>: el modelo de inteligencia artificial que
@@ -126,6 +148,10 @@ export default function Privacidad() {
         <li>
           <strong>Conversaciones de WhatsApp</strong>: 6 meses desde el último
           mensaje.
+        </li>
+        <li>
+          <strong>Grabaciones y transcripciones de llamadas</strong>: 6 meses
+          desde la llamada.
         </li>
         <li>
           <strong>Datos de facturación</strong>: el tiempo que exijan las

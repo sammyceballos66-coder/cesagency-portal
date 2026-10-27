@@ -1,4 +1,4 @@
-import { BUSINESS, FICHA_GOOGLE, TARJETA_NFC, formatCOP } from "@/lib/business";
+import { BUSINESS, FICHA_GOOGLE, RECEPCIONISTA, TARJETA_NFC, formatCOP } from "@/lib/business";
 
 // Preguntas frecuentes. Cada respuesta dice lo mismo que /terminos o que
 // lib/business.ts — no hay aquí ninguna promesa que no esté escrita allá. Si
@@ -36,6 +36,10 @@ const PREGUNTAS: { p: string; r: string }[] = [
   {
     p: "Para manejar mi ficha de Google, ¿necesitan mi contraseña?",
     r: `No, y nunca te la vamos a pedir. Desde tu cuenta de Google nos agregas como administradores de tu perfil, y la ficha sigue siendo tuya. Si cancelas, nos quitas el acceso y la ficha queda tal como está. El montaje vale ${formatCOP(FICHA_GOOGLE.montaje)} e incluye una tarjeta NFC de reseñas; la mensualidad, ${formatCOP(FICHA_GOOGLE.mensual)}. No compramos ni inventamos reseñas, y no prometemos el primer lugar en Google.`,
+  },
+  {
+    p: "¿La recepcionista con IA se hace pasar por una persona?",
+    r: `No. Suena natural, pero siempre se presenta como la asistente virtual de tu negocio. Solo responde con la información que tú le das, y si no sabe algo, toma el recado y te avisa. El montaje vale ${formatCOP(RECEPCIONISTA.montaje)} y la mensualidad ${formatCOP(RECEPCIONISTA.mensual)}, con ${RECEPCIONISTA.minutosIncluidos} minutos de llamadas incluidos; cada minuto adicional vale ${formatCOP(RECEPCIONISTA.minutoExtra)}.`,
   },
 ];
 

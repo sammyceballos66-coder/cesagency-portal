@@ -1,6 +1,6 @@
 import type { Metadata } from "next";
 import { LegalPage } from "@/components/LegalPage";
-import { BUSINESS, CONTENIDO, FICHA_GOOGLE, PLANS, TARJETA_NFC, formatCOP } from "@/lib/business";
+import { BUSINESS, CONTENIDO, FICHA_GOOGLE, PLANS, RECEPCIONISTA, TARJETA_NFC, formatCOP } from "@/lib/business";
 
 export const metadata: Metadata = {
   title: "Términos de servicio | CES Agencia",
@@ -12,7 +12,7 @@ const CONTACTO = "cesagency2026@gmail.com";
 
 export default function Terminos() {
   return (
-    <LegalPage title="Términos de servicio" updated="5 de octubre de 2026">
+    <LegalPage title="Términos de servicio" updated="27 de octubre de 2026">
       <p>
         Estas condiciones aplican a quien contrata a {BUSINESS.name} para crear
         y mantener su página web. Están escritas en lenguaje corriente a
@@ -87,6 +87,22 @@ export default function Terminos() {
           cambiar la tarjeta. La tarjeta es tuya: ese enlace lo mantenemos
           activo aunque no tengas ningún otro servicio con nosotros ni pagues
           mensualidad.
+        </li>
+        <li>
+          <strong>Recepcionista con IA</strong>: montaje de{" "}
+          {formatCOP(RECEPCIONISTA.montaje)} COP de pago único más{" "}
+          {formatCOP(RECEPCIONISTA.mensual)} COP al mes, con{" "}
+          {RECEPCIONISTA.minutosIncluidos} minutos de llamadas incluidos; cada
+          minuto adicional vale {formatCOP(RECEPCIONISTA.minutoExtra)} COP. Es
+          un asistente de voz con inteligencia artificial que contesta las
+          llamadas de tu negocio, y siempre se presenta como asistente virtual:
+          no se hace pasar por una persona. Responde solo con la información
+          que tú nos des, así que eres responsable de que tus horarios, precios
+          y datos estén al día. Puede equivocarse al entender una llamada, por
+          eso cada reserva o recado te llega con el detalle para que lo
+          revises. Las llamadas de tus clientes las procesamos por encargo
+          tuyo, igual que las reservas de una página. Si cancelas, el número
+          deja de contestar al final del mes pagado; el montaje no se devuelve.
         </li>
       </ul>
 

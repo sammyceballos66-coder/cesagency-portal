@@ -142,6 +142,31 @@ lugar** en Google.
 Va entre "Cómo funciona" y la banda oscura de contenido, y en el resumen de
 servicios de arriba (que pasó de tres a cuatro tarjetas).
 
+### Recepcionista con IA (servicio adicional)
+
+`RECEPCIONISTA` en `lib/business.ts`, sección `components/sections/Recepcionista.tsx`
+(`#recepcionista`), anunciado el 27 de octubre de 2026 con etiqueta "Nuevo".
+Montaje **$400.000**, mensualidad **$350.000 con 200 minutos** de llamadas,
+minuto extra **$1.200**. Precios propuestos por Claude y aceptados por Samuel
+para arrancar en Pereira y Dosquebradas; el cálculo de costo está en el
+comentario de la constante (ajustarlo con los primeros clientes reales).
+
+Un asistente de voz (hoy ElevenLabs Agents; la demo es el agente
+`agent_0401m5zs5ag9fp1svtdd90nxhch1`, restaurante inventado "Casa Guadua") que
+contesta las llamadas del negocio. **Regla que no se negocia: suena natural
+pero siempre se presenta como asistente virtual.** La dicen la sección, los
+términos, las preguntas y el agente de WhatsApp.
+
+⚠️ **Antes de la primera venta falta**, y la página ya lo promete:
+- un número colombiano (Twilio, ~$14 USD/mes, a nombre del papá de Samuel por
+  la edad), con el negocio desviando ahí las llamadas que no contesta;
+- que cada reserva o recado le llegue al dueño ("te llega con nombre,
+  teléfono y detalle"): hoy la demo solo confirma de palabra;
+- configurar en ElevenLabs que grabaciones y transcripciones se borren a
+  los 6 meses, que es lo que dice `/privacidad`.
+
+La política de privacidad nombra ahora **siete** terceros (se sumó ElevenLabs).
+
 ### Tarjeta NFC (servicio adicional)
 
 `TARJETA_NFC` en `lib/business.ts`, sección `components/sections/TarjetaNfc.tsx`.
@@ -228,7 +253,8 @@ escrita en su prompt.
 ```
 app/
   page.tsx              Hero → Servicios → Showcase → Plans → ComoFunciona →
-                        FichaGoogle → Contenido → TarjetaNfc → Preguntas → SignUp
+                        FichaGoogle → Contenido → TarjetaNfc → Recepcionista →
+                        Preguntas → SignUp
                         (+ Header, Footer)
   r/[numero]/           desvío de las tarjetas NFC (QR y chip) → tabla tarjetas_nfc
   admin/                página privada con clave: asignar tarjetas NFC
@@ -247,7 +273,8 @@ components/
   PromoBar.tsx          franja de promoción, encima del header
   SmoothScroll.tsx      Lenis + sync con ScrollTrigger de GSAP
   sections/             Hero, Servicios, Showcase, Plans, ComoFunciona,
-                        FichaGoogle, Contenido, TarjetaNfc, Preguntas, SignUp, Footer
+                        FichaGoogle, Contenido, TarjetaNfc, Recepcionista,
+                        Preguntas, SignUp, Footer
 hooks/useTilt.ts        efecto tilt 3D en tarjetas
 lib/
   business.ts           ⚠️ fuente única de planes/precios (sitio + agente)

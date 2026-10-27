@@ -2,6 +2,7 @@ import {
   CONTENIDO,
   FICHA_GOOGLE,
   PLANS,
+  RECEPCIONISTA,
   TARJETA_NFC,
   formatCOP,
   pricingFor,
@@ -10,8 +11,9 @@ import {
 
 // Resumen de todo lo que vende CES, justo debajo del hero.
 //
-// Existe porque CES dejó de vender solo páginas: hoy son páginas, ficha de
-// Google, contenido para redes y tarjetas NFC, pero cada servicio estaba en su propia sección
+// Existe porque CES dejó de vender solo páginas: hoy son páginas, recepcionista
+// con IA (desde el 27 oct 2026), ficha de Google, contenido para redes y
+// tarjetas NFC, pero cada servicio estaba en su propia sección
 // más abajo. Quien entraba veía una agencia de páginas web y tenía que bajar
 // casi hasta el final para enterarse del resto. Las agencias de IA que se
 // revisaron como referencia (octubre de 2026) muestran todo su catálogo en la
@@ -48,6 +50,14 @@ function IconoRedes() {
   );
 }
 
+function IconoTelefono() {
+  return (
+    <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="1.8" strokeLinecap="round" strokeLinejoin="round" className="w-6 h-6" aria-hidden="true">
+      <path d="M5 4h3.5l1.8 4.5-2.3 1.4a11 11 0 0 0 6.1 6.1l1.4-2.3L20 15.5V19a1.5 1.5 0 0 1-1.6 1.5A16.5 16.5 0 0 1 3.5 5.6 1.5 1.5 0 0 1 5 4Z" />
+    </svg>
+  );
+}
+
 function IconoNfc() {
   return (
     <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="1.8" strokeLinecap="round" className="w-6 h-6" aria-hidden="true">
@@ -77,6 +87,18 @@ export function Servicios({ promo }: { promo: PromoActiva | null }) {
       href: "#planes",
       cta: "Ver planes",
       destacado: true,
+      nuevo: false,
+    },
+    {
+      icono: <IconoTelefono />,
+      titulo: "Recepcionista con IA",
+      texto: "Contesta las llamadas que no alcanzas, con voz natural: toma reservas, responde horarios y te deja cada recado.",
+      precio: formatCOP(RECEPCIONISTA.mensual),
+      detalle: `al mes · montaje ${formatCOP(RECEPCIONISTA.montaje)}`,
+      href: "#recepcionista",
+      cta: "Ver cómo contesta",
+      destacado: false,
+      nuevo: true,
     },
     {
       icono: <IconoGoogle />,
@@ -87,6 +109,7 @@ export function Servicios({ promo }: { promo: PromoActiva | null }) {
       href: "#ficha-google",
       cta: "Ver qué incluye",
       destacado: false,
+      nuevo: false,
     },
     {
       icono: <IconoRedes />,
@@ -97,6 +120,7 @@ export function Servicios({ promo }: { promo: PromoActiva | null }) {
       href: "#contenido",
       cta: "Ver más",
       destacado: false,
+      nuevo: false,
     },
     {
       icono: <IconoNfc />,
@@ -107,6 +131,7 @@ export function Servicios({ promo }: { promo: PromoActiva | null }) {
       href: "#tarjeta-nfc",
       cta: "Ver diseños",
       destacado: false,
+      nuevo: false,
     },
   ];
 
@@ -116,7 +141,7 @@ export function Servicios({ promo }: { promo: PromoActiva | null }) {
         <div>
           <div className="eyebrow mb-5">Lo que hacemos</div>
           <h2 className="text-[clamp(26px,3.6vw,40px)] font-bold leading-[1.1] text-ink max-w-[20ch]">
-            Cuatro formas de que te encuentren
+            Cinco formas de conseguir más clientes
           </h2>
         </div>
         <div className="flex flex-wrap gap-2 md:max-w-[340px] md:justify-end">
@@ -134,12 +159,18 @@ export function Servicios({ promo }: { promo: PromoActiva | null }) {
         </div>
       </div>
 
-      <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-4 md:gap-5">
-        {servicios.map((s) => (
+      {/* Cinco tarjetas en una retícula de seis columnas: las dos primeras
+          (páginas y la recepcionista, que es lo nuevo) ocupan media fila cada
+          una y las otras tres un tercio. Con cinco iguales lado a lado
+          quedaban demasiado angostas. */}
+      <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-6 gap-4 md:gap-5">
+        {servicios.map((s, i) => (
           <a
             key={s.titulo}
             href={s.href}
             className={`group relative flex flex-col rounded-[16px] p-6 md:p-7 border transition-[transform,box-shadow,border-color] duration-200 ease-out hover:-translate-y-1 ${
+              i < 2 ? "lg:col-span-3" : "lg:col-span-2"
+            } ${i === servicios.length - 1 ? "sm:col-span-2 lg:col-span-2" : ""} ${
               s.destacado
                 ? "bg-navy text-white border-white/10 shadow-[0_24px_50px_-28px_rgba(10,19,48,0.8)] hover:shadow-[0_30px_60px_-26px_rgba(10,19,48,0.85)]"
                 : "bg-white text-ink border-line shadow-[0_18px_40px_-30px_rgba(11,16,32,0.45)] hover:border-line-strong hover:shadow-[0_24px_48px_-28px_rgba(11,16,32,0.5)]"
@@ -152,6 +183,11 @@ export function Servicios({ promo }: { promo: PromoActiva | null }) {
             >
               {s.icono}
             </div>
+            {s.nuevo && (
+              <span className="absolute top-6 right-6 md:top-7 md:right-7 text-[11px] font-bold uppercase tracking-[0.12em] text-gold-deep bg-gold-bg border border-gold/60 rounded-full px-2.5 py-1">
+                Nuevo
+              </span>
+            )}
             <h3 className={`font-display font-bold text-[20px] mb-2 ${s.destacado ? "text-white" : "text-ink"}`}>
               {s.titulo}
             </h3>
