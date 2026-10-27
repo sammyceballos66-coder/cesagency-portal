@@ -146,8 +146,10 @@ servicios de arriba (que pasó de tres a cuatro tarjetas).
 
 `RECEPCIONISTA` en `lib/business.ts`, sección `components/sections/Recepcionista.tsx`
 (`#recepcionista`), anunciado el 27 de octubre de 2026 con etiqueta "Nuevo".
-Montaje **$400.000**, mensualidad **$350.000 con 200 minutos** de llamadas,
-minuto extra **$1.200**. Precios propuestos por Claude y aceptados por Samuel
+**Montaje gratis** (Samuel, mismo día; antes $400.000), mensualidad
+**$350.000 con 200 minutos** de llamadas, **pagada por adelantado desde el
+primer mes** (sin el mes gratis de las páginas), minuto extra **$1.200**.
+Precios propuestos por Claude y aceptados por Samuel
 para arrancar en Pereira y Dosquebradas; el cálculo de costo está en el
 comentario de la constante (ajustarlo con los primeros clientes reales).
 

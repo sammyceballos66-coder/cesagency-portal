@@ -94,7 +94,7 @@ export function Servicios({ promo }: { promo: PromoActiva | null }) {
       titulo: "Recepcionista con IA",
       texto: "Contesta las llamadas que no alcanzas, con voz natural: toma reservas, responde horarios y te deja cada recado.",
       precio: formatCOP(RECEPCIONISTA.mensual),
-      detalle: `al mes · montaje ${formatCOP(RECEPCIONISTA.montaje)}`,
+      detalle: RECEPCIONISTA.montaje ? `al mes · montaje ${formatCOP(RECEPCIONISTA.montaje)}` : "al mes · montaje gratis",
       href: "#recepcionista",
       cta: "Ver cómo contesta",
       destacado: false,

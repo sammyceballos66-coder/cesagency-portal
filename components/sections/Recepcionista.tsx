@@ -66,8 +66,12 @@ export function Recepcionista() {
               <div className="text-[12px] font-semibold uppercase tracking-[0.11em] text-ink-faint mb-1.5">
                 Montaje
               </div>
-              <div className="price-now text-[28px] text-ink">{formatCOP(RECEPCIONISTA.montaje)}</div>
-              <div className="text-[12.5px] text-ink-faint mt-1">pago único</div>
+              <div className="price-now text-[28px] text-ink">
+                {RECEPCIONISTA.montaje ? formatCOP(RECEPCIONISTA.montaje) : "Gratis"}
+              </div>
+              <div className="text-[12.5px] text-ink-faint mt-1">
+                {RECEPCIONISTA.montaje ? "pago único" : "no pagas por instalarla"}
+              </div>
             </div>
             <div className="rounded-[14px] border border-gold/60 bg-gold-bg px-4 py-4">
               <div className="text-[12px] font-semibold uppercase tracking-[0.11em] text-gold-deep mb-1.5">
@@ -78,9 +82,10 @@ export function Recepcionista() {
             </div>
           </div>
           <p className="text-[13px] text-ink-faint mb-8 max-w-[52ch]">
-            Incluye {RECEPCIONISTA.minutosIncluidos} minutos de llamadas al mes;
-            cada minuto adicional vale {formatCOP(RECEPCIONISTA.minutoExtra)}. Se
-            contrata aparte de la página, y funciona tengas página o no.
+            Solo pagas la mensualidad, por adelantado desde el primer mes. Incluye{" "}
+            {RECEPCIONISTA.minutosIncluidos} minutos de llamadas; cada minuto
+            adicional vale {formatCOP(RECEPCIONISTA.minutoExtra)}. Se contrata
+            aparte de la página, y funciona tengas página o no.
           </p>
 
           <a

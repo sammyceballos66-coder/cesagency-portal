@@ -517,9 +517,15 @@ export const FICHA_GOOGLE = {
 // Regla que no se negocia: suena natural, pero SIEMPRE dice que es la
 // asistente virtual del negocio. Nunca se hace pasar por persona (engaño al
 // consumidor, y la Ley 1581 obliga a avisar quién procesa la llamada).
+//
+// El montaje es GRATIS desde el 27 de octubre de 2026, por decisión de
+// Samuel: a CES le cuesta horas de trabajo, no plata, y quitarlo elimina la
+// excusa de "déjame pensarlo". A cambio, la mensualidad se paga por adelantado
+// desde el primer mes (sin mes gratis, a diferencia de las páginas): si
+// alguien prueba un mes y se va, ya cubrió el número y los minutos.
 export const RECEPCIONISTA = {
-  /** Pago único. */
-  montaje: 400_000,
+  /** Gratis. Si algún día vuelve a cobrarse, las vistas muestran la cifra sola. */
+  montaje: 0,
   mensual: 350_000,
   /** Minutos de llamada incluidos en la mensualidad. */
   minutosIncluidos: 200,
@@ -590,7 +596,7 @@ export function precioDeRegistro(
   if (id === "ficha-google") return { setup: FICHA_GOOGLE.montaje, monthly: FICHA_GOOGLE.mensual, conPromo: false };
   if (id === "contenido") return { setup: null, monthly: CONTENIDO.desde, conPromo: false };
   if (id === "tarjeta-nfc") return { setup: TARJETA_NFC.precio, monthly: null, conPromo: false };
-  if (id === "recepcionista") return { setup: RECEPCIONISTA.montaje, monthly: RECEPCIONISTA.mensual, conPromo: false };
+  if (id === "recepcionista") return { setup: RECEPCIONISTA.montaje || null, monthly: RECEPCIONISTA.mensual, conPromo: false };
   if (id === "no-se") return { setup: null, monthly: null, conPromo: false };
   return null;
 }

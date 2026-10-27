@@ -89,9 +89,12 @@ export default function Terminos() {
           mensualidad.
         </li>
         <li>
-          <strong>Recepcionista con IA</strong>: montaje de{" "}
-          {formatCOP(RECEPCIONISTA.montaje)} COP de pago único más{" "}
-          {formatCOP(RECEPCIONISTA.mensual)} COP al mes, con{" "}
+          <strong>Recepcionista con IA</strong>:{" "}
+          {RECEPCIONISTA.montaje
+            ? `montaje de ${formatCOP(RECEPCIONISTA.montaje)} COP de pago único más `
+            : "el montaje no tiene costo; pagas "}
+          {formatCOP(RECEPCIONISTA.mensual)} COP al mes, por adelantado desde
+          el primer mes (aquí no aplica el mes gratis de las páginas), con{" "}
           {RECEPCIONISTA.minutosIncluidos} minutos de llamadas incluidos; cada
           minuto adicional vale {formatCOP(RECEPCIONISTA.minutoExtra)} COP. Es
           un asistente de voz con inteligencia artificial que contesta las
@@ -102,7 +105,7 @@ export default function Terminos() {
           eso cada reserva o recado te llega con el detalle para que lo
           revises. Las llamadas de tus clientes las procesamos por encargo
           tuyo, igual que las reservas de una página. Si cancelas, el número
-          deja de contestar al final del mes pagado; el montaje no se devuelve.
+          deja de contestar al final del mes pagado.
         </li>
       </ul>
 
