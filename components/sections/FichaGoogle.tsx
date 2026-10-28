@@ -1,4 +1,5 @@
 import { FICHA_GOOGLE, TARJETA_NFC, formatCOP, whatsAppLink } from "@/lib/business";
+import { PrimerMesGratis } from "@/components/PrimerMesGratis";
 
 // Servicio de ficha de Google (Perfil de Negocio), lanzado el 5 de octubre de
 // 2026. Precios y lo que incluye salen de FICHA_GOOGLE en lib/business.ts,
@@ -69,10 +70,11 @@ export function FichaGoogle() {
               <div className="text-[12.5px] text-ink-faint mt-1">al mes</div>
             </div>
           </div>
+          <PrimerMesGratis className="mt-1 mb-4" />
           <p className="text-[13px] text-ink-faint mb-8 max-w-[52ch]">
-            El primer mes de mensualidad es gratis. El montaje incluye una
-            tarjeta NFC de reseñas, que sola vale {formatCOP(TARJETA_NFC.precio)}.
-            Se contrata aparte de la página, y funciona tengas página o no.
+            El montaje incluye una tarjeta NFC de reseñas, que sola vale{" "}
+            {formatCOP(TARJETA_NFC.precio)}. Se contrata aparte de la página, y
+            funciona tengas página o no.
           </p>
 
           <a

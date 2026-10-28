@@ -152,10 +152,9 @@ servicios de arriba (que pasó de tres a cuatro tarjetas).
 
 `RECEPCIONISTA` en `lib/business.ts`, sección `components/sections/Recepcionista.tsx`
 (`#recepcionista`), anunciado el 27 de octubre de 2026 con etiqueta "Nuevo".
-**Montaje gratis** (Samuel, mismo día; antes $400.000), mensualidad
-**$350.000 con 200 minutos** de llamadas, minuto extra **$1.200**.
-Precios propuestos por Claude y aceptados por Samuel
-para arrancar en Pereira y Dosquebradas; el cálculo de costo está en el
+**Montaje $400.000** y mensualidad **$300.000 con 200 minutos** de llamadas
+(Samuel, 27 oct 2026, después de unas horas con montaje gratis y $350.000),
+minuto extra **$1.200**, primer mes gratis. Pensados para arrancar en Pereira y Dosquebradas; el cálculo de costo está en el
 comentario de la constante (ajustarlo con los primeros clientes reales).
 
 Un asistente de voz (hoy ElevenLabs Agents; la demo es el agente

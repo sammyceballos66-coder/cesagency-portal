@@ -4,6 +4,7 @@ import { useRef } from "react";
 import { gsap, useGSAP, prefersReducedMotion } from "@/lib/gsap";
 import Image from "next/image";
 import { CONTENIDO, formatCOP, whatsAppLink } from "@/lib/business";
+import { PrimerMesGratis } from "@/components/PrimerMesGratis";
 
 import logoCliente from "@/public/cliente-todo-renault-pereira.webp";
 
@@ -107,10 +108,10 @@ export function Contenido() {
                   </div>
                 </div>
               </div>
-              <p className="text-[13px] text-white/55 mb-9">
-                El primer mes es gratis. El valor del mes depende de cuánto
-                contenido publiques.
+              <p className="text-[13px] text-white/55 mb-4">
+                El valor del mes depende de cuánto contenido publiques.
               </p>
+              <PrimerMesGratis oscuro className="mb-9" />
             </div>
 
             <dl className="grid grid-cols-1 sm:grid-cols-3 gap-px bg-white/12 border-y border-white/12 mb-10 lg:mb-0">

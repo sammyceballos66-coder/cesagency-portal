@@ -3,6 +3,7 @@
 import { useRef } from "react";
 import { gsap, useGSAP, prefersReducedMotion } from "@/lib/gsap";
 import { useTilt } from "@/hooks/useTilt";
+import { PrimerMesGratis } from "@/components/PrimerMesGratis";
 import {
   PLANS,
   BUSINESS,
@@ -187,15 +188,7 @@ function PlanCard({
           La mensualidad cubre {BUSINESS.maintenanceIncludes}.
         </p>
 
-        {BUSINESS.firstMonthFree && (
-          <div
-            className={`self-start inline-flex items-center gap-1.5 mb-7 text-[12.5px] font-bold px-3 py-1.5 rounded-full ${
-              featured ? "bg-white/12 text-white" : "bg-accent-green-bg text-accent-green"
-            }`}
-          >
-            🎁 Primer mes de mantenimiento gratis
-          </div>
-        )}
+        <PrimerMesGratis oscuro={featured} texto="Primer mes de mantenimiento gratis" className="mb-7" />
 
         <hr className={`border-none border-t mb-6 ${featured ? "border-white/15" : "border-line"}`} />
 

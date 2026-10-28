@@ -519,9 +519,10 @@ export const FICHA_GOOGLE = {
 // minuto de llamada (voz + IA + línea) más el número colombiano en Twilio
 // (unos $14 dólares al mes). Por eso la mensualidad trae un tope de minutos y
 // el minuto extra se cobra: una llamada larga no puede comerse la ganancia.
-// Con 200 minutos al costo más alto, CES gasta unos $220.000 y le quedan unos
-// $130.000. Si con los primeros clientes el costo real sale distinto, se
-// ajusta aquí.
+// Con 200 minutos al costo más alto, CES gasta unos $220.000; con la
+// mensualidad de $300.000 le quedan unos $80.000 en el peor caso (más con
+// llamadas cortas). Si con los primeros clientes el costo real sale distinto,
+// se ajusta aquí.
 //
 // Regla que no se negocia: suena natural, pero SIEMPRE dice que es la
 // asistente virtual del negocio. Nunca se hace pasar por persona (engaño al
@@ -535,9 +536,14 @@ export const FICHA_GOOGLE = {
 // BUSINESS.firstMonthFree). Ojo: aquí el primer mes sí le cuesta a CES (número
 // y minutos), así que un cliente que se va al segundo mes es pérdida.
 export const RECEPCIONISTA = {
-  /** Gratis. Si algún día vuelve a cobrarse, las vistas muestran la cifra sola. */
-  montaje: 0,
-  mensual: 350_000,
+  /**
+   * Pago único. Fue gratis unas horas el 27 de octubre de 2026; con el primer
+   * mes gratis Samuel lo volvió a poner en $400.000 y bajó la mensualidad a
+   * $300.000. El montaje cubre el primer mes, que sí le cuesta a CES. Si vuelve
+   * a ser 0, las vistas dicen "Gratis" solas.
+   */
+  montaje: 400_000,
+  mensual: 300_000,
   /** Minutos de llamada incluidos en la mensualidad. */
   minutosIncluidos: 200,
   /** Cada minuto que pase del tope. */

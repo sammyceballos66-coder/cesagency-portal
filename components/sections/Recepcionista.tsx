@@ -1,4 +1,5 @@
 import { RECEPCIONISTA, formatCOP, whatsAppLink } from "@/lib/business";
+import { PrimerMesGratis } from "@/components/PrimerMesGratis";
 
 // Recepcionista de llamadas con IA, anunciado el 27 de octubre de 2026.
 // Precios y lo que incluye salen de RECEPCIONISTA en lib/business.ts, igual
@@ -81,9 +82,10 @@ export function Recepcionista() {
               <div className="text-[12.5px] text-ink-faint mt-1">al mes</div>
             </div>
           </div>
+          <PrimerMesGratis className="mt-1 mb-4" />
           <p className="text-[13px] text-ink-faint mb-8 max-w-[52ch]">
-            Solo pagas la mensualidad, y el primer mes es gratis. Incluye{" "}
-            {RECEPCIONISTA.minutosIncluidos} minutos de llamadas; cada minuto
+            La mensualidad incluye {RECEPCIONISTA.minutosIncluidos} minutos de
+            llamadas; cada minuto
             adicional vale {formatCOP(RECEPCIONISTA.minutoExtra)}. Se contrata
             aparte de la página, y funciona tengas página o no.
           </p>
