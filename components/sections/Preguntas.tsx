@@ -39,7 +39,7 @@ const PREGUNTAS: { p: string; r: string }[] = [
   },
   {
     p: "¿La recepcionista con IA se hace pasar por una persona?",
-    r: `No. Suena natural, pero siempre se presenta como la asistente virtual de tu negocio. Solo responde con la información que tú le das, y si no sabe algo, toma el recado y te avisa. ${RECEPCIONISTA.montaje ? `El montaje vale ${formatCOP(RECEPCIONISTA.montaje)} y la mensualidad` : "El montaje es gratis: solo pagas la mensualidad, por adelantado desde el primer mes,"} ${formatCOP(RECEPCIONISTA.mensual)}, con ${RECEPCIONISTA.minutosIncluidos} minutos de llamadas incluidos; cada minuto adicional vale ${formatCOP(RECEPCIONISTA.minutoExtra)}.`,
+    r: `No. Suena natural, pero siempre se presenta como la asistente virtual de tu negocio. Solo responde con la información que tú le das, y si no sabe algo, toma el recado y te avisa. ${RECEPCIONISTA.montaje ? `El montaje vale ${formatCOP(RECEPCIONISTA.montaje)} y la mensualidad` : "El montaje es gratis y el primer mes también: después pagas la mensualidad,"} ${formatCOP(RECEPCIONISTA.mensual)}, con ${RECEPCIONISTA.minutosIncluidos} minutos de llamadas incluidos; cada minuto adicional vale ${formatCOP(RECEPCIONISTA.minutoExtra)}.`,
   },
 ];
 

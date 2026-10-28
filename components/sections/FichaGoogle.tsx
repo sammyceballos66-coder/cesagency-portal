@@ -70,9 +70,9 @@ export function FichaGoogle() {
             </div>
           </div>
           <p className="text-[13px] text-ink-faint mb-8 max-w-[52ch]">
-            El montaje incluye una tarjeta NFC de reseñas, que sola vale{" "}
-            {formatCOP(TARJETA_NFC.precio)}. Se contrata aparte de la página, y
-            funciona tengas página o no.
+            El primer mes de mensualidad es gratis. El montaje incluye una
+            tarjeta NFC de reseñas, que sola vale {formatCOP(TARJETA_NFC.precio)}.
+            Se contrata aparte de la página, y funciona tengas página o no.
           </p>
 
           <a

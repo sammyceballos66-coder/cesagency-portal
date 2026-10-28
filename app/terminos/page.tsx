@@ -58,6 +58,9 @@ export default function Terminos() {
       <p>
         Se contratan aparte de la página, y también sin ella. Las promociones
         de los planes no aplican a estos servicios.
+        {BUSINESS.firstMonthFree
+          ? " Igual que en las páginas, en los que tienen mensualidad el primer mes no se cobra: la mensualidad empieza a correr desde el segundo."
+          : ""}
       </p>
       <ul>
         <li>
@@ -94,8 +97,7 @@ export default function Terminos() {
           {RECEPCIONISTA.montaje
             ? `montaje de ${formatCOP(RECEPCIONISTA.montaje)} COP de pago único más `
             : "el montaje no tiene costo; pagas "}
-          {formatCOP(RECEPCIONISTA.mensual)} COP al mes, por adelantado desde
-          el primer mes (aquí no aplica el mes gratis de las páginas), con{" "}
+          {formatCOP(RECEPCIONISTA.mensual)} COP al mes, con{" "}
           {RECEPCIONISTA.minutosIncluidos} minutos de llamadas incluidos; cada
           minuto adicional vale {formatCOP(RECEPCIONISTA.minutoExtra)} COP. Es
           un asistente de voz con inteligencia artificial que contesta las

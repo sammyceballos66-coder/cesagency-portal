@@ -360,7 +360,9 @@ export const BUSINESS = {
   website: "https://cesagencia.co",
   maintenanceIncludes: "dominio, actualizaciones y modificaciones",
   // Gancho comercial: el mantenimiento mensual arranca a cobrarse hasta el
-  // segundo mes — el primero después del pago inicial es gratis.
+  // segundo mes — el primero después del pago inicial es gratis. Desde el 27
+  // de octubre de 2026 aplica a TODOS los servicios con mensualidad (ficha de
+  // Google, contenido y recepcionista), no solo a las páginas: pedido de Samuel.
   firstMonthFree: true,
   delivery: "lista en minutos una vez el cliente da la información de su negocio",
 };
@@ -527,9 +529,11 @@ export const FICHA_GOOGLE = {
 //
 // El montaje es GRATIS desde el 27 de octubre de 2026, por decisión de
 // Samuel: a CES le cuesta horas de trabajo, no plata, y quitarlo elimina la
-// excusa de "déjame pensarlo". A cambio, la mensualidad se paga por adelantado
-// desde el primer mes (sin mes gratis, a diferencia de las páginas): si
-// alguien prueba un mes y se va, ya cubrió el número y los minutos.
+// excusa de "déjame pensarlo". Al principio la mensualidad iba por adelantado
+// desde el primer mes, pero el mismo día Samuel pidió que TODOS los servicios
+// con mensualidad tengan el primer mes gratis, como las páginas (ver
+// BUSINESS.firstMonthFree). Ojo: aquí el primer mes sí le cuesta a CES (número
+// y minutos), así que un cliente que se va al segundo mes es pérdida.
 export const RECEPCIONISTA = {
   /** Gratis. Si algún día vuelve a cobrarse, las vistas muestran la cifra sola. */
   montaje: 0,

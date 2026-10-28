@@ -108,7 +108,8 @@ export function Contenido() {
                 </div>
               </div>
               <p className="text-[13px] text-white/55 mb-9">
-                El valor del mes depende de cuánto contenido publiques.
+                El primer mes es gratis. El valor del mes depende de cuánto
+                contenido publiques.
               </p>
             </div>
 

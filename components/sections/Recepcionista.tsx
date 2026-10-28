@@ -82,7 +82,7 @@ export function Recepcionista() {
             </div>
           </div>
           <p className="text-[13px] text-ink-faint mb-8 max-w-[52ch]">
-            Solo pagas la mensualidad, por adelantado desde el primer mes. Incluye{" "}
+            Solo pagas la mensualidad, y el primer mes es gratis. Incluye{" "}
             {RECEPCIONISTA.minutosIncluidos} minutos de llamadas; cada minuto
             adicional vale {formatCOP(RECEPCIONISTA.minutoExtra)}. Se contrata
             aparte de la página, y funciona tengas página o no.

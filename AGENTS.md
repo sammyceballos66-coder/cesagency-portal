@@ -23,7 +23,11 @@ Dos planes, definidos en `lib/business.ts`:
 | Esencial — página informativa | $300.000 COP | $150.000 COP/mes | $250.000 + $100.000/mes |
 | Reservas — página con citas automáticas | $500.000 COP | $300.000 COP/mes | $500.000 + $250.000/mes |
 
-El primer mes de mantenimiento es gratis (`BUSINESS.firstMonthFree`). La
+El primer mes de mantenimiento es gratis (`BUSINESS.firstMonthFree`), y desde
+el 27 de octubre de 2026 también el de **todos los servicios con
+mensualidad** (ficha de Google, contenido y recepcionista), por pedido de
+Samuel. La recepcionista es la única donde ese mes le cuesta plata a CES
+(número y minutos). La
 mensualidad cubre dominio, actualizaciones y modificaciones — **no digas
 "hosting"**, se quitó a propósito de todo el copy.
 
@@ -149,8 +153,7 @@ servicios de arriba (que pasó de tres a cuatro tarjetas).
 `RECEPCIONISTA` en `lib/business.ts`, sección `components/sections/Recepcionista.tsx`
 (`#recepcionista`), anunciado el 27 de octubre de 2026 con etiqueta "Nuevo".
 **Montaje gratis** (Samuel, mismo día; antes $400.000), mensualidad
-**$350.000 con 200 minutos** de llamadas, **pagada por adelantado desde el
-primer mes** (sin el mes gratis de las páginas), minuto extra **$1.200**.
+**$350.000 con 200 minutos** de llamadas, minuto extra **$1.200**.
 Precios propuestos por Claude y aceptados por Samuel
 para arrancar en Pereira y Dosquebradas; el cálculo de costo está en el
 comentario de la constante (ajustarlo con los primeros clientes reales).
