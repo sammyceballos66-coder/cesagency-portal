@@ -216,6 +216,12 @@ enlace, se edita la fila y la tarjeta sigue igual.
   2026) lleva directo a `/admin/tarjetas?numero=N` con el número puesto: en
   plena venta se escanea la tarjeta y se llena el negocio y el enlace. Sin la
   cookie (cualquier cliente) se ve "sin activar" como siempre.
+- **Enlace directo a "escribir reseña"** (27 oct 2026, tarjeta 1 de Quality
+  Barber Shop): `https://search.google.com/local/writereview?placeid=<ID>`
+  abre de una la ventana de reseña. El Place ID se saca del enlace de Google
+  Maps del negocio: el par hexadecimal `0xAAAA:0xBBBB` se codifica como
+  base64url de `0a 12 09 <AAAA en 8 bytes little-endian> 11 <BBBB igual>`
+  (empieza por `ChIJ`). Probarlo en el navegador antes de guardarlo.
 - No se guarda nada de quien escanea (ni IP ni conteo). Contar toques sería
   una decisión nueva que toca la política de privacidad.
 - `/admin` entra con **una sola clave** (`TARJETAS_CLAVE` en Vercel), sin
